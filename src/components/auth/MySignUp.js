@@ -1,173 +1,87 @@
-import React, { useState } from 'react';
-import { Button, Typography,Link, Grid,Avatar, Container, CssBaseline } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import { useUser } from '../utilities/user';
-import {Link as RouterLink,
-        useHistory} from 'react-router-dom';
-import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
+import React from "react";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import { Link } from "@material-ui/core";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
 
-const useStyles = makeStyles(theme => ({
-    root: {
-         '& .MuiTextValidator-root': {
-         margin: theme.spacing(2),
-         flexGrow:1,
-         },
-         padding:1.5+"em",
-         border:"thin solid #d3d3d3"
-    },
-    form: {
-      width: '100%', // Fix IE 11 issue.
-      marginTop: theme.spacing(3),
-    },
+const MySignUp = () => {
+  const [state, setState] = React.useState({});
 
-    avatar: {
-      margin: "auto",
-      backgroundColor: theme.palette.secondary.main,
-    },
-    submit: {
-      margin: theme.spacing(3, 0, 2),
-    },
-
-    paper: {
-      padding:1.5+"em",
-      border:"thin solid #d3d3d3",
-      marginTop: theme.spacing(8),
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-    },
-}));
-
-
-const MySignUp = () =>{
-    const history = useHistory();
-    const { signup } = useUser();
-    const [username, setUsername]=useState("");
-    const [password,setPassword] = useState("")
-    const [givenName, setGivenName] = useState("");
-    const [familyName, setFamilyName] = useState("")
-
-    const classes=useStyles();
-
-    async function handleSignUp(username, password, givenName, familyName){
-      try {
-      
-        // wait to see if login was successful (we don't care about the return
-        // value here)
-        await signup(username,password, givenName, familyName);
-        history.push("/check-email");
-      } catch (err) {
-        
-        // If an error occured, showcase the proper message (we customised the
-        // message ourselves in `UserProvider`'s code)
-        console.log(err);
-      }
-
-    }
-    
-    return(
-      <Container maxWidth="xs">
-              <CssBaseline/>
-          <div className={classes.paper}>
-          <Avatar className={classes.avatar}><AccountCircleIcon/></Avatar>
-            <Typography variant="h5" align="center">Create Account</Typography>
-        <ValidatorForm className={classes.form} noValidate onSubmit={(e)=>{e.preventDefault(); handleSignUp(username, password, givenName, familyName)}}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <TextValidator
-            required
-            autoFocus
-            autoComplete="fname"
-            variant="outlined"
-            label = "Given Name"
-            id="given_name"
-            key="given_name"
-            name="given_name"
-            value={givenName}
-            onChange={(e)=>{setGivenName(e.target.value)}}
-            type="text"
-            validators={['required']}
-            errorMessages={['this field is required']}
-
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextValidator
-            autoComplete="lname"
-            required
-            variant="outlined"
-            label = "Family Name"
-              id="family_name"
-              key="family_name"
-              name="family_name"
-              onChange={(e)=>{setFamilyName(e.target.value)}}
-              value={familyName}
-              type="text"
-
-            />
-          </Grid>
-          <Grid item xs={12}>
-              <TextValidator
-              autoComplete="email"
+  const handleChange = (event) => {
+    setState({ ...state, [event.target.name]: event.target.checked });
+  };
+  return (
+    <section className="user-structure">
+      <div className="wrapper">
+        <p>
+          Already a Member? <Link to="/signin">Login</Link> here.
+        </p>
+        <div className="user-structure--box">
+          <h3>Create your Hetchly Account</h3>
+          <div className="form-group">
+            <TextField
+              id="outlined-basic"
+              label="First Name"
+              placeholder="Please enter your first name..."
               variant="outlined"
-              fullWidth
               required
-              label = "Email"
-              id="username"
-              key="username"
-              name="username"
-              value={username}
-              onChange={(e)=>{setUsername(e.target.value)}}
-              type="text"
-              validators={['required', 'isEmail']}
-              errorMessages={['this field is required', 'Email is not valid']}
-              />
-            </Grid>
-          <Grid item xs={12}>
-
-            <TextValidator
-              required
+            />
+          </div>
+          <div className="form-group">
+            <TextField
+              id="outlined-basic"
+              label="Last Name"
+              placeholder="Please enter your last name..."
               variant="outlined"
-              autoComplete="current-password"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <TextField
+              id="outlined-basic"
+              label="Email"
+              placeholder="Please enter your email..."
+              variant="outlined"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <TextField
+              id="outlined-basic"
               label="Password"
-              fullWidth
-              id="password"
-              key="password"
-              name="password"
-              value={password}
-              onChange={e=>{setPassword(e.target.value)}}
+              variant="outlined"
+              placeholder="Please enter your password..."
               type="password"
+              required
             />
-          </Grid>
-            <Button
-              className={classes.submit}
-              fullWidth
-              type="submit"
-              onClick={()=>{}}
-              variant="contained"
-              color="primary"
-            >
-              Sign Up
-            </Button>
-            <Grid container justify="flex-end">
-              <Grid item>
-              <Link
-                to='/signin'
-                component={RouterLink}
-              >
-                Already have an account? Log In
-              </Link>
-              </Grid>
+          </div>
+          <Button variant="contained" color="primary" disableElevation>
+            Sign up
+          </Button>
 
-              </Grid>
-        </Grid>
-          
-         
-        </ValidatorForm>
+          <div className="recieve-offers">
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={state.checkedB}
+                  onChange={handleChange}
+                  color="primary"
+                />
+              }
+              label="I want to receive exclusive offers and promotions from Hetchly."
+            />
+          </div>
+
+          <p>
+            By clicking SIGN UP”, I agree to Hetchly{" "}
+            <Link to="/">Terms of Use</Link> and{" "}
+            <Link to="/">Privacy Policy</Link>
+          </p>
         </div>
-        </Container>
-    );
-}
+      </div>
+    </section>
+  );
+};
 
 export default MySignUp;

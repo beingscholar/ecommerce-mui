@@ -1,0 +1,27 @@
+body {
+  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: $primaryColor;
+  }
+  .MuiFormControl-root {
+    width: 100%;
+    .MuiOutlinedInput-input {
+      padding: 13px 20px;
+      font-size: 14px;
+    }
+    .MuiOutlinedInput-root {
+      border-radius: 50px;
+    }
+    .MuiInputLabel-outlined {
+      font-size: 14px;
+      &.Mui-focused {
+        color: $primaryColor;
+      }
+      &:not(.MuiInputLabel-shrink) {
+        transform: translate(20px, 15px) scale(1);
+      }
+      &.MuiInputLabel-shrink {
+        transform: translate(20px, -6px) scale(0.75);
+      }
+    }
+  }
+}

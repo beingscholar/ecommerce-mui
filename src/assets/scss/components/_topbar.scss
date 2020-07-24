@@ -1,0 +1,36 @@
+.topbar {
+  background-color: #e8e8e8;
+  .MuiContainer-root {
+    display: flex;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    @media screen and (min-width: 361px) {
+      justify-content: flex-end;
+    }
+  }
+  ul {
+    display: flex;
+    align-items: center;
+    li {
+      & + li {
+        margin-left: 20px;
+        @media screen and (min-width: 1024px) {
+          margin-left: 40px;
+        }
+      }
+      a {
+        color: $primaryTextColor;
+        font-size: 12px;
+        font-weight: $font-medium;
+        text-decoration: none;
+        @media screen and (min-width: 768px) {
+          font-size: 14px;
+        }
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}

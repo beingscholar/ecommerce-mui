@@ -1,0 +1,107 @@
+.user-structure {
+  padding: 50px 15px;
+  .wrapper {
+    width: 100%;
+    margin: 0 auto;
+    max-width: 350px;
+    & > p {
+      margin-bottom: 16px;
+      text-align: right;
+      font-size: 14px;
+      a {
+        cursor: pointer;
+        color: $primaryColor;
+        line-height: 1;
+        text-decoration: underline;
+      }
+    }
+  }
+  &--box {
+    padding: 25px 25px;
+    border-radius: 10px;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    img {
+      display: block;
+      margin: 0 auto 15px;
+    }
+    p {
+      font-size: 14px;
+      text-align: center;
+      line-height: 1.5;
+      &.m-t-15 {
+        margin-top: 15px;
+      }
+      span {
+        display: block;
+      }
+      a {
+        color: $primaryColor;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+    }
+    .recieve-offers {
+      margin: 20px 0 20px;
+
+      label {
+        margin-right: 0;
+        align-items: flex-start;
+        .MuiFormControlLabel-label {
+          font-weight: $font-light;
+          padding-top: 10px;
+          letter-spacing: normal;
+          // line-height: normal;
+          font-size: 12px;
+        }
+      }
+    }
+    .form-link {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      a {
+        color: $primaryColor;
+        font-size: 16px;
+        margin-top: 20px;
+        cursor: pointer;
+      }
+    }
+    h3 {
+      font-size: 16px;
+      text-align: center;
+      margin-bottom: 30px;
+      font-weight: $font-medium;
+      & + p {
+        font-weight: $font-light;
+        font-size: 13px;
+        text-align: center;
+        margin: 7px 0 30px;
+      }
+      &.m-0 {
+        margin: 0;
+      }
+    }
+    button {
+      width: 100%;
+      border-radius: 50px;
+      height: 45px;
+      font-size: 16px;
+      margin-top: 20px;
+      font-weight: $font-medium;
+      display: block;
+    }
+  }
+}
+
+.form-group {
+  & + .form-group {
+    margin-top: 20px;
+  }
+}
+
+body {
+  .MuiCheckbox-colorPrimary.Mui-checked {
+    color: $primaryColor;
+  }
+}

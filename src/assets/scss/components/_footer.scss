@@ -1,0 +1,146 @@
+.primary-footer {
+  border-top: 1px solid #dbdbdb;
+  padding-top: 20px;
+  @media screen and (min-width: 1024px) {
+    padding-top: 40px;
+  }
+  &--wrap {
+    @media screen and (min-width: 768px) {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+  &--col {
+    &:not(:last-child) {
+      margin-bottom: 20px;
+    }
+    @media screen and (min-width: 768px) {
+      width: calc(100% / 5);
+      padding-right: 10px;
+    }
+    @media screen and (min-width: 1024px) {
+      padding-right: 15px;
+    }
+
+    h4 {
+      font-weight: $font-medium;
+      // margin-bottom: 5px;
+      @media screen and (min-width: 768px) {
+        margin-bottom: 15px;
+        font-size: 14px;
+      }
+      @media screen and (min-width: 1024px) {
+        font-size: 16px;
+      }
+    }
+    ul {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      @media screen and (min-width: 768px) {
+        display: block;
+      }
+      li {
+        margin-right: 11px;
+        margin-top: 10px;
+        line-height: 1;
+        position: relative;
+        &:not(:last-child) {
+          &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: -6px;
+            width: 1px;
+            height: 100%;
+            opacity: 0.5;
+            background-color: $primaryTextColor;
+            @media screen and (min-width: 768px) {
+              display: none;
+            }
+          }
+        }
+        @media screen and (min-width: 768px) {
+          margin: 0;
+          & + li {
+            margin-top: 15px;
+          }
+        }
+        a {
+          color: $primaryTextColor;
+          text-decoration: none;
+          line-height: 1;
+          font-size: 14px;
+          font-weight: $font-regular;
+          img {
+            display: block;
+          }
+          @media screen and (min-width: 1024px) {
+            font-size: 16px;
+          }
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+  .sub-footer {
+    margin-top: 20px;
+    border-top: 1px solid #dbdbdb;
+    @media screen and (min-width: 1024px) {
+      margin-top: 40px;
+    }
+    .MuiContainer-root {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: space-between;
+      padding-top: 10px;
+      padding-bottom: 10px;
+
+      & > p {
+        font-weight: $font-light;
+        margin-bottom: 15px;
+        font-size: 14px;
+        @media screen and (min-width: 768px) {
+          margin: 0;
+        }
+
+        @media screen and (min-width: 1024px) {
+          font-size: 16px;
+        }
+      }
+      @media screen and (min-width: 768px) {
+        flex-direction: row;
+        padding-top: 0;
+        padding-bottom: 0;
+        height: 78px;
+      }
+    }
+    .social-links {
+      display: flex;
+      align-items: center;
+      p {
+        margin-right: 10px;
+        font-weight: $font-medium;
+        font-size: 14px;
+        @media screen and (min-width: 1024px) {
+          font-size: 16px;
+        }
+      }
+      ul {
+        display: flex;
+        align-items: center;
+        li {
+          img {
+            display: block;
+          }
+          & + li {
+            margin-left: 10px;
+          }
+        }
+      }
+    }
+  }
+}

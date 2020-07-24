@@ -189,33 +189,54 @@ function Main() {
 
   return (
     <Router>
-      <Header title="Blog" sections={sections} navbarLinks={navbarLinks} />
-      <Switch>
-        <Route path="/signin">
-          <MySignIn />
-        </Route>
-        <Route path="/cart">
-          <Cart />
-        </Route>
-        <Route path="/signup">
-          <MySignUp />
-        </Route>
-        <Route path="/check-email">
-          <CheckEmail />
-        </Route>
-        <PrivateRoute path="/checkout" component={Checkout} />
-        <Route
-          path="/products/:id"
-          render={(props) => <ProductProfile {...props} />}
-        />
-        <PrivateRoute path="/profile" component={CustomerProfile} />
-        <PrivateRoute path="/billings" component={CustomerBillings} />
-        <Route exact path="/">
-          <Landing />
-        </Route>
-      </Switch>
+      <div>
+        {/* <header >
+            <AppBar position="static">
+                <Toolbar>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', width:"100%" }}> 
+                        <div>
+                            {""}
+                        </div>
+                        <div className={classes.authLinks}>
 
-      <Footer />
+                                {navLinks}
+                        </div>
+                    </div>
+                </Toolbar>
+            </AppBar>
+        </header> */}
+        <Header title="Blog" sections={sections} navbarLinks={navbarLinks} />
+        <main>
+          <Switch>
+            <Route path="/signin">
+              <MySignIn />
+            </Route>
+            <Route path="/cart">
+              <Cart />
+            </Route>
+            <Route path="/signup">
+              <MySignUp />
+            </Route>
+            <Route path="/check-email">
+              <CheckEmail />
+            </Route>
+            <PrivateRoute path="/checkout" component={Checkout} />
+            <Route
+              path="/products/:id"
+              render={(props) => <ProductProfile {...props} />}
+            />
+            <PrivateRoute path="/profile" component={CustomerProfile} />
+            <PrivateRoute path="/billings" component={CustomerBillings} />
+            {/*  <Route path="/customers/:id" render={props => <CustomerProfile {...props} />}/>  */}
+            <Route exact path="/">
+              <Landing />
+            </Route>
+          </Switch>
+        </main>
+        <footer>
+          <Footer />
+        </footer>
+      </div>
     </Router>
   );
 }

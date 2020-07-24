@@ -1,0 +1,87 @@
+.primary-header {
+  border-top: 1px solid #dbdbdb;
+  border-bottom: 1px solid #dbdbdb;
+  position: sticky;
+  background-color: #fff;
+  z-index: 9;
+  top: 0;
+  padding: 30px 0;
+  .MuiContainer-root {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    img {
+      cursor: pointer;
+    }
+  }
+  .search-box {
+    position: relative;
+    @media screen and (min-width: 768px) {
+      width: 300px;
+    }
+    @media screen and (min-width: 1024px) {
+      width: 400px;
+    }
+    @media screen and (min-width: 1280px) {
+      width: 545px;
+    }
+    button {
+      height: 40px;
+      min-width: 1px;
+      right: 1px;
+      width: 52px;
+      top: 1px;
+      border-radius: 0 50px 50px 0;
+      position: absolute;
+    }
+    input {
+      width: 100%;
+      padding: 0 20px;
+      padding-right: 70px;
+      font-size: 14px;
+      color: $primaryTextColor;
+      height: 42px;
+      border: 1px solid #dbdbdb;
+      line-height: normal;
+      box-shadow: none;
+      -webkit-appearance: none;
+      border-radius: 20px;
+      @media screen and (min-width: 1024px) {
+        padding: 0 30px;
+      }
+    }
+  }
+
+  .links {
+    display: flex;
+    align-items: center;
+    li {
+      & + li {
+        margin-left: 15px;
+        @media screen and (min-width: 1024px) {
+          margin-left: 35px;
+        }
+      }
+      a {
+        color: $primaryColor;
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        text-decoration: none;
+        font-weight: $font-medium;
+        svg {
+          margin-right: 10px;
+        }
+      }
+      button {
+        border-radius: 20px;
+        height: 42px;
+        width: 113px;
+        font-weight: $font-medium;
+        font-size: 14px;
+      }
+    }
+  }
+}
