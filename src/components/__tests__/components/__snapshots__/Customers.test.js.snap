@@ -1,0 +1,264 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should take a snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="Main"
+  >
+    <div
+      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
+      style="margin-bottom: 1em;"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-9"
+      >
+        <h4
+          class="MuiTypography-root MuiTypography-h4"
+        >
+          Customers
+        </h4>
+      </div>
+      <div
+        align="right"
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-3"
+      >
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="MuiButton-label"
+          >
+            Create Customer
+          </span>
+          <span
+            class="MuiTouchRipple-root"
+          />
+        </button>
+      </div>
+    </div>
+    <hr
+      class="MuiDivider-root"
+    />
+     
+    <br />
+    <div
+      class="MuiPaper-root MuiTableContainer-root MuiPaper-elevation1 MuiPaper-rounded"
+    >
+      <table
+        aria-label="a dense table"
+        class="MuiTable-root makeStyles-table-3"
+      >
+        <thead
+          class="MuiTableHead-root"
+        >
+          <tr
+            class="MuiTableRow-root MuiTableRow-head"
+          >
+            <th
+              class="MuiTableCell-root MuiTableCell-head makeStyles-tableHead-4 MuiTableCell-alignRight"
+              scope="col"
+            >
+              Customer ID
+            </th>
+            <th
+              class="MuiTableCell-root MuiTableCell-head makeStyles-tableHead-4 MuiTableCell-alignRight"
+              scope="col"
+            >
+              First Name
+            </th>
+            <th
+              class="MuiTableCell-root MuiTableCell-head makeStyles-tableHead-4 MuiTableCell-alignRight"
+              scope="col"
+            >
+              Last Name
+            </th>
+            <th
+              class="MuiTableCell-root MuiTableCell-head makeStyles-tableHead-4 MuiTableCell-alignRight"
+              scope="col"
+            >
+              Email
+            </th>
+            <th
+              class="MuiTableCell-root MuiTableCell-head makeStyles-tableHead-4 MuiTableCell-alignRight"
+              scope="col"
+            >
+              Username
+            </th>
+            <th
+              class="MuiTableCell-root MuiTableCell-head makeStyles-tableHead-4 MuiTableCell-alignRight"
+              scope="col"
+            >
+              Birthdate
+            </th>
+            <th
+              class="MuiTableCell-root MuiTableCell-head makeStyles-tableHead-4 MuiTableCell-alignRight"
+              scope="col"
+            >
+              Gender
+            </th>
+            <th
+              class="MuiTableCell-root MuiTableCell-head makeStyles-tableHead-4 MuiTableCell-alignRight"
+              scope="col"
+            >
+              Customer No.
+            </th>
+            <th
+              class="MuiTableCell-root MuiTableCell-head makeStyles-tableHead-4 MuiTableCell-alignRight"
+              scope="col"
+            >
+              Card Number
+            </th>
+            <th
+              class="MuiTableCell-root MuiTableCell-head makeStyles-tableHead-4 MuiTableCell-alignRight"
+              scope="col"
+            >
+              Customer Acct No.
+            </th>
+            <th
+              class="MuiTableCell-root MuiTableCell-head makeStyles-tableHead-4 MuiTableCell-alignRight"
+              scope="col"
+            >
+              Phone Number
+            </th>
+            <th
+              class="MuiTableCell-root MuiTableCell-head makeStyles-tableHead-4 MuiTableCell-alignRight"
+              scope="col"
+            >
+              Created On
+            </th>
+            <th
+              class="MuiTableCell-root MuiTableCell-head makeStyles-tableHead-4 MuiTableCell-alignRight"
+              scope="col"
+            >
+              Updated On
+            </th>
+            <th
+              class="MuiTableCell-root MuiTableCell-head makeStyles-tableHead-4 MuiTableCell-alignRight"
+              scope="col"
+            >
+              Profile Photo URL
+            </th>
+            <th
+              class="MuiTableCell-root MuiTableCell-head makeStyles-tableHead-4 MuiTableCell-alignRight"
+              scope="col"
+            >
+              Actions 
+            </th>
+            <th
+              class="MuiTableCell-root MuiTableCell-head"
+              scope="col"
+            />
+            <th
+              class="MuiTableCell-root MuiTableCell-head"
+              scope="col"
+            />
+          </tr>
+        </thead>
+        <tbody
+          class="MuiTableBody-root"
+        />
+      </table>
+    </div>
+    <div
+      class="MuiTablePagination-root"
+    >
+      <div
+        class="MuiToolbar-root MuiToolbar-regular MuiTablePagination-toolbar MuiToolbar-gutters"
+      >
+        <div
+          class="MuiTablePagination-spacer"
+        />
+        <p
+          class="MuiTypography-root MuiTablePagination-caption MuiTypography-body2 MuiTypography-colorInherit"
+        >
+          Rows per page:
+        </p>
+        <div
+          class="MuiInputBase-root MuiTablePagination-input MuiTablePagination-selectRoot"
+        >
+          <div
+            aria-haspopup="listbox"
+            aria-label="Rows per page:"
+            class="MuiSelect-root MuiSelect-select MuiTablePagination-select MuiSelect-selectMenu MuiInputBase-input"
+            role="button"
+            tabindex="0"
+          >
+            5
+          </div>
+          <input
+            type="hidden"
+            value="5"
+          />
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSelect-icon MuiTablePagination-selectIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M7 10l5 5 5-5z"
+            />
+          </svg>
+        </div>
+        <p
+          class="MuiTypography-root MuiTablePagination-caption MuiTypography-body2 MuiTypography-colorInherit"
+        >
+          0-0 of 0
+        </p>
+        <div
+          class="MuiTablePagination-actions"
+        >
+          <button
+            aria-label="Previous page"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit Mui-disabled Mui-disabled"
+            disabled=""
+            tabindex="-1"
+            title="Previous page"
+            type="button"
+          >
+            <span
+              class="MuiIconButton-label"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M15.41 16.09l-4.58-4.59 4.58-4.59L14 5.5l-6 6 6 6z"
+                />
+              </svg>
+            </span>
+          </button>
+          <button
+            aria-label="Next page"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit Mui-disabled Mui-disabled"
+            disabled=""
+            tabindex="-1"
+            title="Next page"
+            type="button"
+          >
+            <span
+              class="MuiIconButton-label"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"
+                />
+              </svg>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

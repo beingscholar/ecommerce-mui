@@ -1,0 +1,109 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`app renders should show landing 1`] = `
+<DocumentFragment>
+  <div>
+    <header>
+      <header
+        class="MuiPaper-root MuiAppBar-root MuiAppBar-positionStatic MuiAppBar-colorPrimary MuiPaper-elevation4"
+      >
+        <div
+          class="MuiToolbar-root MuiToolbar-regular MuiToolbar-gutters"
+        >
+          <div
+            style="display: flex; justify-content: space-between; width: 100%;"
+          >
+            <div>
+              <h6
+                class="MuiTypography-root MuiTypography-h6"
+              >
+                <a
+                  class="MuiTypography-root MuiLink-root MuiLink-underlineHover makeStyles-title-2 MuiTypography-colorInherit"
+                  href="/"
+                >
+                  Home
+                </a>
+              </h6>
+            </div>
+            <div
+              class="makeStyles-authLinks-3"
+            >
+              <h6
+                class="MuiTypography-root MuiTypography-h6"
+              >
+                <a
+                  class="MuiTypography-root MuiLink-root MuiLink-underlineHover makeStyles-navLink-1 MuiTypography-colorInherit"
+                  href="/signup"
+                >
+                  Sign Up
+                </a>
+                <a
+                  class="MuiTypography-root MuiLink-root MuiLink-underlineHover makeStyles-navLink-1 MuiTypography-colorInherit"
+                  href="/signin"
+                >
+                  Sign In
+                </a>
+              </h6>
+            </div>
+          </div>
+        </div>
+      </header>
+    </header>
+    <main>
+      <div
+        class="makeStyles-heroContent-4"
+        style="height: 80vh;"
+      >
+        <h1
+          class="MuiTypography-root MuiTypography-h1 MuiTypography-colorTextPrimary MuiTypography-alignCenter"
+        >
+          Your Website
+        </h1>
+        <p
+          class="MuiTypography-root MuiTypography-h5 MuiTypography-colorTextSecondary MuiTypography-paragraph MuiTypography-alignCenter"
+        >
+          This is the admin portion of your website. Keep track of Customers, Products, etc.
+        </p>
+        <div
+          class="makeStyles-heroButtons-5"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-justify-xs-center"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-item"
+            >
+              <a
+                aria-disabled="false"
+                class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary"
+                href="/signup"
+                tabindex="0"
+              >
+                <span
+                  class="MuiButton-label"
+                >
+                  Create an Account
+                </span>
+                <span
+                  class="MuiTouchRipple-root"
+                />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <div
+        class="makeStyles-root-221"
+      >
+        <h6
+          class="MuiTypography-root MuiTypography-subtitle1"
+        >
+          Copyright © Your Website 2020.
+        </h6>
+      </div>
+    </footer>
+  </div>
+</DocumentFragment>
+`;
