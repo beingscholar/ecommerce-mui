@@ -63,6 +63,11 @@ const Header = (props) => {
                 <img src={logo} alt="Logo" />
               </div>
               <ul className="links">
+                <li className="more-menu">
+                  <Link component={RouterLink} to="/">
+                    Categories
+                  </Link>
+                </li>
                 <li>
                   <Link component={RouterLink} to="/">
                     Sell on Hetchly
@@ -135,6 +140,7 @@ const Header = (props) => {
             </Link>
           </div>
 
+          {/* Add ".show" class to show search bar in mobile */}
           <div className="search-box">
             <input type="text" placeholder="Search products &amp; brands..." />
             <Button variant="contained" color="secondary" disableElevation>
@@ -149,6 +155,13 @@ const Header = (props) => {
                 Cart
               </Link>
             </li>
+            <MediaQuery maxWidth={767}>
+              <li>
+                <Link>
+                  <SearchIcon />
+                </Link>
+              </li>
+            </MediaQuery>
             <MediaQuery minWidth={768}>
               <li>
                 {user ? (
@@ -191,13 +204,15 @@ const Header = (props) => {
             </MediaQuery>
           </ul>
         </Container>
-        <Container maxWidth="lg">
-          <div className="primary-dropdown">
-            <span>
-              Categories <ExpandMoreIcon />
-            </span>
-          </div>
-        </Container>
+        <MediaQuery minWidth={768}>
+          <Container maxWidth="lg">
+            <div className="primary-dropdown">
+              <span>
+                Categories <ExpandMoreIcon />
+              </span>
+            </div>
+          </Container>
+        </MediaQuery>
       </header>
     </>
   );

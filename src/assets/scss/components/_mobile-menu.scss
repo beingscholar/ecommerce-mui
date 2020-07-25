@@ -63,6 +63,21 @@
         // & + li {
         //   border-top: 1px solid #dbdbdb;
         // }
+        &.more-menu {
+          a {
+            &::before {
+              content: "";
+              width: 8px;
+              height: 8px;
+              position: absolute;
+              right: 20px;
+              border-bottom: 1px solid #333;
+              border-right: 1px solid #333;
+              top: 50%;
+              transform: translateY(-50%) rotate(45deg);
+            }
+          }
+        }
         a {
           color: $primaryTextColor;
           font-size: 14px;
@@ -71,17 +86,6 @@
           text-decoration: none;
           padding: 15px;
           position: relative;
-          &::before {
-            content: "";
-            width: 8px;
-            height: 8px;
-            position: absolute;
-            right: 20px;
-            border-top: 1px solid #333;
-            border-right: 1px solid #333;
-            top: 50%;
-            transform: translateY(-50%) rotate(45deg);
-          }
         }
       }
     }

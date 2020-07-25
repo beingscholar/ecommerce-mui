@@ -36,9 +36,14 @@
     order: 3;
     margin-top: 15px;
     width: 100%;
+    display: none;
+    &.show {
+      display: block;
+    }
     @media screen and (min-width: 768px) {
       width: 300px;
       order: 2;
+      display: block;
       margin: 0;
     }
     @media screen and (min-width: 1024px) {
@@ -95,7 +100,7 @@
         color: $primaryColor;
         display: flex;
         align-items: center;
-        font-size: 14px;
+        font-size: 0;
         text-decoration: none;
         font-weight: $font-medium;
         @media screen and (min-width: 768px) {
