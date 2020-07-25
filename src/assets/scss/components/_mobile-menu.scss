@@ -5,6 +5,10 @@
   z-index: 99;
   left: -100%;
   height: 100%;
+  .MuiAccordion-root {
+    border-radius: 0 !important;
+    box-shadow: none;
+  }
   &.in {
     left: 0;
     .mobile-menu--container {
@@ -32,6 +36,10 @@
     .logo {
       padding: 40px 20px;
       border-bottom: 1px solid #dbdbdb;
+      & + .links {
+        max-height: calc(100vh - (113px + 56.5px));
+        overflow: auto;
+      }
       img {
         display: block;
         margin: 0 auto;
@@ -41,6 +49,10 @@
     ul:not(.links) {
       display: flex;
       padding: 10px 15px;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      z-index: 9;
       background-color: #fff;
       justify-content: center;
       li {
@@ -60,6 +72,17 @@
     ul.links {
       li {
         border-bottom: 1px solid #dbdbdb;
+        ul {
+          padding-left: 25px;
+          li {
+            &:last-child {
+              border: none;
+            }
+            a {
+              padding-left: 0;
+            }
+          }
+        }
         // & + li {
         //   border-top: 1px solid #dbdbdb;
         // }

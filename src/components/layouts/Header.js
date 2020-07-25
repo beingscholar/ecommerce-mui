@@ -13,6 +13,10 @@ import { useUser } from "../utilities/user";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import navIcon from "../../assets/img/menu.svg";
 import closeIcon from "../../assets/img/close.svg";
+import Accordion from "@material-ui/core/Accordion";
+import AccordionSummary from "@material-ui/core/AccordionSummary";
+import AccordionDetails from "@material-ui/core/AccordionDetails";
+import Typography from "@material-ui/core/Typography";
 
 const Header = (props) => {
   const { push } = useHistory();
@@ -63,10 +67,57 @@ const Header = (props) => {
                 <img src={logo} alt="Logo" />
               </div>
               <ul className="links">
-                <li className="more-menu">
-                  <Link component={RouterLink} to="/">
+                <li>
+                  {/* <Link component={RouterLink} to="/">
                     Categories
-                  </Link>
+                  </Link> */}
+                  <Accordion>
+                    <AccordionSummary
+                      expandIcon={<ExpandMoreIcon />}
+                      aria-controls="panel1a-content"
+                      id="panel1a-header"
+                    >
+                      <Typography>Categories</Typography>
+                    </AccordionSummary>
+                    <ul className="links">
+                      <li>
+                        <Link to="/">Electronic Devices</Link>
+                      </li>
+                      <li>
+                        <Link to="/">Electronic Accessories</Link>
+                      </li>
+                      <li>
+                        <Link to="/">TV & Home Appliances</Link>
+                      </li>
+                      <li>
+                        <Link to="/">Health &amp; Beauty</Link>
+                      </li>
+                      <li>
+                        <Link to="/">Babies &amp; Toys</Link>
+                      </li>
+                      <li>
+                        <Link to="/">Groceries &amp; Pets</Link>
+                      </li>
+                      <li>
+                        <Link to="/">Home &amp; Living</Link>
+                      </li>
+                      <li>
+                        <Link to="/">Women's Fashion</Link>
+                      </li>
+                      <li>
+                        <Link to="/">Men's Fashion</Link>
+                      </li>
+                      <li>
+                        <Link to="/">Fashion Accessories</Link>
+                      </li>
+                      <li>
+                        <Link to="/">Sports &amp; Lifestyle</Link>
+                      </li>
+                      <li>
+                        <Link to="/">Automotive &amp; Motorcycles</Link>
+                      </li>
+                    </ul>
+                  </Accordion>
                 </li>
                 <li>
                   <Link component={RouterLink} to="/">
@@ -210,6 +261,46 @@ const Header = (props) => {
               <span>
                 Categories <ExpandMoreIcon />
               </span>
+              <div className="primary-dropdown--menu">
+                <ul>
+                  <li>
+                    <Link to="/">Electronic Devices</Link>
+                  </li>
+                  <li>
+                    <Link to="/">Electronic Accessories</Link>
+                  </li>
+                  <li>
+                    <Link to="/">TV & Home Appliances</Link>
+                  </li>
+                  <li>
+                    <Link to="/">Health &amp; Beauty</Link>
+                  </li>
+                  <li>
+                    <Link to="/">Babies &amp; Toys</Link>
+                  </li>
+                  <li>
+                    <Link to="/">Groceries &amp; Pets</Link>
+                  </li>
+                  <li>
+                    <Link to="/">Home &amp; Living</Link>
+                  </li>
+                  <li>
+                    <Link to="/">Women's Fashion</Link>
+                  </li>
+                  <li>
+                    <Link to="/">Men's Fashion</Link>
+                  </li>
+                  <li>
+                    <Link to="/">Fashion Accessories</Link>
+                  </li>
+                  <li>
+                    <Link to="/">Sports &amp; Lifestyle</Link>
+                  </li>
+                  <li>
+                    <Link to="/">Automotive &amp; Motorcycles</Link>
+                  </li>
+                </ul>
+              </div>
             </div>
           </Container>
         </MediaQuery>
