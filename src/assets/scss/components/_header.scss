@@ -1,25 +1,45 @@
 .primary-header {
-  border-top: 1px solid #dbdbdb;
   border-bottom: 1px solid #dbdbdb;
-  position: sticky;
   background-color: #fff;
   z-index: 9;
+  position: sticky;
   top: 0;
-  padding: 30px 0;
+  padding: 20px 0;
+  @media screen and (min-width: 768px) {
+    padding: 30px 0;
+    border-top: 1px solid #dbdbdb;
+  }
   .MuiContainer-root {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     justify-content: space-between;
   }
   .logo {
+    order: 1;
+    display: flex;
+    align-items: center;
+    a {
+      margin-left: 15px;
+      @media screen and (min-width: 768px) {
+        margin: 0;
+      }
+    }
+
     img {
       cursor: pointer;
+      display: block;
     }
   }
   .search-box {
     position: relative;
+    order: 3;
+    margin-top: 15px;
+    width: 100%;
     @media screen and (min-width: 768px) {
       width: 300px;
+      order: 2;
+      margin: 0;
     }
     @media screen and (min-width: 1024px) {
       width: 400px;
@@ -38,7 +58,7 @@
     }
     input {
       width: 100%;
-      padding: 0 20px;
+      padding: 0 15px;
       padding-right: 70px;
       font-size: 14px;
       color: $primaryTextColor;
@@ -48,6 +68,9 @@
       box-shadow: none;
       -webkit-appearance: none;
       border-radius: 20px;
+      @media screen and (min-width: 768px) {
+        padding: 0 20px;
+      }
       @media screen and (min-width: 1024px) {
         padding: 0 30px;
       }
@@ -57,6 +80,10 @@
   .links {
     display: flex;
     align-items: center;
+    order: 2;
+    @media screen and (min-width: 768px) {
+      order: 3;
+    }
     li {
       & + li {
         margin-left: 15px;
@@ -71,8 +98,11 @@
         font-size: 14px;
         text-decoration: none;
         font-weight: $font-medium;
-        svg {
-          margin-right: 10px;
+        @media screen and (min-width: 768px) {
+          font-size: 14px;
+          svg {
+            margin-right: 10px;
+          }
         }
       }
       button {
