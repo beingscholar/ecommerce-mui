@@ -1,0 +1,16 @@
+.primary-dropdown {
+  & > span {
+    font-style: 16px;
+    font-weight: $font-medium;
+    padding: 10px 50px;
+    margin-top: 14px;
+    margin-bottom: 9px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    // background-color: #eee;
+    svg {
+      margin-left: 8px;
+    }
+  }
+}

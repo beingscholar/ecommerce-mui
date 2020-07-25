@@ -10,6 +10,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import ShoppingCartOutlinedIcon from "@material-ui/icons/ShoppingCartOutlined";
 import logo from "../../assets/img/logo.png";
 import { useUser } from "../utilities/user";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import navIcon from "../../assets/img/menu.svg";
 import closeIcon from "../../assets/img/close.svg";
 
@@ -189,6 +190,13 @@ const Header = (props) => {
               </li>
             </MediaQuery>
           </ul>
+        </Container>
+        <Container maxWidth="lg">
+          <div className="primary-dropdown">
+            <span>
+              Categories <ExpandMoreIcon />
+            </span>
+          </div>
         </Container>
       </header>
     </>
