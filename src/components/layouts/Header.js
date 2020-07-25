@@ -1,31 +1,33 @@
+import React, { useState } from "react";
 import { Link as RouterLink, useHistory } from "react-router-dom";
-import MediaQuery from "react-responsive";
+
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { Link } from "@material-ui/core";
+import MediaQuery from "react-responsive";
 import PersonOutlinedIcon from "@material-ui/icons/PersonOutlined";
 import PropTypes from "prop-types";
-import React from "react";
 import SearchIcon from "@material-ui/icons/Search";
 import ShoppingCartOutlinedIcon from "@material-ui/icons/ShoppingCartOutlined";
-import logo from "../../assets/img/logo.png";
-import { useUser } from "../utilities/user";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import navIcon from "../../assets/img/menu.svg";
 import closeIcon from "../../assets/img/close.svg";
+import logo from "../../assets/img/logo.png";
+import navIcon from "../../assets/img/menu.svg";
+import { useUser } from "../utilities/user";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
-import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Typography from "@material-ui/core/Typography";
 
 const Header = (props) => {
   const { push } = useHistory();
   const { user, logout } = useUser();
+  const [mobileMenu, setMobileMenu] = useState(false);
+  const [searchBar, setSearchBar] = useState(false);
 
   const handleSignOut = async () => {
     await logout().then(() => window.location.replace("/signin"));
   };
-  console.log(user);
+
   return (
     <>
       <MediaQuery minWidth={768}>
@@ -54,13 +56,14 @@ const Header = (props) => {
 
       {/* Add ".in" class to show */}
       <MediaQuery maxWidth={768}>
-        <div className="mobile-menu">
+        <div className={`mobile-menu ${mobileMenu && "in"}`}>
           <div className="mobile-menu--container">
             <img
               src={closeIcon}
               className="close-icon"
               width="16"
               alt="Close"
+              onClick={() => setMobileMenu(false)}
             />
             <div className="wrap">
               <div className="logo">
@@ -68,9 +71,6 @@ const Header = (props) => {
               </div>
               <ul className="links">
                 <li>
-                  {/* <Link component={RouterLink} to="/">
-                    Categories
-                  </Link> */}
                   <Accordion>
                     <AccordionSummary
                       expandIcon={<ExpandMoreIcon />}
@@ -139,12 +139,20 @@ const Header = (props) => {
             <ul>
               <li>
                 {user ? (
-                  <Link component={RouterLink} to="/profile">
+                  <Link
+                    onClick={() => setMobileMenu(false)}
+                    component={RouterLink}
+                    to="/profile"
+                  >
                     <PersonOutlinedIcon />
                     Profile
                   </Link>
                 ) : (
-                  <Link component={RouterLink} to="/signin">
+                  <Link
+                    onClick={() => setMobileMenu(false)}
+                    component={RouterLink}
+                    to="/signin"
+                  >
                     <PersonOutlinedIcon />
                     Login
                   </Link>
@@ -158,6 +166,7 @@ const Header = (props) => {
                     disableElevation
                     onClick={() => {
                       handleSignOut();
+                      setMobileMenu(false);
                     }}
                     // to="/signup"
                   >
@@ -168,7 +177,10 @@ const Header = (props) => {
                     variant="contained"
                     color="primary"
                     disableElevation
-                    onClick={() => push("/signup")}
+                    onClick={() => {
+                      push("/signup");
+                      setMobileMenu(false);
+                    }}
                     // to="/signup"
                   >
                     Sign up
@@ -184,7 +196,12 @@ const Header = (props) => {
         <Container maxWidth="lg">
           <div className="logo">
             <MediaQuery maxWidth={768}>
-              <img src={navIcon} width="20" alt="Menu" />
+              <img
+                src={navIcon}
+                width="20"
+                alt="Menu"
+                onClick={() => setMobileMenu(true)}
+              />
             </MediaQuery>
             <Link component={RouterLink} to="/">
               <img src={logo} alt="Logo" />
@@ -192,7 +209,7 @@ const Header = (props) => {
           </div>
 
           {/* Add ".show" class to show search bar in mobile */}
-          <div className="search-box">
+          <div className={`search-box ${searchBar && "show"}`}>
             <input type="text" placeholder="Search products &amp; brands..." />
             <Button variant="contained" color="secondary" disableElevation>
               <SearchIcon />
@@ -209,7 +226,7 @@ const Header = (props) => {
             <MediaQuery maxWidth={767}>
               <li>
                 <Link>
-                  <SearchIcon />
+                  <SearchIcon onClick={() => setSearchBar(!searchBar)} />
                 </Link>
               </li>
             </MediaQuery>

@@ -8,6 +8,17 @@
   .MuiAccordion-root {
     border-radius: 0 !important;
     box-shadow: none;
+    .MuiAccordionSummary-content {
+      p {
+        color: #333333;
+        font-size: 14px;
+        font-weight: 500;
+        display: block;
+        text-decoration: none;
+        line-height: normal;
+        position: relative;
+      }
+    }
   }
   &.in {
     left: 0;
@@ -80,6 +91,7 @@
             }
             a {
               padding-left: 0;
+              font-weight: $font-light;
             }
           }
         }
