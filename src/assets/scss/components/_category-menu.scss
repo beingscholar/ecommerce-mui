@@ -152,8 +152,20 @@ body {
       right: -50px;
     }
   }
+  .slick-arrow {
+    svg {
+      fill: #000;
+      display: block;
+      width: 20px;
+      height: auto;
+      font-size: 0;
+    }
+    &::before {
+      display: none;
+    }
+  }
   .slick-arrow.slick-disabled {
-    opacity: 0.7;
+    opacity: 0.2;
     pointer-events: none;
     @media screen and (min-width: 768px) {
       opacity: 0;
@@ -167,7 +179,8 @@ body {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    display: flex;
+
+    display: flex !important;
     align-items: center;
     justify-content: center;
     @media screen and (max-width: 767px) {
@@ -330,19 +343,26 @@ body {
 }
 
 .all-products {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  padding: 0px 0 50px;
+  @media screen and (min-width: 768px) {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 0px 0 50px;
+  }
 
   &--filter {
     display: flex;
     align-items: center;
-    padding: 25px 0;
-    width: calc(100% - 50px);
     flex-wrap: wrap;
     margin: 0 auto;
-    border-bottom: 1px solid #dbdbdb;
-    margin-bottom: 50px;
+    padding-bottom: 20px;
+
+    @media screen and (min-width: 768px) {
+      width: calc(100% - 50px);
+      border-bottom: 1px solid #dbdbdb;
+      margin-bottom: 50px;
+
+      padding: 25px 0;
+    }
 
     p {
       letter-spacing: normal;
@@ -356,12 +376,21 @@ body {
       }
     }
     form {
-      border-left: 1px solid #dbdbdb;
-      padding-left: 20px;
-      margin-left: 30px;
       display: flex;
-      border-radius: 0;
+      width: 100%;
+      border: 1px solid #dbdbdb;
+      padding: 5px 15px;
       align-items: center;
+      border-radius: 50px;
+      margin-top: 10px;
+      @media screen and (min-width: 768px) {
+        border: none;
+        border-left: 1px solid #dbdbdb;
+        padding: 0 0 0 20px;
+        width: auto;
+        border-radius: 0;
+        margin-left: 30px;
+      }
       svg {
         margin-right: 10px;
       }
@@ -414,6 +443,111 @@ body {
   & > span {
     &.MuiRating-root {
       color: #4482e5;
+    }
+  }
+}
+
+body {
+  .mobile-filter-icon {
+    width: 50px;
+    min-width: 1px;
+    position: fixed;
+    right: 15px;
+    bottom: 15px;
+    z-index: 9;
+    height: 50px;
+  }
+
+  .MuiDrawer-paperAnchorBottom {
+    height: 100%;
+  }
+
+  .mobile-filters {
+    display: flex;
+    flex-wrap: wrap;
+    height: 100%;
+
+    .tab-content {
+      width: calc(100% - 120px);
+      .price-filter {
+        & > span {
+          text-align: center;
+          display: block;
+          margin: 10px 0;
+        }
+      }
+      .MuiBox-root {
+        padding: 20px;
+        .MuiBox-root {
+          padding: 0;
+        }
+      }
+    }
+
+    &--footer {
+      height: 55px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      border-top: 1px solid #f1f1f1;
+      padding: 0 10px;
+    }
+
+    .MuiTabs-root {
+      // height: calc(100% - 48px);
+      height: calc(100% - (48px + 55px));
+      width: 120px;
+      background-color: #f1f1f1;
+    }
+
+    h3 {
+      display: flex;
+      align-items: center;
+      line-height: 1;
+      justify-content: space-between;
+      background-color: $primaryColor;
+      color: #fff;
+      // padding: 15px;
+      padding-left: 15px;
+      font-weight: $font-medium;
+      padding-right: 5px;
+      width: 100%;
+      .MuiIconButton-colorPrimary {
+        color: #fff;
+      }
+    }
+
+    .MuiTabs-indicator {
+      display: none;
+    }
+
+    .MuiTabs-flexContainer {
+      flex-direction: column;
+      .MuiTab-root {
+        padding: 15px;
+        min-width: 1px;
+        letter-spacing: normal;
+        width: auto;
+        justify-content: flex-start;
+        display: flex;
+        align-items: flex-start;
+        height: auto;
+        min-height: 1px;
+        // border-bottom: 1px solid #ccc;
+        text-transform: none;
+        line-height: 1;
+        font-weight: $font-regular;
+        opacity: 1;
+
+        &.Mui-selected {
+          background-color: #fff;
+          // border-color: #fff;
+        }
+        .MuiTab-wrapper {
+          width: auto;
+        }
+      }
     }
   }
 }

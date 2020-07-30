@@ -9,6 +9,8 @@ import {
 import Avatar from "@material-ui/core/Avatar";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
@@ -175,6 +177,16 @@ export default function Landing() {
     slidesToShow: 5,
     slidesToScroll: 1,
     initialSlide: 0,
+    prevArrow: (
+      <Box component="div">
+        <ArrowBackIosIcon />
+      </Box>
+    ),
+    nextArrow: (
+      <Box component="div">
+        <ArrowForwardIosIcon />
+      </Box>
+    ),
     responsive: [
       {
         breakpoint: 1280,
@@ -205,6 +217,16 @@ export default function Landing() {
     slidesToScroll: 1,
     initialSlide: 0,
     arrows: true,
+    prevArrow: (
+      <Box component="div">
+        <ArrowBackIosIcon />
+      </Box>
+    ),
+    nextArrow: (
+      <Box component="div">
+        <ArrowForwardIosIcon />
+      </Box>
+    ),
     responsive: [
       {
         breakpoint: 1023,
@@ -228,51 +250,51 @@ export default function Landing() {
               <Box component="div" className="category-menu">
                 <Typography component="h3">Categories</Typography>
                 <List component="nav">
-                  <ListItemLink href="#simple-list">
+                  <ListItemLink component={RouterLink} to="/listing">
                     <ListItemText primary="Electronic Devices" />
                   </ListItemLink>
 
-                  <ListItemLink href="#simple-list">
+                  <ListItemLink component={RouterLink} to="/listing">
                     <ListItemText primary="Electronic Accessories" />
                   </ListItemLink>
 
-                  <ListItemLink href="#simple-list">
+                  <ListItemLink component={RouterLink} to="/listing">
                     <ListItemText primary="TV & Home Appliances" />
                   </ListItemLink>
 
-                  <ListItemLink href="#simple-list">
+                  <ListItemLink component={RouterLink} to="/listing">
                     <ListItemText primary="Health &amp; Beauty" />
                   </ListItemLink>
 
-                  <ListItemLink href="#simple-list">
+                  <ListItemLink component={RouterLink} to="/listing">
                     <ListItemText primary="Babies &amp; Toys" />
                   </ListItemLink>
 
-                  <ListItemLink href="#simple-list">
+                  <ListItemLink component={RouterLink} to="/listing">
                     <ListItemText primary="Groceries &amp; Pets" />
                   </ListItemLink>
 
-                  <ListItemLink href="#simple-list">
+                  <ListItemLink component={RouterLink} to="/listing">
                     <ListItemText primary="Home &amp; Living" />
                   </ListItemLink>
 
-                  <ListItemLink href="#simple-list">
+                  <ListItemLink component={RouterLink} to="/listing">
                     <ListItemText primary="Women's Fashion" />
                   </ListItemLink>
 
-                  <ListItemLink href="#simple-list">
+                  <ListItemLink component={RouterLink} to="/listing">
                     <ListItemText primary="Men's Fashion" />
                   </ListItemLink>
 
-                  <ListItemLink href="#simple-list">
+                  <ListItemLink component={RouterLink} to="/listing">
                     <ListItemText primary="Fashion Accessories" />
                   </ListItemLink>
 
-                  <ListItemLink href="#simple-list">
+                  <ListItemLink component={RouterLink} to="/listing">
                     <ListItemText primary="Sports &amp; Lifestyle" />
                   </ListItemLink>
 
-                  <ListItemLink href="#simple-list">
+                  <ListItemLink component={RouterLink} to="/listing">
                     <ListItemText primary="Automotive &amp; Motorcycles" />
                   </ListItemLink>
                 </List>

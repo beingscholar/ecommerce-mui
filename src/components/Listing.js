@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import FormControl from "@material-ui/core/FormControl";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
 import MediaQuery from "react-responsive";
+import clsx from "clsx";
+import FilterListIcon from "@material-ui/icons/FilterList";
+import Drawer from "@material-ui/core/Drawer";
 import {
   BrowserRouter as Router,
   Link as RouterLink,
@@ -13,6 +19,7 @@ import {
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import TextField from "@material-ui/core/TextField";
 import Avatar from "@material-ui/core/Avatar";
+import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -114,175 +121,207 @@ export default function Landing() {
     );
   }, []);
 
-  if (products) {
-    var bannerList = products.map((product) => {
-      return (
-        <Card className="product-card">
-          <CardMedia
-            image={product.imageUrl} /* change to product.imageUrl */
-            title="Image title"
+  const [state, setState] = React.useState({
+    bottom: false,
+  });
+
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  function TabPanel(props) {
+    const { children, value, index, ...other } = props;
+
+    return (
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`vertical-tabpanel-${index}`}
+        aria-labelledby={`vertical-tab-${index}`}
+        {...other}
+      >
+        {value === index && (
+          <Box p={3}>
+            <Typography>{children}</Typography>
+          </Box>
+        )}
+      </div>
+    );
+  }
+
+  TabPanel.propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.any.isRequired,
+    value: PropTypes.any.isRequired,
+  };
+
+  function a11yProps(index) {
+    return {
+      id: `vertical-tab-${index}`,
+      "aria-controls": `vertical-tabpanel-${index}`,
+    };
+  }
+
+  const toggleDrawer = (anchor, open) => (event) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+
+    setState({ ...state, [anchor]: open });
+  };
+  const list = (anchor) => (
+    <div role="presentation" className="mobile-filters">
+      <Typography component="h3">
+        Filters
+        <IconButton
+          color="primary"
+          onClick={toggleDrawer("bottom", false)}
+          onKeyDown={toggleDrawer("bottom", false)}
+        >
+          <CloseIcon />
+        </IconButton>
+      </Typography>
+      <Tabs
+        value={value}
+        onChange={handleChange}
+        aria-label="simple tabs example"
+      >
+        <Tab label="Brand" {...a11yProps(0)} />
+        <Tab label="Price" {...a11yProps(1)} />
+        <Tab label="Rating" {...a11yProps(2)} />
+      </Tabs>
+      <TabPanel value={value} className="tab-content" index={0}>
+        <FormGroup>
+          <FormControlLabel
+            control={<Checkbox name="checkedA" color="primary" />}
+            label="Samsung"
           />
-
-          <CardContent>
-            <Typography component="h2">{product.productDescription}</Typography>
-            <CardActions>
-              <Button
-                variant="contained"
-                color="primary"
-                disableElevation
-                type="button"
-              >
-                Shop Now
-              </Button>
-            </CardActions>
-          </CardContent>
-        </Card>
-      );
-    });
-  }
-
-  if (products) {
-    var productList = products.map((product) => {
-      return (
-        <Card className="product-card">
-          <CardActionArea
-            component={RouterLink}
-            to={"/products/" + product.productId}
-          >
-            <CardMedia
-              image={product.imageUrl} /* change to product.imageUrl */
-              title="Image title"
-            />
-          </CardActionArea>
-
-          <CardContent>
-            <Typography component="h4">{product.productName}</Typography>
-            <Typography component="h5">
-              {product.currency} {product.price}
-            </Typography>
-            <Typography className="description">
-              {product.productDescription}
-            </Typography>
-            <Typography className="product-rating">
-              <Rating
-                name="half-rating-read"
-                defaultValue={2.5}
-                precision={0.5}
-                readOnly
-              />
-              (55)
-            </Typography>
-          </CardContent>
-        </Card>
-      );
-    });
-  }
-
-  var productListSlider = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 5,
-    slidesToScroll: 1,
-    initialSlide: 0,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 5,
-        },
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 2,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-        },
-      },
-    ],
-  };
-
-  var banner = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    initialSlide: 0,
-  };
-
-  function ListItemLink(props) {
-    return <ListItem button component="a" {...props} />;
-  }
+          <FormControlLabel
+            control={<Checkbox name="checkedA" color="primary" />}
+            label="Oppo"
+          />
+          <FormControlLabel
+            control={<Checkbox name="checkedA" color="primary" />}
+            label="Vivo"
+          />
+        </FormGroup>
+      </TabPanel>
+      <TabPanel value={value} className="tab-content" index={1}>
+        <Box className="price-filter">
+          <TextField id="outlined-basic" placeholder="Min" variant="outlined" />
+          <Typography component="span">-</Typography>
+          <TextField id="outlined-basic" placeholder="Max" variant="outlined" />
+        </Box>
+      </TabPanel>
+      <TabPanel value={value} className="tab-content" index={2}>
+        <Box component="div" className="product-rating">
+          <Rating name="half-rating-read" defaultValue={2.5} precision={0.5} />
+        </Box>
+      </TabPanel>
+      <Box component="div" className="mobile-filters--footer">
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={toggleDrawer("bottom", false)}
+          onKeyDown={toggleDrawer("bottom", false)}
+          fullWidth
+          disableElevation
+          type="button"
+        >
+          Apply
+        </Button>
+      </Box>
+    </div>
+  );
 
   return (
     <Box component="div" className="main-content">
+      <MediaQuery maxWidth={1023}>
+        <Button
+          variant="contained"
+          color="primary"
+          className="mobile-filter-icon"
+          onClick={toggleDrawer("bottom", true)}
+        >
+          <FilterListIcon />
+        </Button>
+        <Drawer
+          anchor={"bottom"}
+          open={state["bottom"]}
+          onClose={toggleDrawer("bottom", false)}
+        >
+          {list("bottom")}
+        </Drawer>
+      </MediaQuery>
+
       <Container maxWidth="lg">
         <Grid container spacing={0}>
-          <Grid item xs={12} md={3} spacing={0}>
-            <Box component="div" className="product-filters">
-              <Typography component="h3">Filters</Typography>
-              <Box component="div" className="filter-box">
-                <Typography>Brand</Typography>
-                <FormGroup>
-                  <FormControlLabel
-                    control={<Checkbox name="checkedB" color="primary" />}
-                    label="Samsung"
-                  />
-                  <FormControlLabel
-                    control={<Checkbox name="checkedB" color="primary" />}
-                    label="Oppo"
-                  />
-                  <FormControlLabel
-                    control={<Checkbox name="checkedB" color="primary" />}
-                    label="Vivo"
-                  />
-                </FormGroup>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  disableElevation
-                  type="button"
-                >
-                  View More
-                </Button>
-              </Box>
-              <Box component="div" className="filter-box">
-                <Typography>Price</Typography>
-                <Box className="price-filter">
-                  <TextField
-                    id="outlined-basic"
-                    placeholder="Min"
+          <MediaQuery minWidth={1024}>
+            <Grid item xs={12} md={3} spacing={0}>
+              <Box component="div" className="product-filters">
+                <Typography component="h3">Filters</Typography>
+                <Box component="div" className="filter-box">
+                  <Typography>Brand</Typography>
+                  <FormGroup>
+                    <FormControlLabel
+                      control={<Checkbox name="checkedB" color="primary" />}
+                      label="Samsung"
+                    />
+                    <FormControlLabel
+                      control={<Checkbox name="checkedB" color="primary" />}
+                      label="Oppo"
+                    />
+                    <FormControlLabel
+                      control={<Checkbox name="checkedB" color="primary" />}
+                      label="Vivo"
+                    />
+                  </FormGroup>
+                  <Button
                     variant="outlined"
-                  />
-                  <Typography component="span">-</Typography>
-                  <TextField
-                    id="outlined-basic"
-                    placeholder="Max"
-                    variant="outlined"
-                  />
-                  <IconButton>
-                    <ArrowForwardIcon />
-                  </IconButton>
+                    color="primary"
+                    disableElevation
+                    type="button"
+                  >
+                    View More
+                  </Button>
+                </Box>
+                <Box component="div" className="filter-box">
+                  <Typography>Price</Typography>
+                  <Box className="price-filter">
+                    <TextField
+                      id="outlined-basic"
+                      placeholder="Min"
+                      variant="outlined"
+                    />
+                    <Typography component="span">-</Typography>
+                    <TextField
+                      id="outlined-basic"
+                      placeholder="Max"
+                      variant="outlined"
+                    />
+                    <IconButton>
+                      <ArrowForwardIcon />
+                    </IconButton>
+                  </Box>
+                </Box>
+                <Box component="div" className="filter-box">
+                  <Typography>Rating</Typography>
+                  <Box component="div" className="product-rating">
+                    <Rating
+                      name="half-rating-read"
+                      defaultValue={2.5}
+                      precision={0.5}
+                    />
+                  </Box>
                 </Box>
               </Box>
-              <Box component="div" className="filter-box">
-                <Typography>Rating</Typography>
-                <Box component="div" className="product-rating">
-                  <Rating
-                    name="half-rating-read"
-                    defaultValue={2.5}
-                    precision={0.5}
-                  />
-                </Box>
-              </Box>
-            </Box>
-          </Grid>
+            </Grid>
+          </MediaQuery>
 
           <Grid item xs={12} md={9} spacing={0}>
             <Box component="div" className="all-products">
@@ -293,15 +332,11 @@ export default function Landing() {
                 </Typography>
                 <Paper component="form" elevation={0}>
                   <SearchIcon />
-                  <InputBase
-                    className={classes.input}
-                    placeholder="Search Google Maps"
-                    inputProps={{ "aria-label": "search google maps" }}
-                  />
+                  <InputBase placeholder="search within category" />
                 </Paper>
               </Box>
               <Grid container spacing={0}>
-                <Grid item xs={12} md={3} spacing={0}>
+                <Grid item xs={12} sm={4} md={3} spacing={0}>
                   <Card className="product-card">
                     <CardActionArea>
                       <CardMedia title="Image title" />
@@ -326,7 +361,7 @@ export default function Landing() {
                   </Card>
                 </Grid>
 
-                <Grid item xs={12} md={3} spacing={0}>
+                <Grid item xs={12} sm={4} md={3} spacing={0}>
                   <Card className="product-card">
                     <CardActionArea>
                       <CardMedia title="Image title" />
@@ -351,7 +386,7 @@ export default function Landing() {
                   </Card>
                 </Grid>
 
-                <Grid item xs={12} md={3} spacing={0}>
+                <Grid item xs={12} sm={4} md={3} spacing={0}>
                   <Card className="product-card">
                     <CardActionArea>
                       <CardMedia title="Image title" />
@@ -376,7 +411,7 @@ export default function Landing() {
                   </Card>
                 </Grid>
 
-                <Grid item xs={12} md={3} spacing={0}>
+                <Grid item xs={12} sm={4} md={3} spacing={0}>
                   <Card className="product-card">
                     <CardActionArea>
                       <CardMedia title="Image title" />
@@ -401,7 +436,7 @@ export default function Landing() {
                   </Card>
                 </Grid>
 
-                <Grid item xs={12} md={3} spacing={0}>
+                <Grid item xs={12} sm={4} md={3} spacing={0}>
                   <Card className="product-card">
                     <CardActionArea>
                       <CardMedia title="Image title" />
@@ -426,7 +461,7 @@ export default function Landing() {
                   </Card>
                 </Grid>
 
-                <Grid item xs={12} md={3} spacing={0}>
+                <Grid item xs={12} sm={4} md={3} spacing={0}>
                   <Card className="product-card">
                     <CardActionArea>
                       <CardMedia title="Image title" />
@@ -451,7 +486,7 @@ export default function Landing() {
                   </Card>
                 </Grid>
 
-                <Grid item xs={12} md={3} spacing={0}>
+                <Grid item xs={12} sm={4} md={3} spacing={0}>
                   <Card className="product-card">
                     <CardActionArea>
                       <CardMedia title="Image title" />
@@ -476,7 +511,7 @@ export default function Landing() {
                   </Card>
                 </Grid>
 
-                <Grid item xs={12} md={3} spacing={0}>
+                <Grid item xs={12} sm={4} md={3} spacing={0}>
                   <Card className="product-card">
                     <CardActionArea>
                       <CardMedia title="Image title" />
@@ -501,7 +536,7 @@ export default function Landing() {
                   </Card>
                 </Grid>
 
-                <Grid item xs={12} md={3} spacing={0}>
+                <Grid item xs={12} sm={4} md={3} spacing={0}>
                   <Card className="product-card">
                     <CardActionArea>
                       <CardMedia title="Image title" />
@@ -526,7 +561,7 @@ export default function Landing() {
                   </Card>
                 </Grid>
 
-                <Grid item xs={12} md={3} spacing={0}>
+                <Grid item xs={12} sm={4} md={3} spacing={0}>
                   <Card className="product-card">
                     <CardActionArea>
                       <CardMedia title="Image title" />
@@ -551,7 +586,7 @@ export default function Landing() {
                   </Card>
                 </Grid>
 
-                <Grid item xs={12} md={3} spacing={0}>
+                <Grid item xs={12} sm={4} md={3} spacing={0}>
                   <Card className="product-card">
                     <CardActionArea>
                       <CardMedia title="Image title" />
@@ -576,7 +611,7 @@ export default function Landing() {
                   </Card>
                 </Grid>
 
-                <Grid item xs={12} md={3} spacing={0}>
+                <Grid item xs={12} sm={4} md={3} spacing={0}>
                   <Card className="product-card">
                     <CardActionArea>
                       <CardMedia title="Image title" />
