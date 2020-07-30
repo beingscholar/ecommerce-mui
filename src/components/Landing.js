@@ -177,13 +177,13 @@ export default function Landing() {
     initialSlide: 0,
     responsive: [
       {
-        breakpoint: 1024,
+        breakpoint: 1280,
         settings: {
-          slidesToShow: 5,
+          slidesToShow: 3,
         },
       },
       {
-        breakpoint: 600,
+        breakpoint: 767,
         settings: {
           slidesToShow: 2,
         },
@@ -204,6 +204,15 @@ export default function Landing() {
     slidesToShow: 1,
     slidesToScroll: 1,
     initialSlide: 0,
+    arrows: true,
+    responsive: [
+      {
+        breakpoint: 1023,
+        settings: {
+          arrows: false,
+        },
+      },
+    ],
   };
 
   function ListItemLink(props) {

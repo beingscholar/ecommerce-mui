@@ -14,6 +14,9 @@
     padding: 0;
     a {
       padding: 7px 20px;
+      @media screen and (min-width: 1024px) and (max-width: 1280px) {
+        padding: 8px 20px;
+      }
       div {
         margin: 0;
         span {
@@ -21,6 +24,9 @@
           letter-spacing: normal;
           // font-size: 14px;
           color: $primaryTextColor;
+          @media screen and (min-width: 1024px) and (max-width: 1280px) {
+            font-size: 14px;
+          }
         }
       }
     }
@@ -40,7 +46,7 @@
 }
 
 .payment-info-box {
-  padding: 30px 20px;
+  padding: 30px 0;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
   border-radius: 20px;
   margin-top: 50px;
@@ -49,9 +55,16 @@
   // justify-content: center;
   .box {
     // width: calc(100% / 3);
-    padding: 25px 0;
-    border-left: 1px solid #dbdbdb;
+    padding: 25px 0px;
+    border-top: 1px solid #dbdbdb;
     text-align: center;
+    @media screen and (min-width: 768px) and (max-width: 1023px) {
+      padding: 15px 0px;
+    }
+    @media screen and (min-width: 768px) {
+      border-left: 1px solid #dbdbdb;
+      border-top: 0;
+    }
     &.no-border {
       border-color: transparent;
     }
@@ -64,17 +77,30 @@
       margin: 0 auto 20px;
       font-size: 26px;
       font-weight: $font-medium;
+      @media screen and (min-width: 768px) and (max-width: 1023px) {
+        width: 60px;
+        height: 60px;
+        font-size: 20px;
+        margin-bottom: 15px;
+      }
     }
 
     h3 {
       font-weight: $font-medium;
       color: #000;
       margin-bottom: 10px;
+      @media screen and (min-width: 768px) and (max-width: 1023px) {
+        font-size: 14px;
+        margin-bottom: 5px;
+      }
     }
 
     p {
       color: #000;
       line-height: 24px;
+      @media screen and (min-width: 768px) and (max-width: 1023px) {
+        font-size: 14px;
+      }
       span {
         display: block;
       }
@@ -113,14 +139,25 @@ body {
     margin-right: 0;
   }
   .slick-prev {
-    left: -50px;
+    right: 30px;
+    left: auto;
+    @media screen and (min-width: 768px) {
+      left: -50px;
+      right: auto;
+    }
   }
   .slick-next {
-    right: -50px;
+    right: 0;
+    @media screen and (min-width: 768px) {
+      right: -50px;
+    }
   }
   .slick-arrow.slick-disabled {
-    opacity: 0;
+    opacity: 0.7;
     pointer-events: none;
+    @media screen and (min-width: 768px) {
+      opacity: 0;
+    }
   }
   .slick-prev,
   .slick-next {
@@ -133,6 +170,12 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    @media screen and (max-width: 767px) {
+      top: -35px;
+      background-color: transparent;
+      width: auto;
+      height: auto;
+    }
     &:hover {
       background-color: #f4f4f4;
     }
@@ -145,7 +188,14 @@ body {
     box-shadow: none;
     border-radius: 0;
     background-color: transparent;
-    padding: 0 25px;
+
+    @media screen and (min-width: 481px) {
+      padding: 0 5px;
+    }
+
+    @media screen and (min-width: 768px) {
+      padding: 0 25px;
+    }
   }
   .MuiCardMedia-root {
     width: 100%;
@@ -188,11 +238,18 @@ body {
     z-index: 1;
   }
   .slick-dots {
-    bottom: 30px;
+    bottom: 20px;
+    @media screen and (min-width: 768px) {
+      bottom: 30px;
+    }
     li {
       margin: 0 5px;
-      width: 15px;
-      height: 15px;
+      width: 10px;
+      height: 10px;
+      @media screen and (min-width: 768px) {
+        width: 15px;
+        height: 15px;
+      }
       button {
         background-color: #c4c4c4;
         border-radius: 50%;
@@ -231,7 +288,10 @@ body {
     background-color: transparent;
     .MuiCardMedia-root {
       background-color: transparent;
-      height: 412px;
+      height: 250px;
+      @media screen and (min-width: 768px) {
+        height: 412px;
+      }
     }
     .MuiCardActions-root {
       padding: 0;
@@ -240,17 +300,22 @@ body {
       button {
         font-size: 16px;
         border-radius: 50px;
-        width: 140px;
-        height: 45px;
+        @media screen and (min-width: 768px) {
+          width: 140px;
+          height: 45px;
+        }
       }
     }
     .MuiCardContent-root {
       padding: 0 120px 0;
       h2 {
-        font-size: 36px;
+        font-size: 24px;
         font-weight: $font-medium;
         color: #fff;
         text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+        @media screen and (min-width: 768px) {
+          font-size: 36px;
+        }
       }
       position: absolute;
       top: 0;

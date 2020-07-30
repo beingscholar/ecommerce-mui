@@ -21,7 +21,7 @@
     align-items: center;
     a {
       margin-left: 15px;
-      @media screen and (min-width: 768px) {
+      @media screen and (min-width: 1024px) {
         margin: 0;
       }
     }
@@ -113,9 +113,11 @@
       button {
         border-radius: 20px;
         height: 42px;
-        width: 113px;
         font-weight: $font-medium;
         font-size: 14px;
+        @media screen and (min-width: 1024px) {
+          width: 113px;
+        }
       }
     }
   }
