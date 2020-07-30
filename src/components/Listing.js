@@ -20,6 +20,8 @@ import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import TextField from "@material-ui/core/TextField";
 import Avatar from "@material-ui/core/Avatar";
 import CloseIcon from "@material-ui/icons/Close";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
 import IconButton from "@material-ui/core/IconButton";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -293,6 +295,12 @@ export default function Landing() {
     </div>
   );
 
+  const [sort, setSort] = React.useState("");
+
+  const SortBy = (event) => {
+    setSort(event.target.value);
+  };
+
   return (
     <Box component="div" className="main-content">
       <MediaQuery maxWidth={1023}>
@@ -388,6 +396,15 @@ export default function Landing() {
                   <SearchIcon />
                   <InputBase placeholder="search within category" />
                 </Paper>
+                <Box component="div" className="card-sorting">
+                  <Typography component="label">Sort by:</Typography>
+                  <FormControl>
+                    <Select value={sort} onChange={SortBy} displayEmpty>
+                      <MenuItem value="">Popularity</MenuItem>
+                      <MenuItem value={20}>Newest</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Box>
               </Box>
               <Grid container spacing={0}>
                 <Grid item xs={12} sm={4} md={3} spacing={0}>
