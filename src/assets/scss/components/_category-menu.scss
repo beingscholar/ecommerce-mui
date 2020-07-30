@@ -209,36 +209,37 @@ body {
     @media screen and (min-width: 768px) {
       padding: 0 25px;
     }
-  }
-  .MuiCardMedia-root {
-    width: 100%;
-    background-color: #d0d0d0;
-    height: 180px;
-    border-radius: 10px;
-    // border: 1px solid #f4f4f4;
-  }
-  .MuiCardContent-root {
-    padding: 0 !important;
-    .product-rating {
-      margin-top: 10px;
-      & > span {
-        margin-right: 5px;
+
+    .MuiCardMedia-root {
+      width: 100%;
+      background-color: #d0d0d0;
+      height: 180px;
+      border-radius: 10px;
+      // border: 1px solid #f4f4f4;
+    }
+    .MuiCardContent-root {
+      padding: 0 !important;
+      .product-rating {
+        margin-top: 10px;
+        & > span {
+          margin-right: 5px;
+        }
       }
-    }
-    .MuiTypography-root {
-      line-height: normal;
-      letter-spacing: normal;
-      &.description {
-        min-height: 38px;
+      .MuiTypography-root {
+        line-height: normal;
+        letter-spacing: normal;
+        &.description {
+          min-height: 38px;
+        }
       }
-    }
-    h4 {
-      font-weight: $font-medium;
-      margin-bottom: 5px;
-      margin-top: 10px;
-    }
-    h5 {
-      margin-bottom: 10px;
+      h4 {
+        font-weight: $font-medium;
+        margin-bottom: 5px;
+        margin-top: 10px;
+      }
+      h5 {
+        margin-bottom: 10px;
+      }
     }
   }
 }

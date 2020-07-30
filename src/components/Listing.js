@@ -5,6 +5,7 @@ import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Tabs from "@material-ui/core/Tabs";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Tab from "@material-ui/core/Tab";
 import MediaQuery from "react-responsive";
 import clsx from "clsx";
@@ -399,7 +400,12 @@ export default function Landing() {
                 <Box component="div" className="card-sorting">
                   <Typography component="label">Sort by:</Typography>
                   <FormControl>
-                    <Select value={sort} onChange={SortBy} displayEmpty>
+                    <Select
+                      value={sort}
+                      onChange={SortBy}
+                      displayEmpty
+                      IconComponent={() => <ExpandMoreIcon />}
+                    >
                       <MenuItem value="">Popularity</MenuItem>
                       <MenuItem value={20}>Newest</MenuItem>
                     </Select>
