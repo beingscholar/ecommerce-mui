@@ -1,148 +1,340 @@
-import React, { useState, useEffect } from 'react';
-import { 
-    BrowserRouter as Router,
-    Link as RouterLink, Route,Switch } from 'react-router-dom';
-import { trackPromise } from 'react-promise-tracker';
+import React, { useState, useEffect } from "react";
+import MediaQuery from "react-responsive";
+import {
+  BrowserRouter as Router,
+  Link as RouterLink,
+  Route,
+  Switch,
+} from "react-router-dom";
+import Avatar from "@material-ui/core/Avatar";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import Divider from "@material-ui/core/Divider";
+import InboxIcon from "@material-ui/icons/Inbox";
+import DraftsIcon from "@material-ui/icons/Drafts";
+import { trackPromise } from "react-promise-tracker";
+import Slider from "react-slick";
+import Link from "@material-ui/core/Link";
+import Rating from "@material-ui/lab/Rating";
+import Grid from "@material-ui/core/Grid";
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
+import Card from "@material-ui/core/Card";
+import CardMedia from "@material-ui/core/CardMedia";
+import CardContent from "@material-ui/core/CardContent";
+import CardActions from "@material-ui/core/CardActions";
+import "slick-carousel/slick/slick.css";
+import CardActionArea from "@material-ui/core/CardActionArea";
+import "slick-carousel/slick/slick-theme.css";
 
+import { Button, Box } from "@material-ui/core";
 
-import Link from '@material-ui/core/Link';
-
-import Grid from '@material-ui/core/Grid';
-import {makeStyles} from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-import Card from '@material-ui/core/Card';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-
-
-import { Button } from '@material-ui/core';
-
-const url = "http://myproject-alb-692769319.ap-southeast-1.elb.amazonaws.com/products";
+const url =
+  "http://myproject-alb-692769319.ap-southeast-1.elb.amazonaws.com/products";
 
 const useStyles = makeStyles((theme) => ({
-    navLink:{
-        margin: theme.spacing(2),
-        fontSize:"1rem",
+  navLink: {
+    margin: theme.spacing(2),
+    fontSize: "1rem",
+  },
+  title: {
+    flexGrow: 1,
+    display: "none",
+    [theme.breakpoints.up("sm")]: {
+      display: "block",
     },
-    title:{
-        flexGrow: 1,
-        display: 'none',
-        [theme.breakpoints.up('sm')]: {
-          display: 'block',
-        },
-    },
-    authLinks:{
-        position: 'relative',
-        
-        marginLeft: 0,
-        width: '100%',
-        [theme.breakpoints.up('sm')]: {
-        marginLeft: theme.spacing(1),
-        width: 'auto',
-        },
-    },
-    heroContent: {
-      backgroundColor: theme.palette.background.paper,
-      padding: theme.spacing(8, 0, 6),
-    },
-    heroButtons: {
-      marginTop: theme.spacing(4),
-    },
-    cardGrid: {
-        paddingTop: theme.spacing(8),
-        paddingBottom: theme.spacing(8),
-      },
-      card: {
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-      },
-      cardMedia: {
-        paddingTop: '56.25%', // 16:9
-      },
-      cardContent: {
-        flexGrow: 1,
-      },
-    footer: {
-      backgroundColor: theme.palette.background.paper,
-      padding: theme.spacing(6),
-    },
-  }));
+  },
+  authLinks: {
+    position: "relative",
 
-export default function Landing(){
-    const classes=useStyles();
-    const [products, setProducts] = useState([]);
+    marginLeft: 0,
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      marginLeft: theme.spacing(1),
+      width: "auto",
+    },
+  },
+  heroContent: {
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(8, 0, 6),
+  },
+  heroButtons: {
+    marginTop: theme.spacing(4),
+  },
+  cardGrid: {
+    paddingTop: theme.spacing(8),
+    paddingBottom: theme.spacing(8),
+  },
+  card: {
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+  },
+  cardMedia: {
+    paddingTop: "56.25%", // 16:9
+  },
+  cardContent: {
+    flexGrow: 1,
+  },
+  footer: {
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(6),
+  },
+}));
 
-    useEffect(()=>{
-        trackPromise(
-        fetch(url)
-        .then((response) => {return response.json()})
-        .then((data) => {
-            setProducts(data.products)})
-        .catch((error)=>{alert(error)}));
-        
-    },[]);
+export default function Landing() {
+  const classes = useStyles();
+  const [products, setProducts] = useState([]);
 
-
-    if (products){
-        var productList = products.map((product)=>{
-            return (
-                <Grid item key={product.productId} xs={12} sm={6} md={4}>
-                    <Card className = {classes.card}>
-                        <CardMedia
-                            className={classes.cardMedia}
-                            image={product.imageUrl} /* change to product.imageUrl */
-                            title="Image title"
-                        />
-                        <CardContent className={classes.cardContent}>
-                            <Typography gutterBottom variant="h5" component="h2">
-                            {product.productName}
-                            </Typography>
-                            <Typography color="textSecondary">
-                                {product.currency} {" "} {product.price}
-                            </Typography>
-                            <Typography>
-                            {product.productDescription}
-                            </Typography>
-                        </CardContent>
-                        <CardActions>
-                            <Button size="small" color="primary">
-                                <Link component={RouterLink} to={"/products/" +product.productId} color="textSecondary">View</Link>
-                            </Button>
-                        </CardActions>
-                    </Card>
-                </Grid>
-                
-            );
+  useEffect(() => {
+    trackPromise(
+      fetch(url)
+        .then((response) => {
+          return response.json();
         })
-    }
-    return(
+        .then((data) => {
+          setProducts(data.products);
+        })
+        .catch((error) => {
+          alert(error);
+        })
+    );
+  }, []);
 
-        <div>
-            <div className={classes.heroContent}>
-                <Typography variant="h1" align="center" color="textPrimary">Your Website</Typography>
-                <Typography variant="h5" paragraph align="center" color="textSecondary">
-                    Customer Frontend
+  if (products) {
+    var bannerList = products.map((product) => {
+      return (
+        <Card className="product-card">
+          <CardMedia
+            image={product.imageUrl} /* change to product.imageUrl */
+            title="Image title"
+          />
+
+          <CardContent>
+            <Typography component="h2">{product.productDescription}</Typography>
+            <CardActions>
+              <Button
+                variant="contained"
+                color="primary"
+                disableElevation
+                type="button"
+              >
+                Shop Now
+              </Button>
+            </CardActions>
+          </CardContent>
+        </Card>
+      );
+    });
+  }
+
+  if (products) {
+    var productList = products.map((product) => {
+      return (
+        <Card className="product-card">
+          <CardActionArea
+            component={RouterLink}
+            to={"/products/" + product.productId}
+          >
+            <CardMedia
+              image={product.imageUrl} /* change to product.imageUrl */
+              title="Image title"
+            />
+          </CardActionArea>
+
+          <CardContent>
+            <Typography component="h4">{product.productName}</Typography>
+            <Typography component="h5">
+              {product.currency} {product.price}
+            </Typography>
+            <Typography className="description">
+              {product.productDescription}
+            </Typography>
+            <Typography className="product-rating">
+              <Rating
+                name="half-rating-read"
+                defaultValue={2.5}
+                precision={0.5}
+                readOnly
+              />
+              (55)
+            </Typography>
+          </CardContent>
+        </Card>
+      );
+    });
+  }
+
+  var productListSlider = {
+    dots: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 5,
+    slidesToScroll: 1,
+    initialSlide: 0,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 5,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
+  };
+
+  var banner = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    initialSlide: 0,
+  };
+
+  function ListItemLink(props) {
+    return <ListItem button component="a" {...props} />;
+  }
+
+  return (
+    <Box component="div" className="main-content">
+      <Container maxWidth="lg">
+        <Grid container spacing={0}>
+          <MediaQuery minWidth={1024}>
+            <Grid container item xs={12} md={3} spacing={0}>
+              <Box component="div" className="category-menu">
+                <Typography component="h3">Categories</Typography>
+                <List component="nav">
+                  <ListItemLink href="#simple-list">
+                    <ListItemText primary="Electronic Devices" />
+                  </ListItemLink>
+
+                  <ListItemLink href="#simple-list">
+                    <ListItemText primary="Electronic Accessories" />
+                  </ListItemLink>
+
+                  <ListItemLink href="#simple-list">
+                    <ListItemText primary="TV & Home Appliances" />
+                  </ListItemLink>
+
+                  <ListItemLink href="#simple-list">
+                    <ListItemText primary="Health &amp; Beauty" />
+                  </ListItemLink>
+
+                  <ListItemLink href="#simple-list">
+                    <ListItemText primary="Babies &amp; Toys" />
+                  </ListItemLink>
+
+                  <ListItemLink href="#simple-list">
+                    <ListItemText primary="Groceries &amp; Pets" />
+                  </ListItemLink>
+
+                  <ListItemLink href="#simple-list">
+                    <ListItemText primary="Home &amp; Living" />
+                  </ListItemLink>
+
+                  <ListItemLink href="#simple-list">
+                    <ListItemText primary="Women's Fashion" />
+                  </ListItemLink>
+
+                  <ListItemLink href="#simple-list">
+                    <ListItemText primary="Men's Fashion" />
+                  </ListItemLink>
+
+                  <ListItemLink href="#simple-list">
+                    <ListItemText primary="Fashion Accessories" />
+                  </ListItemLink>
+
+                  <ListItemLink href="#simple-list">
+                    <ListItemText primary="Sports &amp; Lifestyle" />
+                  </ListItemLink>
+
+                  <ListItemLink href="#simple-list">
+                    <ListItemText primary="Automotive &amp; Motorcycles" />
+                  </ListItemLink>
+                </List>
+              </Box>
+            </Grid>
+          </MediaQuery>
+          <Grid container item xs={12} md={9} spacing={0}>
+            <Box component="div" className="main-banner">
+              <Slider {...banner}>{bannerList}</Slider>
+            </Box>
+          </Grid>
+        </Grid>
+
+        <Box component="div" className="products-box">
+          <Typography component="h3">Your Daily Pickups</Typography>
+          <Slider {...productListSlider}>{productList}</Slider>
+        </Box>
+
+        <Box component="div" className="products-box">
+          <Typography component="h3">Best Seller</Typography>
+          <Slider {...productListSlider}>{productList}</Slider>
+        </Box>
+
+        <Button
+          variant="contained"
+          color="primary"
+          disableElevation
+          type="button"
+        >
+          See All Products
+        </Button>
+
+        <Box className="payment-info-box">
+          <Grid container spacing={0}>
+            <Grid item xs={12} sm={4} spacing={0}>
+              <Box className="box no-border">
+                <Avatar
+                  alt="Secure Payments"
+                  src="/static/images/avatar/1.jpg"
+                />
+                <Typography component="h3">100% Secure Payments</Typography>
+                <Typography>
+                  Moving your card details to a{" "}
+                  <span> much more secured place.</span>
                 </Typography>
-                <div className={classes.heroButtons}>
-                <Grid container spacing={2} justify="center">
-                    <Grid item>
-                        <Button variant="contained" color="primary" href="#">
-                            Browse Products
-                        </Button>
-                    </Grid>
-                </Grid>
-                </div>
-            </div>
-            {/* MAIN CONTENT */}
-            <Container className={classes.cardGrid} maxWidth="md">
-                <Grid container spacing={4}>
-                    {productList}
-                </Grid>
-                </Container>
-
-        </div>
-    )
+              </Box>
+            </Grid>
+            <Grid item xs={12} sm={4} spacing={0}>
+              <Box className="box">
+                <Avatar alt="Trustpay" src="/static/images/avatar/1.jpg" />
+                <Typography component="h3">Trustpay</Typography>
+                <Typography>
+                  100% Payment Protection. <span>Easy Return Policy</span>
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} sm={4} spacing={0}>
+              <Box className="box">
+                <Avatar
+                  alt="Shop on the Go"
+                  src="/static/images/avatar/1.jpg"
+                />
+                <Typography component="h3">Shop on the Go</Typography>
+                <Typography>
+                  100% Payment Protection. <span>Easy Return Policy</span>
+                </Typography>
+              </Box>
+            </Grid>
+          </Grid>
+        </Box>
+      </Container>
+    </Box>
+  );
 }

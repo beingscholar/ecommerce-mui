@@ -274,7 +274,7 @@ const Header = (props) => {
         </Container>
         <MediaQuery minWidth={768}>
           <Container maxWidth="lg">
-            <div className="primary-dropdown">
+            <div className="primary-dropdown" style={{ display: "none" }}>
               <span>
                 Categories <ExpandMoreIcon />
               </span>

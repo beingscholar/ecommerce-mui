@@ -1,0 +1,354 @@
+.category-menu {
+  // padding: 20px;
+  width: calc(100% - 30px);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  h3 {
+    font-weight: $font-bold;
+    margin-bottom: 10px;
+    line-height: 1;
+    letter-spacing: normal;
+    padding: 20px 20px 0;
+  }
+  .MuiList-padding {
+    padding: 0;
+    a {
+      padding: 7px 20px;
+      div {
+        margin: 0;
+        span {
+          line-height: 1;
+          letter-spacing: normal;
+          // font-size: 14px;
+          color: $primaryTextColor;
+        }
+      }
+    }
+  }
+  // ul {
+  //   li {
+  //     & + li {
+  //       margin-top: 10px;
+  //     }
+  //     a {
+  //       cursor: pointer;
+  //       color: $primaryTextColor;
+  //       // display: block;
+  //     }
+  //   }
+  // }
+}
+
+.payment-info-box {
+  padding: 30px 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  margin-top: 50px;
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
+  .box {
+    // width: calc(100% / 3);
+    padding: 25px 0;
+    border-left: 1px solid #dbdbdb;
+    text-align: center;
+    &.no-border {
+      border-color: transparent;
+    }
+
+    .MuiAvatar-root {
+      width: 80px;
+      border-radius: 50%;
+      background-color: #c4c4c4;
+      height: 80px;
+      margin: 0 auto 20px;
+      font-size: 26px;
+      font-weight: $font-medium;
+    }
+
+    h3 {
+      font-weight: $font-medium;
+      color: #000;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #000;
+      line-height: 24px;
+      span {
+        display: block;
+      }
+    }
+    & + .box {
+      border-left: 1px solid #dbdbdb;
+    }
+  }
+}
+
+.products-box {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  padding: 25px;
+  margin-top: 30px;
+  & + button {
+    margin: 30px auto 0;
+    display: block;
+    border-radius: 50px;
+    font-size: 16px;
+    width: 250px;
+    height: 50px;
+  }
+  h3 {
+    margin-bottom: 25px;
+    font-weight: $font-medium;
+    line-height: normal;
+    color: #000;
+    letter-spacing: normal;
+  }
+}
+
+body {
+  .slick-track {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .slick-prev {
+    left: -50px;
+  }
+  .slick-next {
+    right: -50px;
+  }
+  .slick-arrow.slick-disabled {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .slick-prev,
+  .slick-next {
+    background-color: #f4f4f4;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+    // background-color: red;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &:hover {
+      background-color: #f4f4f4;
+    }
+    &:before {
+      color: #000;
+      opacity: 1;
+    }
+  }
+  .product-card {
+    box-shadow: none;
+    border-radius: 0;
+    background-color: transparent;
+    padding: 0 25px;
+  }
+  .MuiCardMedia-root {
+    width: 100%;
+    background-color: #d0d0d0;
+    height: 180px;
+    border-radius: 10px;
+    // border: 1px solid #f4f4f4;
+  }
+  .MuiCardContent-root {
+    padding: 0 !important;
+    .product-rating {
+      margin-top: 10px;
+      & > span {
+        margin-right: 5px;
+      }
+    }
+    .MuiTypography-root {
+      line-height: normal;
+      letter-spacing: normal;
+      &.description {
+        min-height: 38px;
+      }
+    }
+    h4 {
+      font-weight: $font-medium;
+      margin-bottom: 5px;
+      margin-top: 10px;
+    }
+    h5 {
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.main-banner {
+  width: 100%;
+  background-color: #d0d0d0;
+  border-radius: 10px;
+  .slick-arrow {
+    z-index: 1;
+  }
+  .slick-dots {
+    bottom: 30px;
+    li {
+      margin: 0 5px;
+      width: 15px;
+      height: 15px;
+      button {
+        background-color: #c4c4c4;
+        border-radius: 50%;
+        width: 100%;
+        height: 100%;
+        &:before {
+          display: none;
+        }
+      }
+      &.slick-active {
+        button {
+          background-color: #959595;
+        }
+      }
+    }
+  }
+  .slick-prev,
+  .slick-next {
+    box-shadow: none;
+    background-color: #c4c4c4;
+    &:hover {
+      background-color: #c4c4c4;
+    }
+  }
+  .slick-next {
+    right: 25px;
+  }
+  .slick-prev {
+    left: 25px;
+  }
+  .product-card {
+    position: relative;
+    padding: 0;
+    display: block !important;
+    text-align: center;
+    background-color: transparent;
+    .MuiCardMedia-root {
+      background-color: transparent;
+      height: 412px;
+    }
+    .MuiCardActions-root {
+      padding: 0;
+      margin-top: 20px;
+      justify-content: center;
+      button {
+        font-size: 16px;
+        border-radius: 50px;
+        width: 140px;
+        height: 45px;
+      }
+    }
+    .MuiCardContent-root {
+      padding: 0 120px 0;
+      h2 {
+        font-size: 36px;
+        font-weight: $font-medium;
+        color: #fff;
+        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+      }
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+}
+
+.all-products {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 0px 0 50px;
+
+  &--filter {
+    display: flex;
+    align-items: center;
+    padding: 25px 0;
+    width: calc(100% - 50px);
+    flex-wrap: wrap;
+    margin: 0 auto;
+    border-bottom: 1px solid #dbdbdb;
+    margin-bottom: 50px;
+
+    p {
+      letter-spacing: normal;
+      font-size: 20px;
+      line-height: 1;
+      font-weight: $font-medium;
+      small {
+        font-weight: $font-regular;
+        margin-left: 5px;
+        font-size: 14px;
+      }
+    }
+    form {
+      border-left: 1px solid #dbdbdb;
+      padding-left: 20px;
+      margin-left: 30px;
+      display: flex;
+      border-radius: 0;
+      align-items: center;
+      svg {
+        margin-right: 10px;
+      }
+    }
+  }
+
+  & > button {
+    margin: 25px auto 0;
+    display: block;
+    font-size: 16px;
+    height: 50px;
+    width: 250px;
+  }
+  .product-card {
+    margin-bottom: 25px;
+  }
+}
+
+.product-filters {
+  padding-right: 50px;
+  .filter-box {
+    border-bottom: 1px solid #dbdbdb;
+    padding: 30px 0;
+    .price-filter {
+      display: flex;
+      align-items: center;
+      & > span {
+        padding: 0 10px;
+      }
+      button {
+        margin-left: 10px;
+      }
+    }
+    & > button {
+      margin-top: 10px;
+    }
+  }
+  h3 {
+    font-size: 18px;
+    font-weight: $font-medium;
+  }
+  p {
+    margin-bottom: 10px;
+  }
+}
+
+.product-rating {
+  display: flex;
+  align-items: center;
+  & > span {
+    &.MuiRating-root {
+      color: #4482e5;
+    }
+  }
+}

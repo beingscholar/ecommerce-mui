@@ -4,12 +4,36 @@ body {
       letter-spacing: normal;
       text-transform: none;
       font-weight: $font-regular;
+      border-radius: 50px;
       &Primary {
         background-color: $primaryColor;
         color: #fff;
         &:hover {
           color: #fff;
           background-color: darken($color: $primaryColor, $amount: 10%);
+        }
+      }
+      &Secondary {
+        background-color: $secondaryColor;
+        color: #fff;
+        &:hover {
+          color: #fff;
+          background-color: darken($color: $secondaryColor, $amount: 10%);
+        }
+      }
+    }
+
+    &.MuiButton-outlined {
+      letter-spacing: normal;
+      text-transform: none;
+      font-weight: $font-regular;
+      border-radius: 50px;
+      &Primary {
+        border-color: $primaryColor;
+        color: $primaryColor;
+        &:hover {
+          color: #fff;
+          background-color: $primaryColor;
         }
       }
       &Secondary {
