@@ -219,9 +219,63 @@ export default function Landing() {
         </Box>
       </TabPanel>
       <TabPanel value={value} className="tab-content" index={2}>
-        <Box component="div" className="product-rating">
-          <Rating name="half-rating-read" defaultValue={2.5} precision={0.5} />
-        </Box>
+        <FormGroup className="product-rating">
+          <FormControlLabel
+            control={<Checkbox name="checkedA" color="primary" />}
+            label={
+              <Rating
+                name="half-rating-read"
+                readOnly
+                defaultValue={1}
+                precision={1}
+              />
+            }
+          />
+          <FormControlLabel
+            control={<Checkbox name="checkedA" color="primary" />}
+            label={
+              <Rating
+                name="half-rating-read"
+                readOnly
+                defaultValue={2}
+                precision={1}
+              />
+            }
+          />
+          <FormControlLabel
+            control={<Checkbox name="checkedA" color="primary" />}
+            label={
+              <Rating
+                name="half-rating-read"
+                readOnly
+                defaultValue={3}
+                precision={1}
+              />
+            }
+          />
+          <FormControlLabel
+            control={<Checkbox name="checkedA" color="primary" />}
+            label={
+              <Rating
+                name="half-rating-read"
+                readOnly
+                defaultValue={4}
+                precision={1}
+              />
+            }
+          />
+          <FormControlLabel
+            control={<Checkbox name="checkedA" color="primary" />}
+            label={
+              <Rating
+                name="half-rating-read"
+                readOnly
+                defaultValue={5}
+                precision={1}
+              />
+            }
+          />
+        </FormGroup>
       </TabPanel>
       <Box component="div" className="mobile-filters--footer">
         <Button
@@ -314,8 +368,8 @@ export default function Landing() {
                   <Box component="div" className="product-rating">
                     <Rating
                       name="half-rating-read"
-                      defaultValue={2.5}
-                      precision={0.5}
+                      defaultValue={3}
+                      precision={1}
                     />
                   </Box>
                 </Box>

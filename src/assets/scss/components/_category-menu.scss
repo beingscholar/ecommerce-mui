@@ -440,10 +440,8 @@ body {
 .product-rating {
   display: flex;
   align-items: center;
-  & > span {
-    &.MuiRating-root {
-      color: #4482e5;
-    }
+  .MuiRating-root {
+    color: #4482e5;
   }
 }
 
@@ -466,6 +464,17 @@ body {
     display: flex;
     flex-wrap: wrap;
     height: 100%;
+
+    .MuiFormGroup-root {
+      align-items: flex-start;
+      label {
+        display: flex;
+        align-items: center;
+        span {
+          line-height: 1;
+        }
+      }
+    }
 
     .tab-content {
       width: calc(100% - 120px);
