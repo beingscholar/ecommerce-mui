@@ -1,131 +1,132 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   Route,
   BrowserRouter as Router,
   Link as RouterLink,
-  Switch,
-} from "react-router-dom";
+  Switch
+} from 'react-router-dom';
 import {
   ShoppingCartOutlined as ShoppingCartIcon,
-  PersonOutlined as SignInIcon,
-} from "@material-ui/icons";
-import Listing from "./Listing";
-import AppBar from "@material-ui/core/AppBar";
-import { Button } from "@material-ui/core";
-import Cart from "./carts/Cart";
-import CheckEmail from "./auth/CheckEmail";
-import Checkout from "./Checkout";
-import CustomerBillings from "./customers/CustomerBillings";
-import CustomerProfile from "./customers/CustomerProfile";
-import Footer from "./layouts/Footer";
-import Header from "./layouts/Header";
-import Landing from "./Landing";
-import Link from "@material-ui/core/Link";
-import MySignIn from "./auth/MySignIn";
-import MySignUp from "./auth/MySignUp";
-import PrivateRoute from "./utilities/PrivateRoute";
-import ProductProfile from "./products/ProductProfile";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-import { trackPromise } from "react-promise-tracker";
-import { useUser } from "./utilities/user";
+  PersonOutlined as SignInIcon
+} from '@material-ui/icons';
+
+import AppBar from '@material-ui/core/AppBar';
+import { Button } from '@material-ui/core';
+import Cart from './carts/Cart';
+import CheckEmail from './auth/CheckEmail';
+import Checkout from './Checkout';
+import CustomerBillings from './customers/CustomerBillings';
+import CustomerProfile from './customers/CustomerProfile';
+import Footer from './layouts/Footer';
+import Header from './layouts/Header';
+import Landing from './Landing';
+import Link from '@material-ui/core/Link';
+import MySignIn from './auth/MySignIn';
+import MySignUp from './auth/MySignUp';
+import PrivateRoute from './utilities/PrivateRoute';
+import ProductProfile from './products/ProductProfile';
+import Products from './products/Products';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import { trackPromise } from 'react-promise-tracker';
+import { useUser } from './utilities/user';
 
 // import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
 const url =
-  "http://myproject-alb-692769319.ap-southeast-1.elb.amazonaws.com/products";
+  'http://myproject-alb-692769319.ap-southeast-1.elb.amazonaws.com/products';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   navLink: {
     margin: theme.spacing(2),
-    fontSize: "1rem",
+    fontSize: '1rem'
   },
   title: {
     flexGrow: 1,
-    display: "none",
-    [theme.breakpoints.up("sm")]: {
-      display: "block",
-    },
+    display: 'none',
+    [theme.breakpoints.up('sm')]: {
+      display: 'block'
+    }
   },
   authLinks: {
-    position: "relative",
+    position: 'relative',
 
     marginLeft: 0,
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(1),
-      width: "auto",
-    },
+      width: 'auto'
+    }
   },
   heroContent: {
     backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(8, 0, 6),
+    padding: theme.spacing(8, 0, 6)
   },
   heroButtons: {
-    marginTop: theme.spacing(4),
+    marginTop: theme.spacing(4)
   },
   cardGrid: {
     paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8),
+    paddingBottom: theme.spacing(8)
   },
   card: {
-    height: "100%",
-    display: "flex",
-    flexDirection: "column",
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column'
   },
   cardMedia: {
-    paddingTop: "56.25%", // 16:9
+    paddingTop: '56.25%' // 16:9
   },
   cardContent: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   footer: {
     backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(6),
-  },
+    padding: theme.spacing(6)
+  }
 }));
 
 function Main() {
   const { user, logout } = useUser();
   const classes = useStyles();
   const handleSignOut = async () => {
-    await logout().then(() => window.location.replace("/signin"));
+    await logout().then(() => window.location.replace('/signin'));
   };
 
   var navLinks = (
-    <Typography variant="h6">
+    <Typography variant='h6'>
       <Link
         className={classes.navLink}
-        color="inherit"
+        color='inherit'
         component={RouterLink}
-        to="/"
+        to='/'
       >
         Home
       </Link>
       <Link
         className={classes.navLink}
-        color="inherit"
+        color='inherit'
         component={RouterLink}
-        to="/signup"
+        to='/signup'
       >
         Sign Up
       </Link>
       <Link
         className={classes.navLink}
-        color="inherit"
+        color='inherit'
         component={RouterLink}
-        to="/signin"
+        to='/signin'
       >
         Sign In
       </Link>
       <Link
         className={classes.navLink}
-        color="inherit"
+        color='inherit'
         component={RouterLink}
-        to="/cart"
+        to='/cart'
       >
-        <span style={{ verticalAlign: "middle" }}>
+        <span style={{ verticalAlign: 'middle' }}>
           <ShoppingCartIcon />
         </span>
       </Link>
@@ -133,37 +134,37 @@ function Main() {
   );
   if (user) {
     navLinks = (
-      <Typography variant="h6">
+      <Typography variant='h6'>
         <Link
           className={classes.navLink}
-          color="inherit"
+          color='inherit'
           component={RouterLink}
-          to="/"
+          to='/'
         >
           Home
         </Link>
         <Link
           className={classes.navLink}
-          color="inherit"
+          color='inherit'
           component={RouterLink}
-          to={"/profile"}
+          to={'/profile'}
         >
           Profile
         </Link>
         <Link
           className={classes.navLink}
-          color="inherit"
+          color='inherit'
           component={RouterLink}
-          to="/cart"
+          to='/cart'
         >
-          <span style={{ verticalAlign: "middle" }}>
+          <span style={{ verticalAlign: 'middle' }}>
             <ShoppingCartIcon />
           </span>
         </Link>
 
         <Link
           className={classes.navLink}
-          color="inherit"
+          color='inherit'
           onClick={() => {
             handleSignOut();
           }}
@@ -174,43 +175,43 @@ function Main() {
     );
   }
   const sections = [
-    { title: "Sell on Hetchly", url: "#" },
-    { title: "Track my order", url: "#" },
-    { title: "Help Center", url: "#" },
+    { title: 'Sell on Hetchly', url: '#' },
+    { title: 'Track my order', url: '#' },
+    { title: 'Help Center', url: '#' }
   ];
 
   const navbarLinks = [
-    { title: "Cart", url: "cart", icon: <ShoppingCartIcon /> },
-    { title: "Login", url: "signin", icon: <SignInIcon /> },
+    { title: 'Cart', url: 'cart', icon: <ShoppingCartIcon /> },
+    { title: 'Login', url: 'signin', icon: <SignInIcon /> }
   ];
 
   return (
     <Router>
-      <Header title="Blog" sections={sections} navbarLinks={navbarLinks} />
+      <Header title='Blog' sections={sections} navbarLinks={navbarLinks} />
       <Switch>
-        <Route path="/signin">
+        <Route path='/signin'>
           <MySignIn />
         </Route>
-        <Route path="/cart">
+        <Route path='/cart'>
           <Cart />
         </Route>
-        <Route path="/signup">
+        <Route path='/signup'>
           <MySignUp />
         </Route>
-        <Route path="/check-email">
+        <Route path='/check-email'>
           <CheckEmail />
         </Route>
-        <PrivateRoute path="/checkout" component={Checkout} />
+        <PrivateRoute path='/checkout' component={Checkout} />
         <Route
-          path="/products/:id"
-          render={(props) => <ProductProfile {...props} />}
+          path='/products/:id'
+          render={props => <ProductProfile {...props} />}
         />
-        <PrivateRoute path="/profile" component={CustomerProfile} />
-        <PrivateRoute path="/billings" component={CustomerBillings} />
-        <Route exact path="/">
+        <PrivateRoute path='/profile' component={CustomerProfile} />
+        <PrivateRoute path='/billings' component={CustomerBillings} />
+        <Route exact path='/'>
           <Landing />
         </Route>
-        <Route exact path="/listing" component={Listing} />
+        <Route exact path='/products' component={Products} />
       </Switch>
 
       <Footer />
