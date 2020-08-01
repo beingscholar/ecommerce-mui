@@ -1,4 +1,7 @@
 import React, { useEffect, useState, Fragment } from "react";
+import RemoveIcon from "@material-ui/icons/Remove";
+import AddIcon from "@material-ui/icons/Add";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
@@ -326,6 +329,9 @@ const ProductProfile = () => {
                       <IconButton>
                         <FavoriteBorderOutlinedIcon />
                       </IconButton>
+                      <IconButton color="secondary">
+                        <FavoriteIcon color="secondary" />
+                      </IconButton>
                     </Box>
                   </Box>
                   <ul className="have-questions">
@@ -366,7 +372,25 @@ const ProductProfile = () => {
                     </FormControl>
                   </Typography>
 
-                  <Typography>Quantity:</Typography>
+                  <Typography className="product-quantity">
+                    Quantity:
+                    <Box className="quantity">
+                      <ul>
+                        <li>
+                          <Button>
+                            <RemoveIcon />
+                          </Button>
+                        </li>
+                        <li>1</li>
+                        <li>
+                          <Button>
+                            <AddIcon />
+                          </Button>
+                        </li>
+                      </ul>
+                      <Typography>Only 7 items left</Typography>
+                    </Box>
+                  </Typography>
 
                   <ButtonGroup>
                     <Button variant="outlined" color="primary">
