@@ -138,18 +138,30 @@ body {
     margin-left: 0;
     margin-right: 0;
   }
+  .slick-slider {
+    margin: 0;
+    @media screen and (min-width: 768px) {
+      margin: 0 -25px;
+    }
+  }
   .slick-prev {
     right: 30px;
     left: auto;
+    @media screen and (min-width: 1366px) {
+      left: -60px;
+    }
     @media screen and (min-width: 768px) {
-      left: -50px;
+      left: -25px;
       right: auto;
     }
   }
   .slick-next {
     right: 0;
+    @media screen and (min-width: 1366px) {
+      right: -60px;
+    }
     @media screen and (min-width: 768px) {
-      right: -50px;
+      right: -25px;
     }
   }
   .slick-arrow {
@@ -183,6 +195,7 @@ body {
     display: flex !important;
     align-items: center;
     justify-content: center;
+    z-index: 1;
     @media screen and (max-width: 767px) {
       top: -35px;
       background-color: transparent;
@@ -385,8 +398,8 @@ body {
     form {
       display: flex;
       width: auto;
-      border: 1px solid #dbdbdb;
-      padding: 5px 15px;
+      // border: 1px solid #dbdbdb;
+      // padding: 5px 15px;
       align-items: center;
       flex-grow: 1;
       border-radius: 50px;
