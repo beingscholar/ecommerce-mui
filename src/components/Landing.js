@@ -332,7 +332,7 @@ export default function Landing() {
 
         <Box className='payment-info-box'>
           <Grid container spacing={0}>
-            <Grid item xs={12} sm={4} container spacing={0}>
+            <Grid item xs={12} sm={4} spacing={0}>
               <Box className='box no-border'>
                 <Avatar
                   alt='Secure Payments'
@@ -345,7 +345,7 @@ export default function Landing() {
                 </Typography>
               </Box>
             </Grid>
-            <Grid item xs={12} sm={4} container spacing={0}>
+            <Grid item xs={12} sm={4} spacing={0}>
               <Box className='box'>
                 <Avatar alt='Trustpay' src='/static/images/avatar/1.jpg' />
                 <Typography component='h3'>Trustpay</Typography>
@@ -354,7 +354,7 @@ export default function Landing() {
                 </Typography>
               </Box>
             </Grid>
-            <Grid item xs={12} sm={4} container spacing={0}>
+            <Grid item xs={12} sm={4} spacing={0}>
               <Box className='box'>
                 <Avatar
                   alt='Shop on the Go'
