@@ -303,8 +303,8 @@ const Header = (props) => {
           <Container maxWidth="lg">
             <div
               className="primary-dropdown"
-              // style={{ display: showCategories }}
-              style={{ display: "none" }}
+              style={{ display: showCategories }}
+              // style={{ display: "none" }}
             >
               <span>
                 Categories <ExpandMoreIcon />
