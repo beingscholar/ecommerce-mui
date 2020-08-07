@@ -23,7 +23,7 @@ import Landing from './Landing';
 import Link from '@material-ui/core/Link';
 import MySignIn from './auth/MySignIn';
 import MySignUp from './auth/MySignUp';
-import Aboutus from './carts/about';
+import Aboutus from './Aboutus';
 import PrivateRoute from './utilities/PrivateRoute';
 import ProductProfile from './products/ProductProfile';
 import Products from './products/Products';
@@ -193,7 +193,7 @@ function Main() {
         <Route path='/signin'>
           <MySignIn />
         </Route>
-        <Route path='/about'>
+        <Route path='/about-us'>
           <Aboutus />
         </Route>
         <Route path='/cart'>

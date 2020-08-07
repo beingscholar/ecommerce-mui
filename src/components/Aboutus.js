@@ -24,7 +24,18 @@ const Cart = () => {
           </Typography>
 
           <Grid container spacing={9}>
-            <Grid item xs={12} sm={6}>
+            <Grid container item xs={12} sm={6} spacing={1}>
+              <Box className='content-box'>
+                <Typography component='h3'>Sed ut perspiciatis</Typography>
+                <Typography>
+                  But I must explain to you how all this mistaken idea of
+                  denouncing pleasure and praising pain was born and I will give
+                  you a complete account of the system, and expound the actual
+                  teachings of the great explorer of the truth, the
+                  master-builder of human happiness. No one rejects, dislikes,
+                  or avoids pleasure itself, because it is pleasure.
+                </Typography>
+              </Box>
               <Box className='content-box'>
                 <Typography component='h3'>Sed ut perspiciatis</Typography>
                 <Typography>
@@ -37,7 +48,7 @@ const Cart = () => {
                 </Typography>
               </Box>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid container item xs={12} sm={6} spacing={1}>
               <Box className='content-box'>
                 <Typography component='h3'>Sed ut perspiciatis</Typography>
                 <Typography>
@@ -49,30 +60,15 @@ const Cart = () => {
                   or avoids pleasure itself, because it is pleasure.
                 </Typography>
               </Box>
-            </Grid>
-          </Grid>
-          <Grid container spacing={9}>
-            <Grid item xs={12} sm={6}>
               <Box className='content-box'>
                 <Typography component='h3'>Sed ut perspiciatis</Typography>
                 <Typography>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s, when an unknown
-                  printer took a galley of type and scrambled it to make a type
-                  specimen book.
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Box className='content-box'>
-                <Typography component='h3'>Sed ut perspiciatis</Typography>
-                <Typography>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s, when an unknown
-                  printer took a galley of type and scrambled it to make a type
-                  specimen book.
+                  But I must explain to you how all this mistaken idea of
+                  denouncing pleasure and praising pain was born and I will give
+                  you a complete account of the system, and expound the actual
+                  teachings of the great explorer of the truth, the
+                  master-builder of human happiness. No one rejects, dislikes,
+                  or avoids pleasure itself, because it is pleasure.
                 </Typography>
               </Box>
             </Grid>

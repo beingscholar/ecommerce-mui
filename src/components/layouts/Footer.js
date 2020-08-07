@@ -1,9 +1,9 @@
 import Container from '@material-ui/core/Container';
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink } from 'react-router-dom';
 import React from 'react';
 import paymentMethod from '../../assets/img/payment-method.png';
 import social from '../../assets/img/social.png';
-import { Link } from "@material-ui/core";
+import { Link } from '@material-ui/core';
 
 export default function Footer() {
   return (
@@ -35,7 +35,9 @@ export default function Footer() {
             <h4>Company</h4>
             <ul>
               <li>
-                <Link component={RouterLink} to='/about'>About Us</Link>
+                <Link component={RouterLink} to='/about-us'>
+                  About Us
+                </Link>
               </li>
               <li>
                 <Link to='/'>Core Values</Link>
