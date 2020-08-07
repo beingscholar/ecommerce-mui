@@ -23,6 +23,7 @@ import Landing from './Landing';
 import Link from '@material-ui/core/Link';
 import MySignIn from './auth/MySignIn';
 import MySignUp from './auth/MySignUp';
+import Aboutus from './carts/about';
 import PrivateRoute from './utilities/PrivateRoute';
 import ProductProfile from './products/ProductProfile';
 import Products from './products/Products';
@@ -191,6 +192,9 @@ function Main() {
       <Switch>
         <Route path='/signin'>
           <MySignIn />
+        </Route>
+        <Route path='/about'>
+          <Aboutus />
         </Route>
         <Route path='/cart'>
           <Cart />
