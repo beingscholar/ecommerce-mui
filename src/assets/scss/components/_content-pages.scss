@@ -9,14 +9,22 @@
     font-size: 30px;
     letter-spacing: normal;
     line-height: normal;
-    font-weight: $font-regular;
+    font-weight: $font-light;
+    margin-bottom: 50px;
     @media screen and (min-width: 768px) {
-      font-size: 36px;
+      font-size: 42px;
+      span {
+        display: block;
+      }
     }
   }
 
   .content-box {
-    margin-top: 50px;
+    margin-bottom: 50px;
+    @media screen and (min-width: 768px) {
+      padding-right: 50px;
+    }
+    margin-top: 0;
     h3 {
       font-weight: $font-bold;
       letter-spacing: normal;

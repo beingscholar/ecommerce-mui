@@ -126,13 +126,15 @@ const Cart = () => {
           className="primary-box cart-product-card"
           key={product.productId}
         >
-          <Checkbox
-            defaultChecked
-            color="primary"
-            inputProps={{ "aria-label": "secondary checkbox" }}
-          />
           <Box className="product-box">
-            <CardMedia title="Image title" image={product.imageUrl} />
+            <Box className="product-checkbox">
+              <Checkbox
+                defaultChecked
+                color="primary"
+                inputProps={{ "aria-label": "secondary checkbox" }}
+              />
+              <CardMedia title="Image title" image={product.imageUrl} />
+            </Box>
             <CardContent>
               <Box className="product-info-content">
                 <Typography component="h3">
@@ -160,7 +162,6 @@ const Cart = () => {
                   onChange={setQuantity}
                   value={product.quantity}
                   minValue={1}
-                  style={{ marginRight: "10px" }}
                 />
               </Box>
             </CardContent>

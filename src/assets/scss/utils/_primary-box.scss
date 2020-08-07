@@ -716,8 +716,10 @@
     align-self: center;
   }
   .product-box {
-    width: calc(100% - 42px);
+    // width: calc(100% - 42px);
+    width: 100%;
     padding-right: 20px;
+    align-items: flex-start;
     .MuiCardMedia-root {
       width: 100%;
       height: 150px;
@@ -736,27 +738,36 @@
     }
     .MuiCardContent-root {
       padding: 0;
+      @media screen and (max-width: 767px) {
+        padding-left: 42px;
+      }
       @media screen and (min-width: 768px) {
         padding-left: 15px;
         flex-grow: 1;
+        width: calc(100% - 202px);
       }
       @media screen and (min-width: 1024px) {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
+        width: calc(100% - 162px);
+        .product-info-content {
+          width: calc(100% - (120px + 263px));
+        }
       }
       .quantity {
         width: 100%;
         @media screen and (min-width: 1024px) {
-          width: auto;
-          align-self: center;
+          width: 120px;
+          height: 120px;
+          display: flex;
         }
       }
       h3 {
         letter-spacing: normal;
         line-height: normal;
         font-weight: $font-medium;
-        margin-bottom: 5px;
+        margin-bottom: 10px;
         a {
           color: #333333;
           cursor: pointer;
@@ -765,9 +776,9 @@
       p {
         letter-spacing: normal;
         line-height: normal;
-        @media screen and (min-width: 1024px) {
-          min-height: 65px;
-        }
+        // @media screen and (min-width: 1024px) {
+        //   min-height: 50px;
+        // }
       }
       h4 {
         letter-spacing: normal;
@@ -781,6 +792,9 @@
         line-height: normal;
         margin-top: 15px;
         margin-bottom: 10px;
+        @media screen and (max-width: 767px) {
+          margin-top: 10px;
+        }
       }
       .icon-group {
         display: flex;
@@ -793,28 +807,35 @@
       }
     }
 
-    @media screen and (min-width: 768px) {
+    .product-box-action {
       display: flex;
-      flex-wrap: wrap;
-      .product-box-action {
-        display: flex;
-        align-items: center;
-        margin: 15px 0;
-        justify-content: space-between;
+      align-items: center;
+      margin: 15px 0;
+      justify-content: space-between;
+      @media screen and (min-width: 1024px) {
+        display: block;
+        margin: 0;
+        width: 263px;
+        padding: 0 100px;
+      }
+      h5 {
+        margin: 0;
         @media screen and (min-width: 1024px) {
-          display: block;
-          margin: 0;
-          padding: 0 20px;
-        }
-        h5 {
-          margin: 0;
-          @media screen and (min-width: 1024px) {
-            margin-bottom: 75px;
-          }
+          margin-bottom: 50px;
         }
       }
     }
+
+    @media screen and (min-width: 768px) {
+      display: flex;
+      flex-wrap: wrap;
+    }
   }
+}
+
+.product-checkbox {
+  display: flex;
+  align-items: center;
 }
 
 .checkout-info {
