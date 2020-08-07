@@ -100,7 +100,9 @@ const Cart = () => {
                 <CardMedia title="Image title" />
                 <CardContent>
                   <Box className="product-info-content">
-                    <Typography component="h3">iphone SE 2020</Typography>
+                    <Typography component="h3">
+                      <Link>iphone SE 2020</Link>
+                    </Typography>
                     <Typography>Lorem ipsum is simple dummy text.</Typography>
                     <Typography component="h4">By Tech 101</Typography>
                   </Box>
@@ -128,7 +130,9 @@ const Cart = () => {
                 <CardMedia title="Image title" />
                 <CardContent>
                   <Box className="product-info-content">
-                    <Typography component="h3">iphone SE 2020</Typography>
+                    <Typography component="h3">
+                      <Link>iphone SE 2020</Link>
+                    </Typography>
                     <Typography>Lorem ipsum is simple dummy text.</Typography>
                     <Typography component="h4">By Tech 101</Typography>
                   </Box>

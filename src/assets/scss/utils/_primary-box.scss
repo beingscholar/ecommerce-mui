@@ -749,6 +749,7 @@
         width: 100%;
         @media screen and (min-width: 1024px) {
           width: auto;
+          align-self: center;
         }
       }
       h3 {
@@ -756,10 +757,17 @@
         line-height: normal;
         font-weight: $font-medium;
         margin-bottom: 5px;
+        a {
+          color: #333333;
+          cursor: pointer;
+        }
       }
       p {
         letter-spacing: normal;
         line-height: normal;
+        @media screen and (min-width: 1024px) {
+          min-height: 65px;
+        }
       }
       h4 {
         letter-spacing: normal;
@@ -801,7 +809,7 @@
         h5 {
           margin: 0;
           @media screen and (min-width: 1024px) {
-            margin-bottom: 25px;
+            margin-bottom: 75px;
           }
         }
       }
