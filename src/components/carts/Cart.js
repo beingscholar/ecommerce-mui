@@ -1,137 +1,199 @@
-import React, { useEffect, useState } from 'react';
-
-import { Button } from '@material-ui/core';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
-import { Link as RouterLink } from 'react-router-dom';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import { trackPromise } from 'react-promise-tracker';
+import React, { useEffect, useState } from "react";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import Checkbox from "@material-ui/core/Checkbox";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
+import Grid from "@material-ui/core/Grid";
+import Link from "@material-ui/core/Link";
+import Container from "@material-ui/core/Container";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import { Link as RouterLink } from "react-router-dom";
+import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
+import FavoriteBorderOutlinedIcon from "@material-ui/icons/FavoriteBorderOutlined";
+import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import NumberField from "../ui/NumberField";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import { trackPromise } from "react-promise-tracker";
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  CardHeader,
+  IconButton,
+} from "@material-ui/core";
 
 //temp url for carts
-const CART_API_URL =
-  'http://myproject-alb-692769319.ap-southeast-1.elb.amazonaws.com/carts';
-const PRODUCT_API_URL =
-  'http://myproject-alb-692769319.ap-southeast-1.elb.amazonaws.com/products';
-const useStyles = makeStyles(theme => ({
+// const CART_API_URL =
+//   "http://myproject-alb-692769319.ap-southeast-1.elb.amazonaws.com/carts";
+// const PRODUCT_API_URL =
+//   "http://myproject-alb-692769319.ap-southeast-1.elb.amazonaws.com/products";
+const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
-    margin: '2em 1em'
+    display: "flex",
+    margin: "2em 1em",
   },
   cover: {
-    width: 151
+    width: 151,
   },
   content: {
-    flex: '1 0 auto'
+    flex: "1 0 auto",
   },
   details: {
-    display: 'flex',
-    flexDirection: 'column'
-  }
+    display: "flex",
+    flexDirection: "column",
+  },
 }));
 
 const Cart = () => {
   const classes = useStyles();
 
-  const [products, setProducts] = useState([]);
-  const [cart, setCart] = useState([]);
+  const [checked, setChecked] = React.useState(true);
 
-  useEffect(() => {
-    trackPromise(
-      fetch(CART_API_URL + '/test')
-        .then(response => {
-          return response.json();
-        })
-        .then(data => {
-          setCart(data.items);
-          var cartArr = data.items;
-          var promises = [];
-          cartArr.forEach(async function (item) {
-            console.log(item.product_id);
-            var promise = await fetch(PRODUCT_API_URL + '/' + item.product_id)
-              .then(response => {
-                return response.json();
-              })
-              .then(data => {
-                data.products[0].quantity = item.quantity;
-                setProducts(products => [...products, data.products[0]]);
-              })
-              .catch(error => {
-                alert(error);
-              });
+  const handleChange = (event) => {
+    setChecked(event.target.checked);
+  };
+  const [state, setState] = React.useState({
+    checkedA: true,
+    checkedB: true,
+    checkedF: true,
+    checkedG: true,
+  });
+  const handleChangehead = (event) => {
+    setState({ ...state, [event.target.name]: event.target.checked });
+  };
 
-            promises.push(promise);
-          });
-        })
-        .catch(error => {
-          alert(error);
-        })
-    );
-  }, []);
+  return (
+    <Box component="div" className="main-content">
+      <Container maxWidth="lg">
+        <Box component="div" className="cart-header-action">
+          <Grid container>
+            <Grid item xs={12} lg={9}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={state.checkedB}
+                    onChange={handleChangehead}
+                    name="checkedB"
+                    color="primary"
+                  />
+                }
+                label="Seletc All (2 Items(s))"
+              />
+              <Button>
+                <DeleteOutlineIcon />
+                Delete All
+              </Button>
+            </Grid>
+          </Grid>
+        </Box>
+        <Grid container>
+          <Grid item xs={12} lg={9}>
+            <Box component="div" className="primary-box cart-product-card">
+              <Checkbox
+                defaultChecked
+                color="primary"
+                inputProps={{ "aria-label": "secondary checkbox" }}
+              />
+              <Box className="product-box">
+                <CardMedia title="Image title" />
+                <CardContent>
+                  <Box className="product-info-content">
+                    <Typography component="h3">iphone SE 2020</Typography>
+                    <Typography>Lorem ipsum is simple dummy text.</Typography>
+                    <Typography component="h4">By Tech 101</Typography>
+                  </Box>
+                  <Box className="product-box-action">
+                    <Typography component="h5">Php 25,000</Typography>
+                    <Box component="div" className="icon-group">
+                      <FavoriteBorderOutlinedIcon />
+                      <DeleteOutlineIcon />
+                    </Box>
+                  </Box>
+                  <Box component="div" className="quantity">
+                    Quantity
+                  </Box>
+                </CardContent>
+              </Box>
+            </Box>
 
-  var cartData = (
-    <div>
-      <Grid container spacing={2}>
-        <Card>
-          <CardContent>
-            <h1>Your shopping cart is empty</h1>
+            <Box component="div" className="primary-box cart-product-card">
+              <Checkbox
+                defaultChecked
+                color="primary"
+                inputProps={{ "aria-label": "secondary checkbox" }}
+              />
+              <Box className="product-box">
+                <CardMedia title="Image title" />
+                <CardContent>
+                  <Box className="product-info-content">
+                    <Typography component="h3">iphone SE 2020</Typography>
+                    <Typography>Lorem ipsum is simple dummy text.</Typography>
+                    <Typography component="h4">By Tech 101</Typography>
+                  </Box>
+                  <Box className="product-box-action">
+                    <Typography component="h5">Php 25,000</Typography>
+                    <Box component="div" className="icon-group">
+                      <FavoriteBorderOutlinedIcon />
+                      <DeleteOutlineIcon />
+                    </Box>
+                  </Box>
+                  <Box component="div" className="quantity">
+                    Quantity
+                  </Box>
+                </CardContent>
+              </Box>
+            </Box>
+          </Grid>
+          <Grid item xs={12} lg={3}>
+            <Box
+              component="div"
+              className="primary-box delivery-info-box checkout-info"
+            >
+              <Box className="delivey-box">
+                <Typography component="h3">Location</Typography>
+                <ul>
+                  <li>
+                    <LocationOnOutlinedIcon />
+                    Metro Manila Quezon City, Quezon City, Project 6
+                  </li>
+                </ul>
+              </Box>
 
-            <Button variant='contained' color='primary' href='#'>
-              Empty Cart
-            </Button>
-            <p>You may add items to your shopping cart here.</p>
-          </CardContent>
-        </Card>
-      </Grid>
-    </div>
+              <Box className="warranty-box">
+                <Typography component="h3">Order Summary</Typography>
+                <ul className="order-summary">
+                  <li>
+                    <Typography component="span">Subtotal (2 items)</Typography>
+                    <Typography component="span">50,000</Typography>
+                  </li>
+                  <li>
+                    <Typography component="span">Shipping Fee</Typography>
+                    <Typography component="span">40.00</Typography>
+                  </li>
+                </ul>
+              </Box>
+
+              <Typography className="order-total">
+                <Typography>Total</Typography>
+                <Typography component="strong">50,040</Typography>
+              </Typography>
+
+              <Button
+                variant="contained"
+                color="primary"
+                disableElevation
+                fullWidth
+              >
+                Proceed to Checkout
+              </Button>
+            </Box>
+          </Grid>
+        </Grid>
+      </Container>
+    </Box>
   );
-
-  var productsList = <div> </div>;
-  if (cart) {
-    productsList = products.map(product => {
-      return (
-        <Card className={classes.root} key={product.productId}>
-          <CardMedia className={classes.cover} image={product.imageUrl} />
-          <div className={classes.details}>
-            <CardContent className={classes.content}>
-              <Typography variant='h5' component='h5'>
-                <Link
-                  component={RouterLink}
-                  to={'/products/' + product.productId}
-                >
-                  {product.productName}
-                </Link>
-              </Typography>
-              <Typography variant='subtitle1'>
-                Quantity: {product.quantity}
-              </Typography>
-              <Typography variant='h5' component='h5' color='textSecondary'>
-                {product.currency} {product.price}
-              </Typography>
-            </CardContent>
-          </div>
-        </Card>
-      );
-    });
-    cartData = (
-      <div>
-        {productsList}
-        <Button
-          component={RouterLink}
-          to='/checkout'
-          variant='contained'
-          color='primary'
-        >
-          Proceed to Checkout
-        </Button>
-      </div>
-    );
-  }
-
-  return <div>{cartData}</div>;
 };
 
 export default Cart;

@@ -122,3 +122,17 @@
     }
   }
 }
+
+.sub-header {
+  background-color: #e5e5e5;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  font-weight: $font-medium;
+  color: #000;
+  @media screen and (min-width: 768px) {
+    height: 200px;
+    font-size: 36px;
+  }
+}

@@ -1,54 +1,54 @@
-import React, { useState } from 'react';
-import { Link as RouterLink, useHistory, useLocation } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link as RouterLink, useHistory, useLocation } from "react-router-dom";
 
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import Button from '@material-ui/core/Button';
-import Container from '@material-ui/core/Container';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { Link } from '@material-ui/core';
-import MediaQuery from 'react-responsive';
-import PersonOutlinedIcon from '@material-ui/icons/PersonOutlined';
-import PropTypes from 'prop-types';
-import SearchIcon from '@material-ui/icons/Search';
-import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
-import Typography from '@material-ui/core/Typography';
-import closeIcon from '../../assets/img/close.svg';
-import logo from '../../assets/img/logo.png';
-import navIcon from '../../assets/img/menu.svg';
-import { useUser } from '../utilities/user';
+import Accordion from "@material-ui/core/Accordion";
+import AccordionSummary from "@material-ui/core/AccordionSummary";
+import Button from "@material-ui/core/Button";
+import Container from "@material-ui/core/Container";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { Link } from "@material-ui/core";
+import MediaQuery from "react-responsive";
+import PersonOutlinedIcon from "@material-ui/icons/PersonOutlined";
+import PropTypes from "prop-types";
+import SearchIcon from "@material-ui/icons/Search";
+import ShoppingCartOutlinedIcon from "@material-ui/icons/ShoppingCartOutlined";
+import Typography from "@material-ui/core/Typography";
+import closeIcon from "../../assets/img/close.svg";
+import logo from "../../assets/img/logo.png";
+import navIcon from "../../assets/img/menu.svg";
+import { useUser } from "../utilities/user";
 
-const Header = props => {
+const Header = (props) => {
   const { push } = useHistory();
   const { user, logout } = useUser();
   const [mobileMenu, setMobileMenu] = useState(false);
   const [searchBar, setSearchBar] = useState(false);
 
   const handleSignOut = async () => {
-    await logout().then(() => window.location.replace('/signin'));
+    await logout().then(() => window.location.replace("/signin"));
   };
 
   const location = useLocation();
-  const showCategories = location.pathname === '/' ? 'none' : 'block';
+  const showCategories = location.pathname === "/" ? "none" : "block";
 
   return (
     <>
       <MediaQuery minWidth={768}>
-        <div className='topbar'>
-          <Container maxWidth='lg'>
+        <div className="topbar">
+          <Container maxWidth="lg">
             <ul>
               <li>
-                <Link component={RouterLink} to='/'>
+                <Link component={RouterLink} to="/">
                   Sell on Hetchly
                 </Link>
               </li>
               <li>
-                <Link component={RouterLink} to='/'>
+                <Link component={RouterLink} to="/">
                   Track my order
                 </Link>
               </li>
               <li>
-                <Link component={RouterLink} to='/'>
+                <Link component={RouterLink} to="/">
                   Help Center
                 </Link>
               </li>
@@ -59,87 +59,87 @@ const Header = props => {
 
       {/* Add ".in" class to show */}
       <MediaQuery maxWidth={768}>
-        <div className={`mobile-menu ${mobileMenu && 'in'}`}>
-          <div className='mobile-menu--container'>
+        <div className={`mobile-menu ${mobileMenu && "in"}`}>
+          <div className="mobile-menu--container">
             <img
               src={closeIcon}
-              className='close-icon'
-              width='16'
-              alt='Close'
+              className="close-icon"
+              width="16"
+              alt="Close"
               onClick={() => setMobileMenu(false)}
             />
-            <div className='wrap'>
-              <div className='logo'>
-                <img src={logo} alt='Logo' />
+            <div className="wrap">
+              <div className="logo">
+                <img src={logo} alt="Logo" />
               </div>
-              <ul className='links'>
+              <ul className="links">
                 <li>
                   <Accordion>
                     <AccordionSummary
                       expandIcon={<ExpandMoreIcon />}
-                      aria-controls='panel1a-content'
-                      id='panel1a-header'
+                      aria-controls="panel1a-content"
+                      id="panel1a-header"
                     >
                       <Typography>Categories</Typography>
                     </AccordionSummary>
-                    <ul className='links'>
+                    <ul className="links">
                       <li>
-                        <Link component={RouterLink} to='/products'>
+                        <Link component={RouterLink} to="/products">
                           Electronic Devices
                         </Link>
                       </li>
                       <li>
-                        <Link component={RouterLink} to='/products'>
+                        <Link component={RouterLink} to="/products">
                           Electronic Accessories
                         </Link>
                       </li>
                       <li>
-                        <Link component={RouterLink} to='/products'>
+                        <Link component={RouterLink} to="/products">
                           TV &amp; Home Appliances
                         </Link>
                       </li>
                       <li>
-                        <Link component={RouterLink} to='/products'>
+                        <Link component={RouterLink} to="/products">
                           Health &amp; Beauty
                         </Link>
                       </li>
                       <li>
-                        <Link component={RouterLink} to='/products'>
+                        <Link component={RouterLink} to="/products">
                           Babies &amp; Toys
                         </Link>
                       </li>
                       <li>
-                        <Link component={RouterLink} to='/products'>
+                        <Link component={RouterLink} to="/products">
                           Groceries &amp; Pets
                         </Link>
                       </li>
                       <li>
-                        <Link component={RouterLink} to='/products'>
+                        <Link component={RouterLink} to="/products">
                           Home &amp; Living
                         </Link>
                       </li>
                       <li>
-                        <Link component={RouterLink} to='/products'>
+                        <Link component={RouterLink} to="/products">
                           Women's Fashion
                         </Link>
                       </li>
                       <li>
-                        <Link component={RouterLink} to='/products'>
+                        <Link component={RouterLink} to="/products">
                           Men's Fashion
                         </Link>
                       </li>
                       <li>
-                        <Link component={RouterLink} to='/products'>
+                        <Link component={RouterLink} to="/products">
                           Fashion Accessories
                         </Link>
                       </li>
                       <li>
-                        <Link component={RouterLink} to='/products'>
+                        <Link component={RouterLink} to="/products">
                           Sports &amp; Lifestyle
                         </Link>
                       </li>
                       <li>
-                        <Link component={RouterLink} to='/products'>
+                        <Link component={RouterLink} to="/products">
                           Automotive &amp; Motorcycles
                         </Link>
                       </li>
@@ -147,17 +147,17 @@ const Header = props => {
                   </Accordion>
                 </li>
                 <li>
-                  <Link component={RouterLink} to='/'>
+                  <Link component={RouterLink} to="/">
                     Sell on Hetchly
                   </Link>
                 </li>
                 <li>
-                  <Link component={RouterLink} to='/'>
+                  <Link component={RouterLink} to="/">
                     Track my order
                   </Link>
                 </li>
                 <li>
-                  <Link component={RouterLink} to='/'>
+                  <Link component={RouterLink} to="/">
                     Help Center
                   </Link>
                 </li>
@@ -169,7 +169,7 @@ const Header = props => {
                   <Link
                     onClick={() => setMobileMenu(false)}
                     component={RouterLink}
-                    to='/profile'
+                    to="/profile"
                   >
                     <PersonOutlinedIcon />
                     Profile
@@ -178,7 +178,7 @@ const Header = props => {
                   <Link
                     onClick={() => setMobileMenu(false)}
                     component={RouterLink}
-                    to='/signin'
+                    to="/signin"
                   >
                     <PersonOutlinedIcon />
                     Login
@@ -188,8 +188,8 @@ const Header = props => {
               <li>
                 {user ? (
                   <Button
-                    variant='contained'
-                    color='primary'
+                    variant="contained"
+                    color="primary"
                     disableElevation
                     onClick={() => {
                       handleSignOut();
@@ -201,11 +201,11 @@ const Header = props => {
                   </Button>
                 ) : (
                   <Button
-                    variant='contained'
-                    color='primary'
+                    variant="contained"
+                    color="primary"
                     disableElevation
                     onClick={() => {
-                      push('/signup');
+                      push("/signup");
                       setMobileMenu(false);
                     }}
                     // to="/signup"
@@ -219,33 +219,33 @@ const Header = props => {
         </div>
       </MediaQuery>
 
-      <header className='primary-header'>
-        <Container maxWidth='lg'>
-          <div className='logo'>
+      <header className="primary-header">
+        <Container maxWidth="lg">
+          <div className="logo">
             <MediaQuery maxWidth={768}>
               <img
                 src={navIcon}
-                width='20'
-                alt='Menu'
+                width="20"
+                alt="Menu"
                 onClick={() => setMobileMenu(true)}
               />
             </MediaQuery>
-            <Link component={RouterLink} to='/'>
-              <img src={logo} alt='Logo' />
+            <Link component={RouterLink} to="/">
+              <img src={logo} alt="Logo" />
             </Link>
           </div>
 
           {/* Add ".show" class to show search bar in mobile */}
-          <div className={`search-box ${searchBar && 'show'}`}>
-            <input type='text' placeholder='Search products &amp; brands...' />
-            <Button variant='contained' color='secondary' disableElevation>
+          <div className={`search-box ${searchBar && "show"}`}>
+            <input type="text" placeholder="Search products &amp; brands..." />
+            <Button variant="contained" color="secondary" disableElevation>
               <SearchIcon />
             </Button>
           </div>
 
-          <ul className='links'>
+          <ul className="links">
             <li>
-              <Link component={RouterLink} to='/cart'>
+              <Link component={RouterLink} to="/cart">
                 <ShoppingCartOutlinedIcon />
                 Cart
               </Link>
@@ -260,12 +260,12 @@ const Header = props => {
             <MediaQuery minWidth={768}>
               <li>
                 {user ? (
-                  <Link component={RouterLink} to='/profile'>
+                  <Link component={RouterLink} to="/profile">
                     <PersonOutlinedIcon />
                     Profile
                   </Link>
                 ) : (
-                  <Link component={RouterLink} to='/signin'>
+                  <Link component={RouterLink} to="/signin">
                     <PersonOutlinedIcon />
                     Login
                   </Link>
@@ -274,8 +274,8 @@ const Header = props => {
               <li>
                 {user ? (
                   <Button
-                    variant='contained'
-                    color='primary'
+                    variant="contained"
+                    color="primary"
                     disableElevation
                     onClick={() => {
                       handleSignOut();
@@ -286,10 +286,10 @@ const Header = props => {
                   </Button>
                 ) : (
                   <Button
-                    variant='contained'
-                    color='primary'
+                    variant="contained"
+                    color="primary"
                     disableElevation
-                    onClick={() => push('/signup')}
+                    onClick={() => push("/signup")}
                     // to="/signup"
                   >
                     Sign up
@@ -300,73 +300,74 @@ const Header = props => {
           </ul>
         </Container>
         <MediaQuery minWidth={768}>
-          <Container maxWidth='lg'>
+          <Container maxWidth="lg">
             <div
-              className='primary-dropdown'
-              style={{ display: showCategories }}
+              className="primary-dropdown"
+              // style={{ display: showCategories }}
+              style={{ display: "none" }}
             >
               <span>
                 Categories <ExpandMoreIcon />
               </span>
-              <div className='primary-dropdown--menu'>
+              <div className="primary-dropdown--menu">
                 <ul>
                   <li>
-                    <Link component={RouterLink} to='/products'>
+                    <Link component={RouterLink} to="/products">
                       Electronic Devices
                     </Link>
                   </li>
                   <li>
-                    <Link component={RouterLink} to='/products'>
+                    <Link component={RouterLink} to="/products">
                       Electronic Accessories
                     </Link>
                   </li>
                   <li>
-                    <Link component={RouterLink} to='/products'>
+                    <Link component={RouterLink} to="/products">
                       TV &amp; Home Appliances
                     </Link>
                   </li>
                   <li>
-                    <Link component={RouterLink} to='/products'>
+                    <Link component={RouterLink} to="/products">
                       Health &amp; Beauty
                     </Link>
                   </li>
                   <li>
-                    <Link component={RouterLink} to='/products'>
+                    <Link component={RouterLink} to="/products">
                       Babies &amp; Toys
                     </Link>
                   </li>
                   <li>
-                    <Link component={RouterLink} to='/products'>
+                    <Link component={RouterLink} to="/products">
                       Groceries &amp; Pets
                     </Link>
                   </li>
                   <li>
-                    <Link component={RouterLink} to='/products'>
+                    <Link component={RouterLink} to="/products">
                       Home &amp; Living
                     </Link>
                   </li>
                   <li>
-                    <Link component={RouterLink} to='/products'>
+                    <Link component={RouterLink} to="/products">
                       Women's Fashion
                     </Link>
                   </li>
                   <li>
-                    <Link component={RouterLink} to='/products'>
+                    <Link component={RouterLink} to="/products">
                       Men's Fashion
                     </Link>
                   </li>
                   <li>
-                    <Link component={RouterLink} to='/products'>
+                    <Link component={RouterLink} to="/products">
                       Fashion Accessories
                     </Link>
                   </li>
                   <li>
-                    <Link component={RouterLink} to='/products'>
+                    <Link component={RouterLink} to="/products">
                       Sports &amp; Lifestyle
                     </Link>
                   </li>
                   <li>
-                    <Link component={RouterLink} to='/products'>
+                    <Link component={RouterLink} to="/products">
                       Automotive &amp; Motorcycles
                     </Link>
                   </li>
@@ -382,7 +383,7 @@ const Header = props => {
 
 Header.propTypes = {
   sections: PropTypes.array,
-  title: PropTypes.string
+  title: PropTypes.string,
 };
 
 export default Header;

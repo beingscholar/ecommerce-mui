@@ -1,12 +1,14 @@
-@import 'utils/basic';
-@import './utils/button';
-@import './utils/input';
-@import './utils/dropdown';
-@import './utils/card';
+@import "utils/basic";
+@import "./utils/button";
+@import "./utils/input";
+@import "./utils/dropdown";
+@import "./utils/card";
+@import "./utils/primary-box";
 
-@import './components/topbar';
-@import './components/header';
-@import './components/footer';
-@import './components/user-structure';
-@import './components/mobile-menu';
-@import './components/category-menu';
+@import "./components/topbar";
+@import "./components/header";
+@import "./components/footer";
+@import "./components/user-structure";
+@import "./components/mobile-menu";
+@import "./components/category-menu";
+@import "./components/content-pages";
