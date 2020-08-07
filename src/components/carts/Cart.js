@@ -179,7 +179,7 @@ const Cart = () => {
       <Container maxWidth="lg">
         <Box component="div" className="cart-header-action">
           <Grid container>
-            <Grid item xs={12} lg={9}>
+            <Grid item xs={12} lg={8}>
               <FormControlLabel
                 control={
                   <Checkbox
@@ -199,11 +199,11 @@ const Cart = () => {
           </Grid>
         </Box>
         <Grid container>
-          <Grid item xs={12} lg={9}>
+          <Grid item xs={12} lg={8}>
             {cartData}
           </Grid>
 
-          <Grid item xs={12} lg={3}>
+          <Grid item xs={12} lg={4}>
             <Box
               component="div"
               className="primary-box delivery-info-box checkout-info"
