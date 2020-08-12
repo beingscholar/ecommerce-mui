@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CustomerProfile = () => {
+const ChangeAddress = () => {
   const [customer, setCustomer] = useState();
   const [modalStyle] = React.useState(getModalStyle);
   const [user_id, setUser_id] = useState("");
@@ -314,68 +314,32 @@ const CustomerProfile = () => {
                   </Button>
                 </ButtonGroup>
               </Box>
+              <Grid container>
+                <Grid item xs={12} md={6}>
+                  <Box className="primary-structure--box">
+                    <Typography className="m-b-20">
+                      <Typography component="strong">Change Address</Typography>
+                    </Typography>
 
-              <Box className="primary-structure--box">
-                <Grid container>
-                  <Grid item xs={12} sm={4} md={2}>
-                    <Box className="profile-image-box">
-                      <img src={user} className="user-image" alt="user" />
-                      <Typography>
-                        <img src={security} alt="security" />
-                        Verified Account
-                      </Typography>
+                    <Box className="form-group">
+                      <label>Address 1</label>
+                      <TextField id="outlined-basic" variant="outlined" />
                     </Box>
-                  </Grid>
-                  <Grid item xs={12} sm={8} md={8}>
-                    <h3>Maria Dela Cruz</h3>
-                    <Typography>
-                      <Typography component="strong">
-                        Email Address:{" "}
-                      </Typography>
-                      mariadelacruz@mail.com
-                    </Typography>
-                    <Typography>
-                      <Typography component="strong">Address: </Typography>
-                      Metro Manila Quezon City, Quezon City, Project 6
-                    </Typography>
-                    <Typography>
-                      <Typography component="strong">Gender: </Typography>
-                      Female
-                    </Typography>
-                    <Typography>
-                      <Typography component="strong">Birthday: </Typography>
-                      1993-10-25
-                    </Typography>
-                    <Typography>
-                      <Typography component="strong">
-                        Mobile Number:{" "}
-                      </Typography>
-                      +63 *******8
-                    </Typography>
-                    <Typography>
-                      <Typography component="strong">
-                        Payment Method:{" "}
-                      </Typography>
-                      <Box className="wrap">
-                        Mastercard
-                        <img src={masterCard} width="20" alt="Card" />
-                        {/* <img src={visa} width="30" alt="Card" />
-                        <img src={paypal} width="15" alt="Card" /> */}
-                      </Box>
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12} md={2}>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      disableElevation
-                      fullWidth
-                    >
-                      Edit Profile
-                    </Button>
-                  </Grid>
+                    <Box className="form-group">
+                      <label>Address 2</label>
+                      <TextField id="outlined-basic" variant="outlined" />
+                    </Box>
+                    <Box className="form-group">
+                      <label>State</label>
+                      <TextField id="outlined-basic" variant="outlined" />
+                    </Box>
+                    <Box className="form-group">
+                      <label>Pincode</label>
+                      <TextField id="outlined-basic" variant="outlined" />
+                    </Box>
+                  </Box>
                 </Grid>
-              </Box>
+              </Grid>
             </Box>
           </Grid>
         </Grid>
@@ -384,4 +348,4 @@ const CustomerProfile = () => {
   );
 };
 
-export default CustomerProfile;
+export default ChangeAddress;

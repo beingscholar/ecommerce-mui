@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CustomerProfile = () => {
+const PaymentMethod = () => {
   const [customer, setCustomer] = useState();
   const [modalStyle] = React.useState(getModalStyle);
   const [user_id, setUser_id] = useState("");
@@ -314,68 +314,85 @@ const CustomerProfile = () => {
                   </Button>
                 </ButtonGroup>
               </Box>
+              <Grid container>
+                <Grid item xs={12} md={6} lg={5}>
+                  <Box className="primary-structure--box">
+                    <Typography className="m-b-20">
+                      <Typography component="strong">Payment Method</Typography>
+                    </Typography>
+                    <FormControl component="fieldset">
+                      <RadioGroup
+                        aria-label="gender"
+                        name="gender1"
+                        value={value}
+                        onChange={handleChange}
+                      >
+                        <FormControlLabel
+                          value="female"
+                          control={<Radio color="primary" />}
+                          label="Credit Card/Debit Card"
+                          labelPlacement="start"
+                        />
+                        <FormControlLabel
+                          value="male"
+                          control={<Radio color="primary" />}
+                          label="Paypal"
+                          labelPlacement="start"
+                        />
+                      </RadioGroup>
+                    </FormControl>
 
-              <Box className="primary-structure--box">
-                <Grid container>
-                  <Grid item xs={12} sm={4} md={2}>
-                    <Box className="profile-image-box">
-                      <img src={user} className="user-image" alt="user" />
-                      <Typography>
-                        <img src={security} alt="security" />
-                        Verified Account
-                      </Typography>
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12} sm={8} md={8}>
-                    <h3>Maria Dela Cruz</h3>
-                    <Typography>
-                      <Typography component="strong">
-                        Email Address:{" "}
-                      </Typography>
-                      mariadelacruz@mail.com
-                    </Typography>
-                    <Typography>
-                      <Typography component="strong">Address: </Typography>
-                      Metro Manila Quezon City, Quezon City, Project 6
-                    </Typography>
-                    <Typography>
-                      <Typography component="strong">Gender: </Typography>
-                      Female
-                    </Typography>
-                    <Typography>
-                      <Typography component="strong">Birthday: </Typography>
-                      1993-10-25
-                    </Typography>
-                    <Typography>
-                      <Typography component="strong">
-                        Mobile Number:{" "}
-                      </Typography>
-                      +63 *******8
-                    </Typography>
-                    <Typography>
-                      <Typography component="strong">
-                        Payment Method:{" "}
-                      </Typography>
-                      <Box className="wrap">
-                        Mastercard
+                    <Box className="form-group m-b-20">
+                      <label>Card Number*</label>
+                      <Box className="input-with-icon">
+                        <TextField
+                          id="outlined-basic"
+                          variant="outlined"
+                          placeholder="xxxx - xxxx - xxxx"
+                        />
                         <img src={masterCard} width="20" alt="Card" />
                         {/* <img src={visa} width="30" alt="Card" />
                         <img src={paypal} width="15" alt="Card" /> */}
                       </Box>
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12} md={2}>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      disableElevation
-                      fullWidth
-                    >
-                      Edit Profile
-                    </Button>
-                  </Grid>
+                    </Box>
+                    <Grid container spacing={2}>
+                      <Grid item xs={12} sm={6}>
+                        <Box className="form-group">
+                          <label>Expiry Date*</label>
+                          <TextField id="outlined-basic" variant="outlined" />
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <Box className="form-group">
+                          <label>Security Code*</label>
+                          <TextField id="outlined-basic" variant="outlined" />
+                        </Box>
+                      </Grid>
+                    </Grid>
+                    <Box className="saved-cards">
+                      <Typography className="m-b-20">
+                        <Typography component="strong">Saved Cards</Typography>
+                      </Typography>
+
+                      <Box className="card">
+                        <Typography component="span"></Typography>
+                        <Box className="wrap">
+                          <Typography>HDFC Credit Card</Typography>
+                          <Typography>0000-0000-0000-0000</Typography>
+                        </Box>
+                      </Box>
+
+                      <Box className="card">
+                        <Typography component="span"></Typography>
+                        <Box className="wrap">
+                          <Typography>HDFC Credit Card</Typography>
+                          <Typography>0000-0000-0000-0000</Typography>
+                        </Box>
+                      </Box>
+                    </Box>
+                  </Box>
                 </Grid>
-              </Box>
+              </Grid>
             </Box>
           </Grid>
         </Grid>
@@ -384,4 +401,4 @@ const CustomerProfile = () => {
   );
 };
 
-export default CustomerProfile;
+export default PaymentMethod;

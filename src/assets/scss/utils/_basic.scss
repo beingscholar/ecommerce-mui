@@ -107,6 +107,23 @@ a {
   }
 }
 
+.m-b-20 {
+  margin-bottom: 20px !important;
+}
+
+.input-with-icon {
+  position: relative;
+  input {
+    padding-right: 60px;
+  }
+  img {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
 // body {
 //   .MuiContainer-maxWidthLg {
 //     max-width: 100%;

@@ -1,36 +1,16 @@
 import React, { useEffect, useState } from "react";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
-import TextField from "@material-ui/core/TextField";
 import { useParams } from "react-router";
 import { trackPromise } from "react-promise-tracker";
 import { NotificationManager } from "react-notifications";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import Container from "@material-ui/core/Container";
 import Divider from "@material-ui/core/Divider";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
+import Button from "@material-ui/core/Button";
 import Modal from "@material-ui/core/Modal";
-import security from "../../assets/img/security.svg";
-import camera from "../../assets/img/camera.svg";
-import masterCard from "../../assets/img/mastercard.svg";
-import visa from "../../assets/img/visa.svg";
-import paypal from "../../assets/img/paypal.svg";
-import user from "../../assets/img/user.jpg";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link as RouterLink } from "react-router-dom";
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  CardHeader,
-  IconButton,
-} from "@material-ui/core";
 
 import { Auth } from "aws-amplify";
 import CustomerEditForm from "./CustomerEditForm";
@@ -254,133 +234,25 @@ const CustomerProfile = () => {
       </div>
     );
   }
-  const [value, setValue] = React.useState("female");
-
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  };
   return (
-    <Box className="primary-structure">
-      <Container maxWidth="lg">
-        <Grid container>
-          <Grid item xs={12} sm={3} md={2}>
-            <Box className="sidebar">
-              <Box className="sidebar--header">
-                <Typography component="h3">Hello, Maria!</Typography>
-                <Typography>
-                  <img src={security} alt="security" />
-                  Verified Account
-                </Typography>
-              </Box>
-              <ul>
-                <li>
-                  <a>Account</a>
-                </li>
-                <li className="show">
-                  <a className="active">
-                    My Profile <ExpandMoreIcon />
-                  </a>
-                  <ul>
-                    <li>
-                      <a>Edit Profile</a>
-                    </li>
-                    <li>
-                      <a>Change Password</a>
-                    </li>
-                    <li>
-                      <a>Update Card Details</a>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  <a>My Orders</a>
-                </li>
-                <li>
-                  <a>List of orders</a>
-                </li>
-              </ul>
-            </Box>
-          </Grid>
-          <Grid item xs={12} sm={9} md={10}>
-            <Box className="primary-structure--content">
-              <Box className="content-header">
-                <Typography component="h3">My Profile</Typography>
-                <ButtonGroup>
-                  <Button variant="outlined" color="primary">
-                    Save Changes
-                  </Button>
-                  <Button variant="contained" color="primary" disableElevation>
-                    Update Profile
-                  </Button>
-                </ButtonGroup>
-              </Box>
-
-              <Box className="primary-structure--box">
-                <Grid container>
-                  <Grid item xs={12} sm={4} md={2}>
-                    <Box className="profile-image-box">
-                      <img src={user} className="user-image" alt="user" />
-                      <Typography>
-                        <img src={security} alt="security" />
-                        Verified Account
-                      </Typography>
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12} sm={8} md={8}>
-                    <h3>Maria Dela Cruz</h3>
-                    <Typography>
-                      <Typography component="strong">
-                        Email Address:{" "}
-                      </Typography>
-                      mariadelacruz@mail.com
-                    </Typography>
-                    <Typography>
-                      <Typography component="strong">Address: </Typography>
-                      Metro Manila Quezon City, Quezon City, Project 6
-                    </Typography>
-                    <Typography>
-                      <Typography component="strong">Gender: </Typography>
-                      Female
-                    </Typography>
-                    <Typography>
-                      <Typography component="strong">Birthday: </Typography>
-                      1993-10-25
-                    </Typography>
-                    <Typography>
-                      <Typography component="strong">
-                        Mobile Number:{" "}
-                      </Typography>
-                      +63 *******8
-                    </Typography>
-                    <Typography>
-                      <Typography component="strong">
-                        Payment Method:{" "}
-                      </Typography>
-                      <Box className="wrap">
-                        Mastercard
-                        <img src={masterCard} width="20" alt="Card" />
-                        {/* <img src={visa} width="30" alt="Card" />
-                        <img src={paypal} width="15" alt="Card" /> */}
-                      </Box>
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={12} md={2}>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      disableElevation
-                      fullWidth
-                    >
-                      Edit Profile
-                    </Button>
-                  </Grid>
-                </Grid>
-              </Box>
-            </Box>
-          </Grid>
-        </Grid>
-      </Container>
-    </Box>
+    <div>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div style={modalStyle} className={classes.paper}>
+          <CustomerEditForm {...props} />
+        </div>
+      </Modal>
+      {customerData}
+    </div>
   );
 };
 
