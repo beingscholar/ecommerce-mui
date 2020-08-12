@@ -21,7 +21,7 @@ import {
   Button,
   ButtonGroup,
   CardHeader,
-  IconButton,
+  IconButton
 } from "@material-ui/core";
 
 //temp url for carts
@@ -30,21 +30,21 @@ const CART_API_URL =
 const PRODUCT_API_URL =
   "http://myproject-alb-692769319.ap-southeast-1.elb.amazonaws.com/products";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
-    margin: "2em 1em",
+    margin: "2em 1em"
   },
   cover: {
-    width: 151,
+    width: 151
   },
   content: {
-    flex: "1 0 auto",
+    flex: "1 0 auto"
   },
   details: {
     display: "flex",
-    flexDirection: "column",
-  },
+    flexDirection: "column"
+  }
 }));
 
 const Cart = () => {
@@ -54,47 +54,47 @@ const Cart = () => {
   const [quantity, setQuantity] = useState(1);
   const [checked, setChecked] = React.useState(true);
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     setChecked(event.target.checked);
   };
   const [state, setState] = React.useState({
     checkedA: true,
     checkedB: true,
     checkedF: true,
-    checkedG: true,
+    checkedG: true
   });
-  const handleChangehead = (event) => {
+  const handleChangehead = event => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
 
   useEffect(() => {
     trackPromise(
       fetch(CART_API_URL + "/test")
-        .then((response) => {
+        .then(response => {
           return response.json();
         })
-        .then((data) => {
+        .then(data => {
           setCart(data.items);
           var cartArr = data.items;
           var promises = [];
           cartArr.forEach(async function (item) {
             console.log(item.product_id);
             var promise = await fetch(PRODUCT_API_URL + "/" + item.product_id)
-              .then((response) => {
+              .then(response => {
                 return response.json();
               })
-              .then((data) => {
+              .then(data => {
                 data.products[0].quantity = item.quantity;
-                setProducts((products) => [...products, data.products[0]]);
+                setProducts(products => [...products, data.products[0]]);
               })
-              .catch((error) => {
+              .catch(error => {
                 alert(error);
               });
 
             promises.push(promise);
           });
         })
-        .catch((error) => {
+        .catch(error => {
           alert(error);
         })
     );
@@ -119,7 +119,7 @@ const Cart = () => {
 
   var productsList = <div> </div>;
   if (cart) {
-    productsList = products.map((product) => {
+    productsList = products.map(product => {
       return (
         <Box
           component="div"
@@ -160,8 +160,9 @@ const Cart = () => {
               <Box component="div" className="quantity">
                 <NumberField
                   onChange={setQuantity}
-                  value={product.quantity}
-                  minValue={1}
+                  value={quantity}
+                  minValue={0}
+                  maxValue={product.quantity}
                 />
               </Box>
             </CardContent>

@@ -18,7 +18,7 @@ import logo from "../../assets/img/logo.png";
 import navIcon from "../../assets/img/menu.svg";
 import { useUser } from "../utilities/user";
 
-const Header = (props) => {
+const Header = props => {
   const { push } = useHistory();
   const { user, logout } = useUser();
   const [mobileMenu, setMobileMenu] = useState(false);
@@ -304,7 +304,6 @@ const Header = (props) => {
             <div
               className="primary-dropdown"
               style={{ display: showCategories }}
-              // style={{ display: "none" }}
             >
               <span>
                 Categories <ExpandMoreIcon />
@@ -383,7 +382,7 @@ const Header = (props) => {
 
 Header.propTypes = {
   sections: PropTypes.array,
-  title: PropTypes.string,
+  title: PropTypes.string
 };
 
 export default Header;
