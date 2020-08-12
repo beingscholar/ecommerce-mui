@@ -14,6 +14,7 @@ import Rating from "@material-ui/lab/Rating"
 import { Box, Divider, Link } from "@material-ui/core";
 import { FavoriteBorder, Share } from "@material-ui/icons"
 import NumberField from "../ui/NumberField";
+import { Auth } from "aws-amplify";
 
 const url =
   "http://myproject-alb-692769319.ap-southeast-1.elb.amazonaws.com/products";
@@ -63,8 +64,15 @@ const ProductProfile = () => {
   const [product, setProduct] = useState();
   const [productQuantity, setProductQuantity] = useState("-1");
   const [quantity, setQuantity] = useState(1);
+  const [user_id, setUser_id] = useState("");
 
   useEffect(() => {
+    trackPromise(
+      Auth.currentAuthenticatedUser().then(user => {
+        setUser_id(user.attributes.sub);
+      })
+    );
+    
     trackPromise(
       fetch(url + "/" + id)
         .then(response => {
@@ -186,7 +194,7 @@ const ProductProfile = () => {
                             })
                           };
                         trackPromise(
-                          fetch(cart_url + "/test", requestOptions)
+                          fetch(cart_url  + "/" + user_id, requestOptions)
                             .then(response => {
                               return response.json();
                             })
