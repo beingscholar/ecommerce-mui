@@ -4,6 +4,55 @@
     padding: 50px 0;
   }
   &--box {
+    hr {
+      border: none;
+      border-top: 1px solid rgba(0, 0, 0, 0.18);
+      margin: 30px 0;
+    }
+    &.payment-method {
+      padding-top: 30px;
+      padding-bottom: 30px;
+      .MuiGrid-container {
+        align-items: center;
+      }
+      ul {
+        margin-top: 16px;
+        @media screen and (min-width: 480px) {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+        }
+        li {
+          display: flex;
+          align-items: center;
+          font-size: 14px;
+          line-height: 16px;
+          letter-spacing: -0.015em;
+          color: #000000;
+          img {
+            margin-left: 12px;
+          }
+          &:first-child {
+            font-weight: 500;
+            margin-bottom: 12px;
+            @media screen and (min-width: 480px) {
+              margin-right: 12px;
+              margin-bottom: 0;
+            }
+          }
+        }
+      }
+      p {
+        font-weight: bold;
+        font-size: 16px;
+        line-height: 19px;
+        letter-spacing: -0.015em;
+        color: #000000;
+      }
+    }
+    & + .primary-structure--box {
+      margin-top: 20px;
+    }
     background: #ffffff;
     box-shadow: 0px 7px 20px rgba(0, 0, 0, 0.08);
     border-radius: 14px;
@@ -15,6 +64,26 @@
     @media screen and (max-width: 992px) {
       button {
         margin-top: 20px;
+      }
+    }
+
+    .MuiButtonGroup-root {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      @media screen and (min-width: 768px) {
+        justify-content: flex-end;
+      }
+      button {
+        width: 100%;
+        @media screen and (min-width: 480px) {
+          min-width: 145px;
+          width: auto;
+
+          & + button {
+            margin-left: 6px;
+          }
+        }
       }
     }
 
@@ -52,9 +121,6 @@
       align-items: center;
       justify-content: space-between;
       flex-direction: row;
-      label {
-        margin: 0;
-      }
     }
     h3 {
       font-weight: bold;
@@ -82,6 +148,10 @@
       }
       strong {
         font-weight: 500;
+        font-size: 14px;
+        line-height: 16px;
+        letter-spacing: -0.015em;
+        color: #000000;
       }
     }
     .profile-image-box {

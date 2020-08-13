@@ -3,7 +3,7 @@ import {
   Route,
   BrowserRouter as Router,
   Link as RouterLink,
-  Switch
+  Switch,
 } from "react-router-dom";
 
 import Radio from "@material-ui/core/Radio";
@@ -35,7 +35,7 @@ import {
   Button,
   ButtonGroup,
   CardHeader,
-  IconButton
+  IconButton,
 } from "@material-ui/core";
 
 import { Auth } from "aws-amplify";
@@ -59,19 +59,19 @@ const url =
 
 function getModalStyle() {
   return {
-    margin: "auto"
+    margin: "auto",
   };
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
   },
   nested: {
-    paddingLeft: theme.spacing(4)
-  }
+    paddingLeft: theme.spacing(4),
+  },
 }));
 
 const CustomerProfile = () => {
@@ -94,16 +94,16 @@ const CustomerProfile = () => {
 
   useEffect(() => {
     trackPromise(
-      Auth.currentAuthenticatedUser().then(user => {
+      Auth.currentAuthenticatedUser().then((user) => {
         setUser_id(user.attributes.sub);
         fetch(url + "/" + user.attributes.sub)
-          .then(response => {
+          .then((response) => {
             return response.json();
           })
-          .then(data => {
+          .then((data) => {
             setCustomer(data.customer);
           })
-          .catch(error => {
+          .catch((error) => {
             alert(error);
           });
       })
@@ -112,16 +112,16 @@ const CustomerProfile = () => {
   function refreshCustomerList() {
     trackPromise(
       fetch(url + "/" + user_id)
-        .then(response => {
+        .then((response) => {
           return response.json();
         })
-        .then(data => {
+        .then((data) => {
           setCustomer(data.customer);
         })
     );
   }
 
-  const handleEdit = customer => {
+  const handleEdit = (customer) => {
     setFirstName(customer.firstName);
     setLastName(customer.lastName);
     //setEmail(customer.email);
@@ -154,18 +154,18 @@ const CustomerProfile = () => {
       gender: gender,
       custAccountNo: customer.custAccountNo,
       phoneNumber: phoneNumber,
-      profilePhotoUrl: photoURL
+      profilePhotoUrl: photoURL,
     };
     console.log(JSON.stringify(data));
     var newURL = url + "/" + customer.customerId;
     fetch(newURL, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     })
-      .then(response => {
+      .then((response) => {
         if (response.status === 404 || response.status === 400) {
           NotificationManager.error(
             "Error editing customer " +
@@ -179,7 +179,7 @@ const CustomerProfile = () => {
         );
         refreshCustomerList();
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error:", error);
       });
     handleClose();
@@ -200,7 +200,7 @@ const CustomerProfile = () => {
     photoURL,
     setPhotoURL,
     handleSubmit: handleEditSubmit,
-    handleClose
+    handleClose,
   };
 
   if (customer) {
@@ -266,7 +266,7 @@ const CustomerProfile = () => {
   }
   const [value, setValue] = React.useState("female");
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     setValue(event.target.value);
   };
   return (
@@ -287,15 +287,36 @@ const CustomerProfile = () => {
                 component="nav"
                 aria-labelledby="nested-list-subheader"
                 subheader={
-                  <ListSubheader
-                    component="div"
-                    className="active"
-                    id="nested-list-subheader"
-                  >
-                    Account
-                  </ListSubheader>
+                  <ListSubheader component="div">Account</ListSubheader>
                 }
-                className={classes.root}
+              >
+                <ListItem button>
+                  <Link component={RouterLink} to="/">
+                    <ListItemText primary="My Profile" />
+                  </Link>
+                </ListItem>
+              </List>
+
+              <List
+                component="nav"
+                aria-labelledby="nested-list-subheader"
+                subheader={
+                  <ListSubheader component="div">My Orders</ListSubheader>
+                }
+              >
+                <ListItem button>
+                  <Link component={RouterLink} to="/">
+                    <ListItemText primary="List of orders" />
+                  </Link>
+                </ListItem>
+              </List>
+
+              <List
+                component="nav"
+                aria-labelledby="nested-list-subheader"
+                subheader={
+                  <ListSubheader component="div">Account</ListSubheader>
+                }
               >
                 <ListItem button onClick={handleClick}>
                   <ListItemText primary="My Profile" />
@@ -303,17 +324,17 @@ const CustomerProfile = () => {
                 </ListItem>
                 <Collapse in={open} timeout="auto" unmountOnExit>
                   <List component="div" disablePadding>
-                    <ListItem button className={classes.nested}>
+                    <ListItem button>
                       <Link component={RouterLink} to="/edit-profile">
                         <ListItemText primary="Edit Profile" />
                       </Link>
                     </ListItem>
-                    <ListItem button className={classes.nested}>
+                    <ListItem button>
                       <Link component={RouterLink} to="/change-password">
                         <ListItemText primary="Change Password" />
                       </Link>
                     </ListItem>
-                    <ListItem button className={classes.nested}>
+                    <ListItem button>
                       <Link component={RouterLink} to="/payment-method">
                         <ListItemText primary="Update Card Details" />
                       </Link>
@@ -332,7 +353,7 @@ const CustomerProfile = () => {
                 </ListItem>
               </List>
 
-              <ul>
+              {/* <ul>
                 <li>
                   <Link className="active">Account</Link>
                 </li>
@@ -368,21 +389,21 @@ const CustomerProfile = () => {
                     List of orders
                   </Link>
                 </li>
-              </ul>
+              </ul> */}
             </Box>
           </Grid>
           <Grid item xs={12} sm={9} md={10}>
             <Box className="primary-structure--content">
               <Box className="content-header">
                 <Typography component="h3">My Profile</Typography>
-                <ButtonGroup>
+                {/* <ButtonGroup>
                   <Button variant="outlined" color="primary">
                     Save Changes
                   </Button>
                   <Button variant="contained" color="primary" disableElevation>
                     Update Profile
                   </Button>
-                </ButtonGroup>
+                </ButtonGroup> */}
               </Box>
 
               <Box className="primary-structure--box">
@@ -396,7 +417,7 @@ const CustomerProfile = () => {
                       </Typography>
                     </Box>
                   </Grid>
-                  <Grid item xs={12} sm={8} md={8}>
+                  <Grid item xs={12} sm={8} md={5}>
                     <h3>Maria Dela Cruz</h3>
                     <Typography>
                       <Typography component="strong">
@@ -434,15 +455,54 @@ const CustomerProfile = () => {
                       </Box>
                     </Typography>
                   </Grid>
-                  <Grid item xs={12} md={2}>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      disableElevation
-                      fullWidth
-                    >
-                      Edit Profile
-                    </Button>
+                  <Grid item xs={12} md={5}>
+                    <ButtonGroup>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        disableElevation
+                        fullWidth
+                      >
+                        Edit Profile
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        disableElevation
+                        fullWidth
+                      >
+                        Change Password
+                      </Button>
+                    </ButtonGroup>
+                  </Grid>
+                </Grid>
+              </Box>
+
+              <Box className="primary-structure--box payment-method">
+                <Grid container>
+                  <Grid item xs={12} sm={6}>
+                    <Typography>Payment Methods</Typography>
+                    <ul>
+                      <li>Credit Card/Debit Card: </li>
+                      <li>
+                        5125 - xxxx - xxxx - xxxx
+                        <img src={masterCard} width="20" alt="Card" />
+                        {/* <img src={visa} width="30" alt="Card" />
+                        <img src={paypal} width="15" alt="Card" /> */}
+                      </li>
+                    </ul>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <ButtonGroup>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        disableElevation
+                        fullWidth
+                      >
+                        Manage Payment Methods
+                      </Button>
+                    </ButtonGroup>
                   </Grid>
                 </Grid>
               </Box>

@@ -21,6 +21,7 @@ import camera from "../../assets/img/camera.svg";
 import masterCard from "../../assets/img/mastercard.svg";
 import visa from "../../assets/img/visa.svg";
 import paypal from "../../assets/img/paypal.svg";
+import back from "../../assets/img/back.svg";
 import user from "../../assets/img/user.jpg";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link as RouterLink } from "react-router-dom";
@@ -305,38 +306,22 @@ const ChangePassword = () => {
             <Box className="primary-structure--content">
               <Box className="content-header">
                 <Typography component="h3">My Profile</Typography>
-                <ButtonGroup>
-                  <Button variant="outlined" color="primary">
-                    Save Changes
-                  </Button>
-                  <Button variant="contained" color="primary" disableElevation>
-                    Update Profile
-                  </Button>
-                </ButtonGroup>
               </Box>
 
-              <Grid container>
+              <Grid container justify="center">
                 <Grid item xs={12} md={8} lg={7}>
+                  <Box className="back-arrow">
+                    <img src={back} alt="back" />
+                    Go back
+                  </Box>
                   <Box className="primary-structure--box">
-                    <Grid container>
-                      <Grid item xs={12} sm={4}>
-                        <Box className="profile-image-box">
-                          <Box className="position-relative">
-                            <img src={user} className="user-image" alt="user" />
-                            <label>
-                              <input type="file" />
-                              <img src={camera} alt="camera" />
-                              Change Photo
-                            </label>
-                          </Box>
-                          <Typography>
-                            <img src={security} alt="security" />
-                            Verified Account
-                          </Typography>
-                        </Box>
-                      </Grid>
-                      <Grid item xs={12} sm={8}>
-                        <Typography component="h3">Maria Dela Cruz</Typography>
+                    <Grid
+                      container
+                      justify="center"
+                      alignItems="center"
+                      spacing={5}
+                    >
+                      <Grid item xs={12} sm={7}>
                         <Typography className="m-b-20">
                           <Typography component="strong">
                             Change Password
@@ -367,6 +352,28 @@ const ChangePassword = () => {
                             variant="outlined"
                           />
                         </Box>
+
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          fullWidth
+                          className="m-t-30"
+                          disableElevation
+                        >
+                          Change Password
+                        </Button>
+                      </Grid>
+
+                      <Grid item xs={12} sm={5}>
+                        <Typography>
+                          <Typography component="strong">
+                            Password must contain:
+                          </Typography>
+                        </Typography>
+
+                        <Typography>At least 1 upper case (A-Z)</Typography>
+                        <Typography>At least one number (0-9)</Typography>
+                        <Typography>At least 8 characters</Typography>
                       </Grid>
                     </Grid>
                   </Box>

@@ -7,6 +7,7 @@ import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import TextField from "@material-ui/core/TextField";
 import { useParams } from "react-router";
+import back from "../../assets/img/back.svg";
 import { trackPromise } from "react-promise-tracker";
 import { NotificationManager } from "react-notifications";
 import Grid from "@material-ui/core/Grid";
@@ -305,20 +306,18 @@ const PaymentMethod = () => {
             <Box className="primary-structure--content">
               <Box className="content-header">
                 <Typography component="h3">My Profile</Typography>
-                <ButtonGroup>
-                  <Button variant="outlined" color="primary">
-                    Save Changes
-                  </Button>
-                  <Button variant="contained" color="primary" disableElevation>
-                    Update Profile
-                  </Button>
-                </ButtonGroup>
               </Box>
-              <Grid container>
+              <Grid container justify="center">
                 <Grid item xs={12} md={6} lg={5}>
+                  <Box className="back-arrow">
+                    <img src={back} alt="back" />
+                    Go back
+                  </Box>
                   <Box className="primary-structure--box">
                     <Typography className="m-b-20">
-                      <Typography component="strong">Payment Method</Typography>
+                      <Typography component="strong">
+                        Manage Payment Method
+                      </Typography>
                     </Typography>
                     <FormControl component="fieldset">
                       <RadioGroup
@@ -331,13 +330,13 @@ const PaymentMethod = () => {
                           value="female"
                           control={<Radio color="primary" />}
                           label="Credit Card/Debit Card"
-                          labelPlacement="start"
+                          // labelPlacement="start"
                         />
                         <FormControlLabel
                           value="male"
                           control={<Radio color="primary" />}
                           label="Paypal"
-                          labelPlacement="start"
+                          // labelPlacement="start"
                         />
                       </RadioGroup>
                     </FormControl>
@@ -369,27 +368,15 @@ const PaymentMethod = () => {
                         </Box>
                       </Grid>
                     </Grid>
-                    <Box className="saved-cards">
-                      <Typography className="m-b-20">
-                        <Typography component="strong">Saved Cards</Typography>
-                      </Typography>
-
-                      <Box className="card">
-                        <Typography component="span"></Typography>
-                        <Box className="wrap">
-                          <Typography>HDFC Credit Card</Typography>
-                          <Typography>0000-0000-0000-0000</Typography>
-                        </Box>
-                      </Box>
-
-                      <Box className="card">
-                        <Typography component="span"></Typography>
-                        <Box className="wrap">
-                          <Typography>HDFC Credit Card</Typography>
-                          <Typography>0000-0000-0000-0000</Typography>
-                        </Box>
-                      </Box>
-                    </Box>
+                    <Button
+                      className="m-t-20"
+                      variant="contained"
+                      color="primary"
+                      disableElevation
+                      fullWidth
+                    >
+                      Update
+                    </Button>
                   </Box>
                 </Grid>
               </Grid>

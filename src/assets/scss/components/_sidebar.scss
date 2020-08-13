@@ -47,6 +47,51 @@
       }
     }
   }
+
+  .MuiListSubheader-root {
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: -0.015em;
+    color: #000000;
+    font-weight: bold;
+    padding: 0;
+    margin-bottom: 14px;
+  }
+
+  .MuiList-root {
+    margin: 0;
+    & + .MuiList-root {
+      margin-top: 30px;
+    }
+  }
+
+  .MuiListItem-root {
+    padding: 0;
+    &:hover {
+      background-color: transparent;
+    }
+    a {
+      & + .MuiTouchRipple-root {
+        display: none;
+        opacity: 0;
+      }
+      &:hover {
+        text-decoration: none;
+      }
+      .MuiListItemText-root {
+        margin: 0;
+        span {
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 16px;
+          display: flex;
+          align-items: center;
+          letter-spacing: -0.015em;
+          color: rgba(54, 54, 54, 0.56);
+        }
+      }
+    }
+  }
   h3 {
     font-weight: 500;
     font-size: 14px;
