@@ -17,6 +17,10 @@ import CheckEmail from './auth/CheckEmail';
 import Checkout from './Checkout';
 import CustomerBillings from './customers/CustomerBillings';
 import CustomerProfile from './customers/CustomerProfile';
+import CustomerEditForm from './customers/CustomerEditForm';
+import ChangePassword from './customers/ChangePassword';
+import PaymentMethod from './customers/PaymentMethod';
+
 import Footer from './layouts/Footer';
 import Header from './layouts/Header';
 import Landing from './Landing';
@@ -211,6 +215,9 @@ function Main() {
           render={props => <ProductProfile {...props} />}
         />
         <PrivateRoute path='/profile' component={CustomerProfile} />
+        <PrivateRoute path='/edit-profile' component={CustomerEditForm} />
+        <PrivateRoute path='/change-password' component={ChangePassword} />
+        <PrivateRoute path='/payment-method' component={PaymentMethod} />
         <PrivateRoute path='/billings' component={CustomerBillings} />
         <Route exact path='/'>
           <Landing />
