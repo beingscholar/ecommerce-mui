@@ -138,12 +138,10 @@ class Cart extends Component {
         headers: { "Content-Type": "application/json" }
       })
         .then(response => {
-          console.log("response: ", response);
           return response.json();
         })
         .then(data => {
-          console.log(data);
-          that.setState({ cart: data.items });
+          that.setState({ cart: [] });
         })
         .catch(error => {
           alert(error);
@@ -308,7 +306,10 @@ class Cart extends Component {
                     <Button
                       onClick={() => this.updateQuantity(product, index, "add")}
                       className="add-quantity"
-                      disabled={parseInt(product.quantity) >= parseInt(product.maxQuantity)}
+                      disabled={
+                        parseInt(product.quantity) >=
+                        parseInt(product.maxQuantity)
+                      }
                     >
                       +
                     </Button>
