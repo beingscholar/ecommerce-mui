@@ -30,27 +30,28 @@ import {
   Button,
   ButtonGroup,
   CardHeader,
-  IconButton,
+  IconButton
 } from "@material-ui/core";
 
 import { Auth } from "aws-amplify";
 import CustomerEditForm from "./CustomerEditForm";
+import CustomerMenu from "./CustomerMenu";
 
 const url =
   "http://myproject-alb-692769319.ap-southeast-1.elb.amazonaws.com/customers";
 
 function getModalStyle() {
   return {
-    margin: "auto",
+    margin: "auto"
   };
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     "& .MuiTextField-root": {
       margin: theme.spacing(2),
-      flexGrow: 1,
-    },
+      flexGrow: 1
+    }
   },
   paper: {
     position: "absolute",
@@ -59,14 +60,14 @@ const useStyles = makeStyles((theme) => ({
     border: "2px solid #000",
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
-    overflowX: "auto",
+    overflowX: "auto"
   },
   table: {
-    minWidth: 650,
+    minWidth: 650
   },
   tableHead: {
-    fontWeight: "bold",
-  },
+    fontWeight: "bold"
+  }
 }));
 
 const ChangePassword = () => {
@@ -85,16 +86,16 @@ const ChangePassword = () => {
 
   useEffect(() => {
     trackPromise(
-      Auth.currentAuthenticatedUser().then((user) => {
+      Auth.currentAuthenticatedUser().then(user => {
         setUser_id(user.attributes.sub);
         fetch(url + "/" + user.attributes.sub)
-          .then((response) => {
+          .then(response => {
             return response.json();
           })
-          .then((data) => {
+          .then(data => {
             setCustomer(data.customer);
           })
-          .catch((error) => {
+          .catch(error => {
             alert(error);
           });
       })
@@ -103,16 +104,16 @@ const ChangePassword = () => {
   function refreshCustomerList() {
     trackPromise(
       fetch(url + "/" + user_id)
-        .then((response) => {
+        .then(response => {
           return response.json();
         })
-        .then((data) => {
+        .then(data => {
           setCustomer(data.customer);
         })
     );
   }
 
-  const handleEdit = (customer) => {
+  const handleEdit = customer => {
     setFirstName(customer.firstName);
     setLastName(customer.lastName);
     //setEmail(customer.email);
@@ -145,18 +146,18 @@ const ChangePassword = () => {
       gender: gender,
       custAccountNo: customer.custAccountNo,
       phoneNumber: phoneNumber,
-      profilePhotoUrl: photoURL,
+      profilePhotoUrl: photoURL
     };
     console.log(JSON.stringify(data));
     var newURL = url + "/" + customer.customerId;
     fetch(newURL, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(data)
     })
-      .then((response) => {
+      .then(response => {
         if (response.status === 404 || response.status === 400) {
           NotificationManager.error(
             "Error editing customer " +
@@ -170,7 +171,7 @@ const ChangePassword = () => {
         );
         refreshCustomerList();
       })
-      .catch((error) => {
+      .catch(error => {
         console.error("Error:", error);
       });
     handleClose();
@@ -191,7 +192,7 @@ const ChangePassword = () => {
     photoURL,
     setPhotoURL,
     handleSubmit: handleEditSubmit,
-    handleClose,
+    handleClose
   };
 
   if (customer) {
@@ -257,51 +258,15 @@ const ChangePassword = () => {
   }
   const [value, setValue] = React.useState("female");
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     setValue(event.target.value);
   };
   return (
     <Box className="primary-structure">
       <Container maxWidth="lg">
         <Grid container>
-          <Grid item xs={12} sm={3} md={2}>
-            <Box className="sidebar">
-              <Box className="sidebar--header">
-                <Typography component="h3">Hello, Maria!</Typography>
-                <Typography>
-                  <img src={security} alt="security" />
-                  Verified Account
-                </Typography>
-              </Box>
-              <ul>
-                <li>
-                  <a>Account</a>
-                </li>
-                <li className="show">
-                  <a className="active">
-                    My Profile <ExpandMoreIcon />
-                  </a>
-                  <ul>
-                    <li>
-                      <a>Edit Profile</a>
-                    </li>
-                    <li>
-                      <a>Change Password</a>
-                    </li>
-                    <li>
-                      <a>Update Card Details</a>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  <a>My Orders</a>
-                </li>
-                <li>
-                  <a>List of orders</a>
-                </li>
-              </ul>
-            </Box>
-          </Grid>
+          <CustomerMenu />
+
           <Grid item xs={12} sm={9} md={10}>
             <Box className="primary-structure--content">
               <Box className="content-header">

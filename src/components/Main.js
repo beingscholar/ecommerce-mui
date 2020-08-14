@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
   Route,
-  BrowserRouter as Router,
+  Router,
   Link as RouterLink,
   Switch
 } from 'react-router-dom';
@@ -36,6 +36,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { trackPromise } from 'react-promise-tracker';
 import { useUser } from './utilities/user';
+import history from './utilities/history';
 
 // import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
@@ -191,7 +192,7 @@ function Main() {
   ];
 
   return (
-    <Router>
+    <Router history={history}>
       <Header title='Blog' sections={sections} navbarLinks={navbarLinks} />
       <Switch>
         <Route path='/signin'>

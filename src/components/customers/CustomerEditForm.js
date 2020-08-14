@@ -3,7 +3,7 @@ import {
   Route,
   BrowserRouter as Router,
   Link as RouterLink,
-  Switch,
+  Switch
 } from "react-router-dom";
 
 import Radio from "@material-ui/core/Radio";
@@ -35,7 +35,7 @@ import {
   Button,
   ButtonGroup,
   CardHeader,
-  IconButton,
+  IconButton
 } from "@material-ui/core";
 
 import { Auth } from "aws-amplify";
@@ -53,17 +53,18 @@ import SendIcon from "@material-ui/icons/Send";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import StarBorder from "@material-ui/icons/StarBorder";
+import CustomerMenu from "./CustomerMenu";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     "& .MuiTextValidator-root": {
       margin: theme.spacing(2),
-      flexGrow: 1,
-    },
+      flexGrow: 1
+    }
   },
   formControl: {
-    margin: theme.spacing(2),
-  },
+    margin: theme.spacing(2)
+  }
 }));
 
 const CustomerForm = ({
@@ -81,7 +82,7 @@ const CustomerForm = ({
   photoURL,
   setPhotoURL,
   handleSubmit,
-  handleClose,
+  handleClose
 }) => {
   const [open, setOpen] = useState(true);
   const handleClick = () => {
@@ -91,137 +92,20 @@ const CustomerForm = ({
     <Box className="primary-structure">
       <Container maxWidth="lg">
         <Grid container>
-          <Grid item xs={12} sm={3} md={2}>
-            <Box className="sidebar">
-              <Box className="sidebar--header">
-                <Typography component="h3">Hello, Maria!</Typography>
-                <Typography>
-                  <img src={security} alt="security" />
-                  Verified Account
-                </Typography>
-              </Box>
+          <CustomerMenu />
 
-              <List
-                component="nav"
-                aria-labelledby="nested-list-subheader"
-                subheader={
-                  <ListSubheader component="div">Account</ListSubheader>
-                }
-              >
-                <ListItem button>
-                  <Link component={RouterLink} to="/">
-                    <ListItemText primary="My Profile" />
-                  </Link>
-                </ListItem>
-              </List>
-
-              <List
-                component="nav"
-                aria-labelledby="nested-list-subheader"
-                subheader={
-                  <ListSubheader component="div">My Orders</ListSubheader>
-                }
-              >
-                <ListItem button>
-                  <Link component={RouterLink} to="/">
-                    <ListItemText primary="List of orders" />
-                  </Link>
-                </ListItem>
-              </List>
-
-              <List
-                component="nav"
-                aria-labelledby="nested-list-subheader"
-                subheader={
-                  <ListSubheader component="div">Account</ListSubheader>
-                }
-              >
-                <ListItem button onClick={handleClick}>
-                  <ListItemText primary="My Profile" />
-                  {open ? <ExpandLess /> : <ExpandMore />}
-                </ListItem>
-                <Collapse in={open} timeout="auto" unmountOnExit>
-                  <List component="div" disablePadding>
-                    <ListItem button>
-                      <Link component={RouterLink} to="/edit-profile">
-                        <ListItemText primary="Edit Profile" />
-                      </Link>
-                    </ListItem>
-                    <ListItem button>
-                      <Link component={RouterLink} to="/change-password">
-                        <ListItemText primary="Change Password" />
-                      </Link>
-                    </ListItem>
-                    <ListItem button>
-                      <Link component={RouterLink} to="/payment-method">
-                        <ListItemText primary="Update Card Details" />
-                      </Link>
-                    </ListItem>
-                  </List>
-                </Collapse>
-                <ListItem button>
-                  <Link component={RouterLink} to="/">
-                    <ListItemText primary="My Orders" />
-                  </Link>
-                </ListItem>
-                <ListItem button>
-                  <Link component={RouterLink} to="/">
-                    <ListItemText primary="List of orders" />
-                  </Link>
-                </ListItem>
-              </List>
-
-              {/* <ul>
-                <li>
-                  <Link className="active">Account</Link>
-                </li>
-                <li className="show">
-                  <a className="active">
-                    My Profile <ExpandLess />
-                  </a>
-                  <ul>
-                    <li>
-                      <Link component={RouterLink} to="/">
-                        Edit Profile
-                      </Link>
-                    </li>
-                    <li>
-                      <Link component={RouterLink} to="/">
-                        Change Password
-                      </Link>
-                    </li>
-                    <li>
-                      <Link component={RouterLink} to="/">
-                        Update Card Details
-                      </Link>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  <Link component={RouterLink} to="/">
-                    My Orders
-                  </Link>
-                </li>
-                <li>
-                  <Link component={RouterLink} to="/">
-                    List of orders
-                  </Link>
-                </li>
-              </ul> */}
-            </Box>
-          </Grid>
           <Grid item xs={12} sm={9} md={10}>
             <Box className="primary-structure--content">
               <Box className="content-header">
                 <Typography component="h3">My Profile</Typography>
-                <ButtonGroup>
+                {/* <ButtonGroup>
                   <Button variant="outlined" color="primary">
                     Save Changes
                   </Button>
                   <Button variant="contained" color="primary" disableElevation>
                     Update Profile
                   </Button>
-                </ButtonGroup>
+                </ButtonGroup> */}
               </Box>
 
               <Box className="primary-structure--box">
@@ -360,6 +244,15 @@ const CustomerForm = ({
                     </Grid>
                   </Grid>
                 </Grid>
+                
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className="m-t-30"
+                  disableElevation
+                >
+                  Update Profile
+                </Button>
               </Box>
             </Box>
           </Grid>
