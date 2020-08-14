@@ -7,7 +7,13 @@
     hr {
       border: none;
       border-top: 1px solid rgba(0, 0, 0, 0.18);
-      margin: 30px 0;
+      margin: 30px 0 30px auto;
+      @media screen and (min-width: 768px) {
+        width: calc(100% - 20px);
+      }
+      @media screen and (min-width: 1024px) {
+        width: calc(100% - 40px);
+      }
     }
     &.payment-method {
       padding-top: 30px;
@@ -158,12 +164,16 @@
       margin-bottom: 20px;
       @media screen and (min-width: 768px) {
         margin: 0;
+        text-align: center;
       }
       .position-relative {
         position: relative;
         display: inline-flex;
         border-radius: 50%;
         overflow: hidden;
+        @media screen and (min-width: 1024px) {
+          margin-left: 25px;
+        }
       }
       label {
         font-weight: 500;
@@ -201,8 +211,16 @@
         align-items: center;
         letter-spacing: -0.015em;
         color: rgba(0, 0, 0, 0.42);
-        img {
+        @media screen and (min-width: 768px) {
+          justify-content: center;
+        }
+        @media screen and (min-width: 1024px) {
+          margin-left: 25px;
+        }
+        .MuiCardMedia-root {
+          width: 13px;
           margin-right: 7px;
+          height: 15px;
         }
       }
     }

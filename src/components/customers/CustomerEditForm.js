@@ -54,37 +54,40 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import StarBorder from "@material-ui/icons/StarBorder";
 import CustomerMenu from "./CustomerMenu";
-import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 
-const url =
-  "http://myproject-alb-692769319.ap-southeast-1.elb.amazonaws.com/customers";
+const useStyles = makeStyles(theme => ({
+  root: {
+    "& .MuiTextValidator-root": {
+      margin: theme.spacing(2),
+      flexGrow: 1
+    }
+  },
+  formControl: {
+    margin: theme.spacing(2)
+  }
+}));
 
-const CustomerForm = () => {
-  const [user_id, setUser_id] = useState("");
-  const [customer, setCustomer] = useState();
-  const [givenName, setGivenName] = useState("");
-  const [familyName, setFamilyName] = useState("");
-  const [birthDate, setBirthDate] = useState("2017-05-24");
-
-  useEffect(() => {
-    trackPromise(
-      Auth.currentAuthenticatedUser().then(user => {
-        setUser_id(user.attributes.sub);
-        fetch(url + "/" + user.attributes.sub)
-          .then(response => {
-            return response.json();
-          })
-          .then(data => {
-            setCustomer(data.customer);
-          })
-          .catch(error => {
-            alert(error);
-          });
-      })
-    );
-  }, []);
-
-  console.log("Customer: ", customer);
+const CustomerForm = ({
+  label,
+  firstName,
+  setFirstName,
+  lastName,
+  setLastName,
+  birthDate,
+  setBirthDate,
+  gender,
+  setGender,
+  phoneNumber,
+  setPhoneNumber,
+  photoURL,
+  setPhotoURL,
+  handleSubmit,
+  handleClose
+}) => {
+  const [open, setOpen] = useState(true);
+  const handleClick = () => {
+    setOpen(!open);
+  };
   return (
     <Box className="primary-structure">
       <Container maxWidth="lg">
@@ -106,186 +109,150 @@ const CustomerForm = () => {
               </Box>
 
               <Box className="primary-structure--box">
-                <ValidatorForm onSubmit={e => console.log("Form Submitted!")}>
-                  <Grid container>
-                    <Grid item xs={12} sm={3} md={2}>
-                      <Box className="profile-image-box">
-                        <Box className="position-relative">
-                          <img src={user} className="user-image" alt="user" />
-                          <label>
-                            <input type="file" />
-                            <img src={camera} alt="camera" />
-                            Change Photo
-                          </label>
-                        </Box>
-                        <Typography>
-                          <img src={security} alt="security" />
-                          Verified Account
-                        </Typography>
+                <Grid container>
+                  <Grid item xs={12} sm={3} md={2}>
+                    <Box className="profile-image-box">
+                      <Box className="position-relative">
+                        <img src={user} className="user-image" alt="user" />
+                        <label>
+                          <input type="file" />
+                          <img src={camera} alt="camera" />
+                          Change Photo
+                        </label>
                       </Box>
-                    </Grid>
-                    <Grid item xs={12} sm={9} md={10}>
-                      <Grid container spacing={4}>
-                        <Grid item xs={12} sm={6}>
-                          <Box className="form-group">
-                            <label>First Name</label>
-
-                            <TextValidator
-                              autoFocus
-                              required
-                              autoComplete="fname"
-                              variant="outlined"
-                              id="given_name"
-                              key="given_name"
-                              name="given_name"
-                              placeholder="First Name"
-                              value={givenName}
-                              onChange={e => {
-                                setGivenName(e.target.value);
-                              }}
-                              type="text"
-                              validators={["required"]}
-                              errorMessages={["this field is required"]}
-                            />
-                          </Box>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                          <Box className="form-group">
-                            <label>Last Name</label>
-                            <TextValidator
-                              autoComplete="lname"
-                              required
-                              variant="outlined"
-                              placeholder="Family Name"
-                              id="family_name"
-                              key="family_name"
-                              name="family_name"
-                              onChange={e => {
-                                setFamilyName(e.target.value);
-                              }}
-                              value={familyName}
-                              type="text"
-                            />
-                          </Box>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                          <Box className="form-group">
-                            <label>Birthday</label>
-                            <TextValidator
-                              id="date"
-                              fullWidth
-                              variant="outlined"
-                              required
-                              label="Birth Date"
-                              type="date"
-                              value={birthDate}
-                              validators={["required"]}
-                              errorMessages={["this field is required"]}
-                              onChange={e => {
-                                setBirthDate(e.target.value);
-                              }}
-                              InputLabelProps={{
-                                shrink: true
-                              }}
-                            />
-                          </Box>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                          <Box className="form-group">
-                            <label>Gender</label>
-                            <TextField
-                              id="outlined-basic"
-                              type="password"
-                              variant="outlined"
-                            />
-                          </Box>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                          <Box className="form-group">
-                            <label>Mobile Number</label>
-                            <TextField
-                              id="outlined-basic"
-                              type="password"
-                              variant="outlined"
-                            />
-                          </Box>
-                        </Grid>
+                      <Typography>
+                        <img src={security} alt="security" />
+                        Verified Account
+                      </Typography>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12} sm={9} md={10}>
+                    <Grid container spacing={3}>
+                      <Grid item xs={12} sm={6}>
+                        <Box className="form-group">
+                          <label>First Name</label>
+                          <TextField
+                            id="outlined-basic"
+                            type="password"
+                            variant="outlined"
+                          />
+                        </Box>
                       </Grid>
-                      <hr />
-                      <Grid container spacing={3}>
-                        <Grid item xs={12} sm={6}>
-                          <Box className="form-group">
-                            <label>Address 1</label>
-                            <TextField
-                              id="outlined-basic"
-                              type="password"
-                              variant="outlined"
-                            />
-                          </Box>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                          <Box className="form-group">
-                            <label>Address 2</label>
-                            <TextField
-                              id="outlined-basic"
-                              type="password"
-                              variant="outlined"
-                            />
-                          </Box>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                          <Box className="form-group">
-                            <label>City</label>
-                            <TextField
-                              id="outlined-basic"
-                              type="password"
-                              variant="outlined"
-                            />
-                          </Box>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                          <Box className="form-group">
-                            <label>State/Province/Region</label>
-                            <TextField
-                              id="outlined-basic"
-                              type="password"
-                              variant="outlined"
-                            />
-                          </Box>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                          <Box className="form-group">
-                            <label>Country</label>
-                            <TextField
-                              id="outlined-basic"
-                              type="password"
-                              variant="outlined"
-                            />
-                          </Box>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                          <Box className="form-group">
-                            <label>Zip Code</label>
-                            <TextField
-                              id="outlined-basic"
-                              type="password"
-                              variant="outlined"
-                            />
-                          </Box>
-                        </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <Box className="form-group">
+                          <label>Last Name</label>
+                          <TextField
+                            id="outlined-basic"
+                            type="password"
+                            variant="outlined"
+                          />
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <Box className="form-group">
+                          <label>Birthday</label>
+                          <TextField
+                            id="outlined-basic"
+                            type="password"
+                            variant="outlined"
+                          />
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <Box className="form-group">
+                          <label>Gender</label>
+                          <TextField
+                            id="outlined-basic"
+                            type="password"
+                            variant="outlined"
+                          />
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <Box className="form-group">
+                          <label>Mobile Number</label>
+                          <TextField
+                            id="outlined-basic"
+                            type="password"
+                            variant="outlined"
+                          />
+                        </Box>
+                      </Grid>
+                    </Grid>
+                    <hr />
+                    <Grid container spacing={3}>
+                      <Grid item xs={12} sm={6}>
+                        <Box className="form-group">
+                          <label>Address 1</label>
+                          <TextField
+                            id="outlined-basic"
+                            type="password"
+                            variant="outlined"
+                          />
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <Box className="form-group">
+                          <label>Address 2</label>
+                          <TextField
+                            id="outlined-basic"
+                            type="password"
+                            variant="outlined"
+                          />
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <Box className="form-group">
+                          <label>City</label>
+                          <TextField
+                            id="outlined-basic"
+                            type="password"
+                            variant="outlined"
+                          />
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <Box className="form-group">
+                          <label>State/Province/Region</label>
+                          <TextField
+                            id="outlined-basic"
+                            type="password"
+                            variant="outlined"
+                          />
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <Box className="form-group">
+                          <label>Country</label>
+                          <TextField
+                            id="outlined-basic"
+                            type="password"
+                            variant="outlined"
+                          />
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <Box className="form-group">
+                          <label>Zip Code</label>
+                          <TextField
+                            id="outlined-basic"
+                            type="password"
+                            variant="outlined"
+                          />
+                        </Box>
                       </Grid>
                     </Grid>
                   </Grid>
-
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    className="m-t-30"
-                    disableElevation
-                  >
-                    Update Profile
-                  </Button>
-                </ValidatorForm>
+                </Grid>
+                
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className="m-t-30"
+                  disableElevation
+                >
+                  Update Profile
+                </Button>
               </Box>
             </Box>
           </Grid>

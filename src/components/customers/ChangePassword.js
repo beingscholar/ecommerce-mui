@@ -30,7 +30,7 @@ import {
   Button,
   ButtonGroup,
   CardHeader,
-  IconButton
+  IconButton,
 } from "@material-ui/core";
 
 import { Auth } from "aws-amplify";
@@ -42,16 +42,16 @@ const url =
 
 function getModalStyle() {
   return {
-    margin: "auto"
+    margin: "auto",
   };
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiTextField-root": {
       margin: theme.spacing(2),
-      flexGrow: 1
-    }
+      flexGrow: 1,
+    },
   },
   paper: {
     position: "absolute",
@@ -60,14 +60,14 @@ const useStyles = makeStyles(theme => ({
     border: "2px solid #000",
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
-    overflowX: "auto"
+    overflowX: "auto",
   },
   table: {
-    minWidth: 650
+    minWidth: 650,
   },
   tableHead: {
-    fontWeight: "bold"
-  }
+    fontWeight: "bold",
+  },
 }));
 
 const ChangePassword = () => {
@@ -86,16 +86,16 @@ const ChangePassword = () => {
 
   useEffect(() => {
     trackPromise(
-      Auth.currentAuthenticatedUser().then(user => {
+      Auth.currentAuthenticatedUser().then((user) => {
         setUser_id(user.attributes.sub);
         fetch(url + "/" + user.attributes.sub)
-          .then(response => {
+          .then((response) => {
             return response.json();
           })
-          .then(data => {
+          .then((data) => {
             setCustomer(data.customer);
           })
-          .catch(error => {
+          .catch((error) => {
             alert(error);
           });
       })
@@ -104,16 +104,16 @@ const ChangePassword = () => {
   function refreshCustomerList() {
     trackPromise(
       fetch(url + "/" + user_id)
-        .then(response => {
+        .then((response) => {
           return response.json();
         })
-        .then(data => {
+        .then((data) => {
           setCustomer(data.customer);
         })
     );
   }
 
-  const handleEdit = customer => {
+  const handleEdit = (customer) => {
     setFirstName(customer.firstName);
     setLastName(customer.lastName);
     //setEmail(customer.email);
@@ -146,18 +146,18 @@ const ChangePassword = () => {
       gender: gender,
       custAccountNo: customer.custAccountNo,
       phoneNumber: phoneNumber,
-      profilePhotoUrl: photoURL
+      profilePhotoUrl: photoURL,
     };
     console.log(JSON.stringify(data));
     var newURL = url + "/" + customer.customerId;
     fetch(newURL, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     })
-      .then(response => {
+      .then((response) => {
         if (response.status === 404 || response.status === 400) {
           NotificationManager.error(
             "Error editing customer " +
@@ -171,7 +171,7 @@ const ChangePassword = () => {
         );
         refreshCustomerList();
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error:", error);
       });
     handleClose();
@@ -192,7 +192,7 @@ const ChangePassword = () => {
     photoURL,
     setPhotoURL,
     handleSubmit: handleEditSubmit,
-    handleClose
+    handleClose,
   };
 
   if (customer) {
@@ -258,7 +258,7 @@ const ChangePassword = () => {
   }
   const [value, setValue] = React.useState("female");
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     setValue(event.target.value);
   };
   return (
@@ -280,14 +280,9 @@ const ChangePassword = () => {
                     Go back
                   </Box>
                   <Box className="primary-structure--box">
-                    <Grid
-                      container
-                      justify="center"
-                      alignItems="center"
-                      spacing={5}
-                    >
-                      <Grid item xs={12} sm={7}>
-                        <Typography className="m-b-20">
+                    <Grid container justify="center" alignItems="center">
+                      <Grid item xs={12} sm={6}>
+                        <Typography className="m-b-30">
                           <Typography component="strong">
                             Change Password
                           </Typography>
@@ -329,16 +324,18 @@ const ChangePassword = () => {
                         </Button>
                       </Grid>
 
-                      <Grid item xs={12} sm={5}>
-                        <Typography>
-                          <Typography component="strong">
-                            Password must contain:
+                      <Grid item xs={12} sm={6}>
+                        <Box className="password-instructions">
+                          <Typography>
+                            <Typography component="strong">
+                              Password must contain:
+                            </Typography>
                           </Typography>
-                        </Typography>
 
-                        <Typography>At least 1 upper case (A-Z)</Typography>
-                        <Typography>At least one number (0-9)</Typography>
-                        <Typography>At least 8 characters</Typography>
+                          <Typography>At least 1 upper case (A-Z)</Typography>
+                          <Typography>At least one number (0-9)</Typography>
+                          <Typography>At least 8 characters</Typography>
+                        </Box>
                       </Grid>
                     </Grid>
                   </Box>
