@@ -3,7 +3,7 @@ import {
   Route,
   BrowserRouter as Router,
   Link as RouterLink,
-  Switch
+  Switch,
 } from "react-router-dom";
 
 import Radio from "@material-ui/core/Radio";
@@ -35,7 +35,7 @@ import {
   Button,
   ButtonGroup,
   CardHeader,
-  IconButton
+  IconButton,
 } from "@material-ui/core";
 
 import { Auth } from "aws-amplify";
@@ -55,16 +55,16 @@ import ExpandMore from "@material-ui/icons/ExpandMore";
 import StarBorder from "@material-ui/icons/StarBorder";
 import CustomerMenu from "./CustomerMenu";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiTextValidator-root": {
       margin: theme.spacing(2),
-      flexGrow: 1
-    }
+      flexGrow: 1,
+    },
   },
   formControl: {
-    margin: theme.spacing(2)
-  }
+    margin: theme.spacing(2),
+  },
 }));
 
 const CustomerForm = ({
@@ -82,7 +82,7 @@ const CustomerForm = ({
   photoURL,
   setPhotoURL,
   handleSubmit,
-  handleClose
+  handleClose,
 }) => {
   const [open, setOpen] = useState(true);
   const handleClick = () => {
@@ -127,7 +127,7 @@ const CustomerForm = ({
                     </Box>
                   </Grid>
                   <Grid item xs={12} sm={9} md={10}>
-                    <Grid container spacing={3}>
+                    <Grid container className="edit-user-form">
                       <Grid item xs={12} sm={6}>
                         <Box className="form-group">
                           <label>First Name</label>
@@ -180,7 +180,7 @@ const CustomerForm = ({
                       </Grid>
                     </Grid>
                     <hr />
-                    <Grid container spacing={3}>
+                    <Grid container className="edit-user-form">
                       <Grid item xs={12} sm={6}>
                         <Box className="form-group">
                           <label>Address 1</label>
@@ -241,18 +241,21 @@ const CustomerForm = ({
                           />
                         </Box>
                       </Grid>
+
+                      <Grid item xs={12} sm={5} md={4}>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          fullWidth
+                          className="m-t-10"
+                          disableElevation
+                        >
+                          Update Profile
+                        </Button>
+                      </Grid>
                     </Grid>
                   </Grid>
                 </Grid>
-                
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className="m-t-30"
-                  disableElevation
-                >
-                  Update Profile
-                </Button>
               </Box>
             </Box>
           </Grid>

@@ -3,7 +3,7 @@ import {
   Route,
   BrowserRouter as Router,
   Link as RouterLink,
-  Switch
+  Switch,
 } from "react-router-dom";
 import Link from "@material-ui/core/Link";
 import Radio from "@material-ui/core/Radio";
@@ -36,7 +36,7 @@ import {
   ButtonGroup,
   CardHeader,
   IconButton,
-  CardMedia
+  CardMedia,
 } from "@material-ui/core";
 
 import { Auth } from "aws-amplify";
@@ -62,19 +62,19 @@ const url =
 
 function getModalStyle() {
   return {
-    margin: "auto"
+    margin: "auto",
   };
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
     maxWidth: 360,
-    backgroundColor: theme.palette.background.paper
+    backgroundColor: theme.palette.background.paper,
   },
   nested: {
-    paddingLeft: theme.spacing(4)
-  }
+    paddingLeft: theme.spacing(4),
+  },
 }));
 
 const CustomerProfile = () => {
@@ -97,16 +97,16 @@ const CustomerProfile = () => {
 
   useEffect(() => {
     trackPromise(
-      Auth.currentAuthenticatedUser().then(user => {
+      Auth.currentAuthenticatedUser().then((user) => {
         setUser_id(user.attributes.sub);
         fetch(url + "/" + user.attributes.sub)
-          .then(response => {
+          .then((response) => {
             return response.json();
           })
-          .then(data => {
+          .then((data) => {
             setCustomer(data.customer);
           })
-          .catch(error => {
+          .catch((error) => {
             alert(error);
           });
       })
@@ -115,16 +115,16 @@ const CustomerProfile = () => {
   function refreshCustomerList() {
     trackPromise(
       fetch(url + "/" + user_id)
-        .then(response => {
+        .then((response) => {
           return response.json();
         })
-        .then(data => {
+        .then((data) => {
           setCustomer(data.customer);
         })
     );
   }
 
-  const handleEdit = customer => {
+  const handleEdit = (customer) => {
     setFirstName(customer.firstName);
     setLastName(customer.lastName);
     //setEmail(customer.email);
@@ -157,18 +157,18 @@ const CustomerProfile = () => {
       gender: gender,
       custAccountNo: customer.custAccountNo,
       phoneNumber: phoneNumber,
-      profilePhotoUrl: photoURL
+      profilePhotoUrl: photoURL,
     };
     console.log(JSON.stringify(data));
     var newURL = url + "/" + customer.customerId;
     fetch(newURL, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     })
-      .then(response => {
+      .then((response) => {
         if (response.status === 404 || response.status === 400) {
           NotificationManager.error(
             "Error editing customer " +
@@ -182,7 +182,7 @@ const CustomerProfile = () => {
         );
         refreshCustomerList();
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error:", error);
       });
     handleClose();
@@ -203,7 +203,7 @@ const CustomerProfile = () => {
     photoURL,
     setPhotoURL,
     handleSubmit: handleEditSubmit,
-    handleClose
+    handleClose,
   };
 
   if (customer) {
@@ -214,7 +214,7 @@ const CustomerProfile = () => {
       phoneNumber,
       gender,
       birthDate,
-      profilePhotoUrl
+      profilePhotoUrl,
     } = customer;
     var customerData = (
       <Grid item xs={12} sm={8} md={5}>
@@ -244,7 +244,7 @@ const CustomerProfile = () => {
   }
   const [value, setValue] = React.useState("female");
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     setValue(event.target.value);
   };
   return (
@@ -269,8 +269,13 @@ const CustomerProfile = () => {
                         title="user"
                         image={user}
                       />
-                      <Typography>
-                        <img src={security} alt="security" />
+                      <Typography className="m-l-0 justify-content-start">
+                        {/* <img src={security} alt="security" /> */}
+                        <CardMedia
+                          alt="security"
+                          title="security"
+                          image={security}
+                        />
                         Verified Account
                       </Typography>
                     </Box>
