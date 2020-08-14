@@ -83,7 +83,7 @@ const CustomerProfile = () => {
   const [user_id, setUser_id] = useState("");
   const classes = useStyles();
 
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [birthDate, setBirthDate] = useState("2017-05-24");
