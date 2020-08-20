@@ -1,16 +1,18 @@
 body {
   .MuiButtonBase-root {
+    min-height: 40px;
+    font-weight: 500;
     &.MuiButton-contained {
       letter-spacing: normal;
       text-transform: none;
       font-weight: $font-regular;
       border-radius: 50px;
       &Primary {
-        background-color: $primaryColor;
+        background-color: #3e6eb0;
         color: #fff;
         &:hover {
           color: #fff;
-          background-color: darken($color: $primaryColor, $amount: 10%);
+          background-color: darken($color: #3e6eb0, $amount: 10%);
         }
       }
       &Secondary {
@@ -29,11 +31,11 @@ body {
       font-weight: $font-regular;
       border-radius: 50px;
       &Primary {
-        border-color: $primaryColor;
-        color: $primaryColor;
+        border-color: #3e6eb0;
+        color: #3e6eb0;
         &:hover {
           color: #fff;
-          background-color: $primaryColor;
+          background-color: #3e6eb0;
         }
       }
       &Secondary {

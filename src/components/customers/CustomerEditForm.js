@@ -1,155 +1,442 @@
-import React from "react";
-import { Grid, Divider, Typography, Button, MenuItem } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
+import React, { useEffect, useState } from "react";
+import {
+  Route,
+  BrowserRouter as Router,
+  Link as RouterLink,
+  Switch
+} from "react-router-dom";
 
-const useStyles = makeStyles(theme => ({
-    root: {
-        "& .MuiTextValidator-root": {
-            margin: theme.spacing(2),
-            flexGrow: 1
-        }
-    },
-    formControl: {
-        margin: theme.spacing(2)
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
+import TextField from "@material-ui/core/TextField";
+import { useParams } from "react-router";
+import { trackPromise } from "react-promise-tracker";
+import { NotificationManager } from "react-notifications";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
+import Divider from "@material-ui/core/Divider";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import Modal from "@material-ui/core/Modal";
+import security from "../../assets/img/security.svg";
+import camera from "../../assets/img/camera.svg";
+import masterCard from "../../assets/img/mastercard.svg";
+import visa from "../../assets/img/visa.svg";
+import paypal from "../../assets/img/paypal.svg";
+import user from "../../assets/img/user.jpg";
+import Link from "@material-ui/core/Link";
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  CardHeader,
+  IconButton,
+  CardMedia,
+  MenuItem
+} from "@material-ui/core";
+
+import { Auth } from "aws-amplify";
+import CustomerEditForm from "./CustomerEditForm";
+
+import ListSubheader from "@material-ui/core/ListSubheader";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import Collapse from "@material-ui/core/Collapse";
+import InboxIcon from "@material-ui/icons/MoveToInbox";
+import DraftsIcon from "@material-ui/icons/Drafts";
+import SendIcon from "@material-ui/icons/Send";
+import ExpandLess from "@material-ui/icons/ExpandLess";
+import ExpandMore from "@material-ui/icons/ExpandMore";
+import StarBorder from "@material-ui/icons/StarBorder";
+import CustomerMenu from "./CustomerMenu";
+import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
+
+const url =
+  "http://myproject-alb-692769319.ap-southeast-1.elb.amazonaws.com/customers";
+
+const CustomerForm = () => {
+  const [user_id, setUser_id] = useState("");
+  const [customer, setCustomer] = useState();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [birthDate, setBirthDate] = useState("");
+  const [gender, setGender] = useState("Female");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [profilePhotoUrl, setProfilePhotoUrl] = useState("");
+
+  const handleChange = e => {
+    if (e.target.files.length) {
+      setProfilePhotoUrl(URL.createObjectURL(e.target.files[0]));
+      /* setProfilePhotoUrl({
+        preview: URL.createObjectURL(e.target.files[0]),
+        raw: e.target.files[0]
+      }); */
     }
-}));
+  };
 
-const CustomerForm = ({
-    label,
-    firstName,
-    setFirstName,
-    lastName,
-    setLastName,
-    birthDate,
-    setBirthDate,
-    gender,
-    setGender,
-    phoneNumber,
-    setPhoneNumber,
-    photoURL,
-    setPhotoURL,
-    handleSubmit,
-    handleClose
-}) => {
-    const classes = useStyles();
-    return (
-        <ValidatorForm
-            onSubmit={e => {
-                handleSubmit(
-                    firstName,
-                    lastName,
-                    birthDate,
-                    gender,
-                    phoneNumber,
-                    photoURL
-                );
-                e.preventDefault();
-            }}
-            className={classes.root}
-            noValidate
-            autoComplete="off"
-        >
-            <Typography variant="h6">{label}</Typography>
-            <Divider /> <br />
-            <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                    <TextValidator
-                        fullWidth
-                        variant="outlined"
-                        required
-                        label="Phone Number"
-                        value={phoneNumber}
-                        validators={["required"]}
-                        errorMessages={["this field is required"]}
-                        onChange={e => {
-                            setPhoneNumber(e.target.value);
-                        }}
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <TextValidator
-                        id="date"
-                        fullWidth
-                        variant="outlined"
-                        required
-                        label="Birth Date"
-                        type="date"
-                        value={birthDate}
-                        validators={["required"]}
-                        errorMessages={["this field is required"]}
-                        onChange={e => {
-                            setBirthDate(e.target.value);
-                        }}
-                        InputLabelProps={{
-                            shrink: true
-                        }}
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <TextValidator
-                        id="standard-select-currency"
-                        select
-                        fullWidth
-                        required
-                        variant="outlined"
-                        label="Select Gender"
-                        value={gender}
-                        validators={["required"]}
-                        errorMessages={["this field is required"]}
-                        onChange={e => {
-                            setGender(e.target.value);
-                        }}
-                        helperText="Please select gender"
-                    >
-                        <MenuItem key="female" value="Female">
-                            Female
-                        </MenuItem>
-                        <MenuItem key="male" value="Male">
-                            Male
-                        </MenuItem>
-                    </TextValidator>
-                </Grid>
-                <Grid item xs={12}>
-                    <TextValidator
-                        label="Profile Photo URL"
-                        fullWidth
-                        variant="outlined"
-                        required
-                        value={photoURL}
-                        validators={["required"]}
-                        errorMessages={["this field is required"]}
-                        onChange={e => {
-                            setPhotoURL(e.target.value);
-                        }}
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <Button
-                        fullWidth
-                        variant="contained"
-                        color="secondary"
-                        onClick={() => {
-                            handleClose();
-                        }}
-                    >
-                        Cancel
-                    </Button>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <Button
-                        fullWidth
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                    >
-                        {" "}
-                        Submit
-                    </Button>
-                </Grid>
-            </Grid>
-        </ValidatorForm>
+  /* const handleUpload = async e => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("image", image.raw);
+
+    await fetch("YOUR_URL", {
+      method: "POST",
+      headers: {
+        "Content-Type": "multipart/form-data"
+      },
+      body: formData
+    });
+  }; */
+
+  useEffect(() => {
+    trackPromise(
+      Auth.currentAuthenticatedUser().then(user => {
+        setUser_id(user.attributes.sub);
+        fetch(url + "/" + user.attributes.sub)
+          .then(response => {
+            return response.json();
+          })
+          .then(data => {
+            const {
+              firstName,
+              lastName,
+              phoneNumber,
+              gender,
+              birthDate,
+              profilePhotoUrl
+            } = data.customer;
+            setFirstName(firstName);
+            setLastName(lastName);
+            setBirthDate(birthDate.split("T")[0]);
+            setGender(gender);
+            setPhoneNumber(phoneNumber);
+            setProfilePhotoUrl(profilePhotoUrl);
+            setCustomer(data.customer);
+          })
+          .catch(error => {
+            alert(error);
+          });
+      })
     );
+  }, []);
+
+  const handleSubmit = (
+    firstName,
+    lastName,
+    birthDate,
+    gender,
+    phoneNumber,
+    profilePhotoUrl
+  ) => {
+    var data = {
+      firstName: firstName,
+      lastName: lastName,
+      email: customer.email,
+      userName: customer.userName,
+      birthDate: birthDate + "T00:00:00.000000",
+      gender: gender,
+      custAccountNo: customer.custAccountNo,
+      phoneNumber: phoneNumber,
+      profilePhotoUrl: profilePhotoUrl
+    };
+    let newURL = url + "/" + customer.customerId;
+    fetch(newURL, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    })
+      .then(response => {
+        if (response.status === 404 || response.status === 400) {
+          NotificationManager.error(
+            "Error editing customer " +
+              customer.customerId +
+              ". Please ensure all fields are correct."
+          );
+          return response.json();
+        }
+        NotificationManager.success(
+          "Successfully edited customer " + customer.customerId
+        );
+        // refreshCustomerList();
+      })
+      .catch(error => {
+        console.error("Error:", error);
+      });
+  };
+
+  return (
+    <Box className="primary-structure">
+      <Container maxWidth="lg">
+        <Grid container>
+          <CustomerMenu />
+
+          <Grid item xs={12} sm={9} md={10}>
+            <Box className="primary-structure--content">
+              <Box className="content-header">
+                <Typography component="h3">My Profile</Typography>
+                {/* <ButtonGroup>
+                  <Button variant="outlined" color="primary">
+                    Save Changes
+                  </Button>
+                  <Button variant="contained" color="primary" disableElevation>
+                    Update Profile
+                  </Button>
+                </ButtonGroup> */}
+              </Box>
+
+              <Box className="primary-structure--box">
+                <ValidatorForm
+                  onSubmit={e => {
+                    e.preventDefault();
+                    handleSubmit(
+                      firstName,
+                      lastName,
+                      birthDate,
+                      gender,
+                      phoneNumber,
+                      profilePhotoUrl
+                    );
+                  }}
+                >
+                  <Grid container>
+                    <Grid item xs={12} sm={3} md={2}>
+                      <Box className="profile-image-box">
+                        <Box className="position-relative">
+                          <img
+                            src={profilePhotoUrl}
+                            className="user-image"
+                            alt="user"
+                          />
+                          <label>
+                            <input
+                              accept="image/*"
+                              type="file"
+                              onChange={handleChange}
+                            />
+                            <img src={camera} alt="camera" />
+                            Change Photo
+                          </label>
+                        </Box>
+                        <Typography>
+                          <CardMedia
+                            alt="security"
+                            title="security"
+                            image={security}
+                          />
+                          Verified Account
+                        </Typography>
+                      </Box>
+                    </Grid>
+                    <Grid item xs={12} sm={9} md={10}>
+                      <Grid container className="edit-user-form">
+                        <Grid item xs={12} sm={6}>
+                          <Box className="form-group">
+                            <label>First Name</label>
+                            <TextValidator
+                              autoFocus
+                              required
+                              autoComplete="fname"
+                              variant="outlined"
+                              id="given_name"
+                              key="given_name"
+                              name="given_name"
+                              placeholder="First Name"
+                              value={firstName}
+                              onChange={e => {
+                                setFirstName(e.target.value);
+                              }}
+                              type="text"
+                              validators={["required"]}
+                              errorMessages={["this field is required"]}
+                            />
+                          </Box>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Box className="form-group">
+                            <label>Last Name</label>
+                            <TextValidator
+                              autoComplete="lname"
+                              required
+                              variant="outlined"
+                              placeholder="Family Name"
+                              id="family_name"
+                              key="family_name"
+                              name="family_name"
+                              onChange={e => {
+                                setLastName(e.target.value);
+                              }}
+                              value={lastName}
+                              type="text"
+                            />
+                          </Box>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Box className="form-group">
+                            <label>Birthday</label>
+                            <TextValidator
+                              id="date"
+                              fullWidth
+                              variant="outlined"
+                              required
+                              placeholder="Birth Date"
+                              type="date"
+                              value={birthDate}
+                              validators={["required"]}
+                              errorMessages={["this field is required"]}
+                              onChange={e => {
+                                setBirthDate(e.target.value);
+                              }}
+                              InputLabelProps={{
+                                shrink: true
+                              }}
+                            />
+                          </Box>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Box className="form-group">
+                            <label>Gender</label>
+                            <TextValidator
+                              id="standard-select-currency"
+                              select
+                              fullWidth
+                              required
+                              variant="outlined"
+                              placeholder="Select Gender"
+                              value={gender}
+                              validators={["required"]}
+                              errorMessages={["this field is required"]}
+                              onChange={e => {
+                                setGender(e.target.value);
+                              }}
+                              // helperText="Please select gender"
+                            >
+                              <MenuItem key="female" value="Female">
+                                Female
+                              </MenuItem>
+                              <MenuItem key="male" value="Male">
+                                Male
+                              </MenuItem>
+                            </TextValidator>
+                          </Box>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Box className="form-group">
+                            <label>Mobile Number</label>
+                            <TextValidator
+                              autoComplete="phoneNumber"
+                              variant="outlined"
+                              required
+                              fullWidth
+                              required
+                              placeholder="+63 12345678"
+                              id="phoneNumber"
+                              key="phoneNumber"
+                              name="phoneNumber"
+                              value={phoneNumber}
+                              onChange={e => {
+                                setPhoneNumber(e.target.value);
+                              }}
+                              type="text"
+                              validators={["required"]}
+                              errorMessages={["this field is required"]}
+                            />
+                          </Box>
+                        </Grid>
+                      </Grid>
+                      <hr />
+                      <Grid container className="edit-user-form">
+                        <Grid item xs={12} sm={6}>
+                          <Box className="form-group">
+                            <label>Address 1</label>
+                            <TextField
+                              id="outlined-basic"
+                              type="password"
+                              variant="outlined"
+                            />
+                          </Box>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Box className="form-group">
+                            <label>Address 2</label>
+                            <TextField
+                              id="outlined-basic"
+                              type="password"
+                              variant="outlined"
+                            />
+                          </Box>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Box className="form-group">
+                            <label>City</label>
+                            <TextField
+                              id="outlined-basic"
+                              type="password"
+                              variant="outlined"
+                            />
+                          </Box>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Box className="form-group">
+                            <label>State/Province/Region</label>
+                            <TextField
+                              id="outlined-basic"
+                              type="password"
+                              variant="outlined"
+                            />
+                          </Box>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Box className="form-group">
+                            <label>Country</label>
+                            <TextField
+                              id="outlined-basic"
+                              type="password"
+                              variant="outlined"
+                            />
+                          </Box>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Box className="form-group">
+                            <label>Zip Code</label>
+                            <TextField
+                              id="outlined-basic"
+                              type="password"
+                              variant="outlined"
+                            />
+                          </Box>
+                        </Grid>
+
+                        <Grid item xs={12} sm={5} md={4}>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            fullWidth
+                            className="m-t-10"
+                            disableElevation
+                            type="submit"
+                          >
+                            Update Profile
+                          </Button>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </ValidatorForm>
+              </Box>
+            </Box>
+          </Grid>
+        </Grid>
+      </Container>
+    </Box>
+  );
 };
 
 export default CustomerForm;

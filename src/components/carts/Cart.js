@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Component } from "react";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import Checkbox from "@material-ui/core/Checkbox";
 import Card from "@material-ui/core/Card";
@@ -16,12 +16,14 @@ import NumberField from "../ui/NumberField";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import { trackPromise } from "react-promise-tracker";
+import { Auth } from "aws-amplify";
 import {
   Box,
   Button,
   ButtonGroup,
   CardHeader,
-  IconButton
+  IconButton,
+  InputBase
 } from "@material-ui/core";
 
 //temp url for carts
@@ -30,230 +32,399 @@ const CART_API_URL =
 const PRODUCT_API_URL =
   "http://myproject-alb-692769319.ap-southeast-1.elb.amazonaws.com/products";
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    display: "flex",
-    margin: "2em 1em"
-  },
-  cover: {
-    width: 151
-  },
-  content: {
-    flex: "1 0 auto"
-  },
-  details: {
-    display: "flex",
-    flexDirection: "column"
+const inventory_url =
+  "http://myproject-alb-692769319.ap-southeast-1.elb.amazonaws.com/inventory";
+
+class Cart extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      allChecked: true,
+      products: [],
+      cart: [],
+      quantity: 1,
+      user_id: 0
+    };
   }
-}));
 
-const Cart = () => {
-  const classes = useStyles();
-  const [products, setProducts] = useState([]);
-  const [cart, setCart] = useState([]);
-  const [quantity, setQuantity] = useState(1);
-  const [checked, setChecked] = React.useState(true);
-
-  const handleChange = event => {
-    setChecked(event.target.checked);
-  };
-  const [state, setState] = React.useState({
-    checkedA: true,
-    checkedB: true,
-    checkedF: true,
-    checkedG: true
-  });
-  const handleChangehead = event => {
-    setState({ ...state, [event.target.name]: event.target.checked });
-  };
-
-  useEffect(() => {
+  componentDidMount() {
+    const that = this;
     trackPromise(
-      fetch(CART_API_URL + "/test")
+      Auth.currentAuthenticatedUser().then(user => {
+        that.setState({ user_id: user.attributes.sub });
+        fetch(CART_API_URL + "/" + user.attributes.sub)
+          .then(response => {
+            return response.json();
+          })
+          .then(data => {
+            that.setState({ cart: data.items });
+            var cartArr = data.items;
+            var promises = [];
+            let maxQuantity = 0;
+            cartArr.forEach(async function (product) {
+              // console.log(product.product_id);
+              var inv = await fetch(inventory_url + "/" + product.product_id)
+                .then(response => {
+                  return response.json();
+                })
+                .then(data => {
+                  maxQuantity = data.product.quantity;
+                });
+              var promise = await fetch(
+                PRODUCT_API_URL + "/" + product.product_id
+              )
+                .then(response => {
+                  return response.json();
+                })
+                .then(data => {
+                  data.products[0].maxQuantity = maxQuantity;
+                  data.products[0].quantity = product.quantity;
+                  data.products[0].isChecked = true;
+                  data.products[0].netTotal =
+                    parseInt(product.quantity) *
+                    parseInt(data.products[0].price);
+                  that.setState(prevState => ({
+                    products: [...prevState.products, data.products[0]]
+                  }));
+                })
+                .catch(error => {
+                  alert(error);
+                });
+
+              promises.push(promise);
+            });
+          })
+          .catch(error => {
+            alert(error);
+          });
+      })
+    );
+  }
+
+  removeCartItem = (e, product_id) => {
+    e.preventDefault();
+    const that = this;
+    const endPoint =
+      CART_API_URL + "/" + this.state.user_id + "/products/" + product_id;
+    trackPromise(
+      fetch(endPoint, {
+        method: "delete",
+        headers: { "Content-Type": "application/json" }
+      })
         .then(response => {
+          console.log("response: ", response);
           return response.json();
         })
         .then(data => {
-          setCart(data.items);
-          var cartArr = data.items;
-          var promises = [];
-          cartArr.forEach(async function (item) {
-            console.log(item.product_id);
-            var promise = await fetch(PRODUCT_API_URL + "/" + item.product_id)
-              .then(response => {
-                return response.json();
-              })
-              .then(data => {
-                data.products[0].quantity = item.quantity;
-                setProducts(products => [...products, data.products[0]]);
-              })
-              .catch(error => {
-                alert(error);
-              });
-
-            promises.push(promise);
-          });
+          that.setState({ cart: data.items });
+          const updateProducts = that.state.products.filter(
+            product => product.productId !== product_id
+          );
+          that.setState({ products: updateProducts });
         })
         .catch(error => {
           alert(error);
         })
     );
-  }, []);
+  };
 
-  var cartData = (
-    <div>
-      <Grid container spacing={2}>
-        <Card>
-          <CardContent>
-            <h1>Your shopping cart is empty</h1>
+  emptyCart = e => {
+    e.preventDefault();
+    const that = this;
+    const endPoint = CART_API_URL + "/" + this.state.user_id;
+    trackPromise(
+      fetch(endPoint, {
+        method: "delete",
+        headers: { "Content-Type": "application/json" }
+      })
+        .then(response => {
+          return response.json();
+        })
+        .then(data => {
+          that.setState({ cart: [] });
+        })
+        .catch(error => {
+          alert(error);
+        })
+    );
+  };
 
-            <Button variant="contained" color="primary" href="#">
-              Empty Cart
-            </Button>
-            <p>You may add items to your shopping cart here.</p>
-          </CardContent>
-        </Card>
-      </Grid>
-    </div>
-  );
-
-  var productsList = <div> </div>;
-  if (cart) {
-    productsList = products.map(product => {
-      return (
-        <Box
-          component="div"
-          className="primary-box cart-product-card"
-          key={product.productId}
-        >
-          <Box className="product-box">
-            <Box className="product-checkbox">
-              <Checkbox
-                defaultChecked
-                color="primary"
-                inputProps={{ "aria-label": "secondary checkbox" }}
-              />
-              <CardMedia title="Image title" image={product.imageUrl} />
-            </Box>
-            <CardContent>
-              <Box className="product-info-content">
-                <Typography component="h3">
-                  <Link
-                    component={RouterLink}
-                    to={"/products/" + product.productId}
-                  >
-                    {product.productName}
-                  </Link>
-                </Typography>
-                <Typography>{product.productDescription}</Typography>
-                <Typography component="h4">By {product.supplier}</Typography>
-              </Box>
-              <Box className="product-box-action">
-                <Typography component="h5">
-                  {product.currency} {product.price}
-                </Typography>
-                <Box component="div" className="icon-group">
-                  <FavoriteBorderOutlinedIcon />
-                  <DeleteOutlineIcon />
-                </Box>
-              </Box>
-              <Box component="div" className="quantity">
-                <NumberField
-                  onChange={setQuantity}
-                  value={quantity}
-                  minValue={0}
-                  maxValue={product.quantity}
-                />
-              </Box>
-            </CardContent>
-          </Box>
-        </Box>
-      );
+  handleChange = e => {
+    let itemName = e.target.name;
+    let checked = e.target.checked;
+    this.setState(prevState => {
+      let { products, allChecked } = prevState;
+      if (itemName === "checkAll") {
+        allChecked = checked;
+        products = products.map(product => ({
+          ...product,
+          isChecked: checked
+        }));
+      } else {
+        products = products.map(product =>
+          product.productName === itemName
+            ? { ...product, isChecked: checked }
+            : product
+        );
+        allChecked = products.every(product => product.isChecked);
+      }
+      return { products, allChecked };
     });
-    cartData = <>{productsList}</>;
+  };
+
+  updateQuantity(product, index, action) {
+    const endPoint = CART_API_URL + "/" + this.state.user_id;
+    const products = this.state.products;
+    product.quantity =
+      action === "add"
+        ? parseInt(product.quantity) + 1
+        : parseInt(product.quantity) - 1;
+
+    product.netTotal = parseInt(product.quantity) * parseInt(product.price);
+
+    products.splice(index, 1, product);
+
+    this.setState({ products });
+
+    const requestOptions = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        product_id: product.productId,
+        action,
+        quantity: 1
+      })
+    };
+    trackPromise(
+      fetch(endPoint, requestOptions)
+        .then(response => {
+          return response.json();
+        })
+        .catch(error => {
+          console.log(error);
+          alert(error);
+        })
+    );
   }
 
-  // return <div>{cartData}</div>;
+  numberWithCommas = x => {
+    return x
+      .toFixed(2)
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
 
-  return (
-    <Box component="div" className="main-content">
-      <Container maxWidth="lg">
-        <Box component="div" className="cart-header-action">
+  renderList = () => {
+    var cartData = (
+      <Box component="div" className="primary-box cart-product-card">
+        <Box className="product-box">
+          <CardContent>
+            <Box className="product-info-content">
+              <Typography component="h3">
+                Your shopping cart is empty
+              </Typography>
+            </Box>
+          </CardContent>
+          <CardContent>
+            <Box>
+              <Typography component="h4">
+                You may add items to your shopping cart here.
+              </Typography>
+            </Box>
+          </CardContent>
+          <Box component="div" className="quantity">
+            <Button
+              component={RouterLink}
+              to="/"
+              variant="contained"
+              color="primary"
+              disableElevation
+              fullWidth
+            >
+              Continue Shopping
+            </Button>
+          </Box>
+        </Box>
+      </Box>
+    );
+
+    if (this.state.cart.length > 0) {
+      cartData = this.state.products.map((product, index) => {
+        return (
+          <Box
+            component="div"
+            className="primary-box cart-product-card"
+            key={product.productId}
+          >
+            <Box className="product-box">
+              <Box className="product-checkbox">
+                <Checkbox
+                  color="primary"
+                  inputProps={{ "aria-label": "secondary checkbox" }}
+                  key={product.productId}
+                  name={product.productName}
+                  value={product.productName}
+                  checked={product.isChecked}
+                  onChange={this.handleChange}
+                />
+                <CardMedia title="Image title" image={product.imageUrl} />
+              </Box>
+              <CardContent>
+                <Box className="product-info-content">
+                  <Typography component="h3">
+                    <Link
+                      component={RouterLink}
+                      to={"/products/" + product.productId}
+                    >
+                      {product.productName}
+                    </Link>
+                  </Typography>
+                  <Typography>{product.productDescription}</Typography>
+                  <Typography component="h4">By {product.supplier}</Typography>
+                </Box>
+                <Box className="product-box-action">
+                  <Typography component="h5">
+                    {product.currency} {this.numberWithCommas(product.netTotal)}
+                  </Typography>
+                  <Box component="div" className="icon-group">
+                    <FavoriteBorderOutlinedIcon />
+                    <DeleteOutlineIcon
+                      onClick={e => this.removeCartItem(e, product.productId)}
+                    />
+                  </Box>
+                </Box>
+                <Box component="div" className="quantity">
+                  <Box className="number-field">
+                    <Button
+                      onClick={() => this.updateQuantity(product, index, "rem")}
+                      className="remove-quantity"
+                      disabled={product.quantity <= 1}
+                    >
+                      -
+                    </Button>
+                    <InputBase value={product.quantity} />
+                    <Button
+                      onClick={() => this.updateQuantity(product, index, "add")}
+                      className="add-quantity"
+                      disabled={
+                        parseInt(product.quantity) >=
+                        parseInt(product.maxQuantity)
+                      }
+                    >
+                      +
+                    </Button>
+                  </Box>
+                </Box>
+              </CardContent>
+            </Box>
+          </Box>
+        );
+      });
+    }
+
+    return cartData;
+  };
+  render() {
+    const { products, allChecked } = this.state;
+    // console.log("products: ", products);
+    const productCount = products.length;
+    const subTotalCount = products.filter(product => product.isChecked).length;
+
+    const subtotal = products
+      .filter(({ isChecked }) => isChecked === true)
+      .reduce(
+        (totalPrice, product) => totalPrice + parseInt(product.netTotal),
+        0
+      );
+
+    return (
+      <Box component="div" className="main-content">
+        <Container maxWidth="lg">
+          {this.state.cart.length > 0 && (
+            <Box component="div" className="cart-header-action">
+              <Grid container>
+                <Grid item xs={12} lg={8}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        name="checkAll"
+                        color="primary"
+                        checked={allChecked}
+                        onChange={this.handleChange}
+                      />
+                    }
+                    label={`Select All (${productCount} Items(s))`}
+                  />
+                  <Button onClick={this.emptyCart}>
+                    <DeleteOutlineIcon />
+                    Delete All
+                  </Button>
+                </Grid>
+              </Grid>
+            </Box>
+          )}
           <Grid container>
             <Grid item xs={12} lg={8}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={state.checkedB}
-                    onChange={handleChangehead}
-                    name="checkedB"
-                    color="primary"
-                  />
-                }
-                label="Seletc All (2 Items(s))"
-              />
-              <Button>
-                <DeleteOutlineIcon />
-                Delete All
-              </Button>
+              {this.renderList()}
+            </Grid>
+
+            <Grid item xs={12} lg={4}>
+              <Box
+                component="div"
+                className="primary-box delivery-info-box checkout-info"
+              >
+                <Box className="delivey-box">
+                  <Typography component="h3">Location</Typography>
+                  <ul>
+                    <li>
+                      <LocationOnOutlinedIcon />
+                      Metro Manila Quezon City, Quezon City, Project 6
+                    </li>
+                  </ul>
+                </Box>
+
+                <Box className="warranty-box">
+                  <Typography component="h3">Order Summary</Typography>
+                  <ul className="order-summary">
+                    <li>
+                      <Typography component="span">
+                        Subtotal ({subTotalCount} items)
+                      </Typography>
+                      <Typography component="span">
+                        {this.numberWithCommas(subtotal)}
+                      </Typography>
+                    </li>
+                    <li>
+                      <Typography component="span">Shipping Fee</Typography>
+                      <Typography component="span">0.00</Typography>
+                    </li>
+                  </ul>
+                </Box>
+
+                <Typography className="order-total">
+                  <Typography>Total</Typography>
+                  <Typography component="strong">
+                    {this.numberWithCommas(subtotal)}
+                  </Typography>
+                </Typography>
+
+                <Button
+                  component={RouterLink}
+                  to="/checkout"
+                  variant="contained"
+                  color="primary"
+                  disableElevation
+                  fullWidth
+                >
+                  Proceed to Checkout
+                </Button>
+              </Box>
             </Grid>
           </Grid>
-        </Box>
-        <Grid container>
-          <Grid item xs={12} lg={8}>
-            {cartData}
-          </Grid>
-
-          <Grid item xs={12} lg={4}>
-            <Box
-              component="div"
-              className="primary-box delivery-info-box checkout-info"
-            >
-              <Box className="delivey-box">
-                <Typography component="h3">Location</Typography>
-                <ul>
-                  <li>
-                    <LocationOnOutlinedIcon />
-                    Metro Manila Quezon City, Quezon City, Project 6
-                  </li>
-                </ul>
-              </Box>
-
-              <Box className="warranty-box">
-                <Typography component="h3">Order Summary</Typography>
-                <ul className="order-summary">
-                  <li>
-                    <Typography component="span">Subtotal (2 items)</Typography>
-                    <Typography component="span">50,000</Typography>
-                  </li>
-                  <li>
-                    <Typography component="span">Shipping Fee</Typography>
-                    <Typography component="span">40.00</Typography>
-                  </li>
-                </ul>
-              </Box>
-
-              <Typography className="order-total">
-                <Typography>Total</Typography>
-                <Typography component="strong">50,040</Typography>
-              </Typography>
-
-              <Button
-                component={RouterLink}
-                to="/checkout"
-                variant="contained"
-                color="primary"
-                disableElevation
-                fullWidth
-              >
-                Proceed to Checkout
-              </Button>
-            </Box>
-          </Grid>
-        </Grid>
-      </Container>
-    </Box>
-  );
-};
+        </Container>
+      </Box>
+    );
+  }
+}
 
 export default Cart;

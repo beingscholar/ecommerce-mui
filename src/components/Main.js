@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
   Route,
-  BrowserRouter as Router,
+  Router,
   Link as RouterLink,
   Switch
 } from 'react-router-dom';
@@ -17,6 +17,10 @@ import CheckEmail from './auth/CheckEmail';
 import Checkout from './Checkout';
 import CustomerBillings from './customers/CustomerBillings';
 import CustomerProfile from './customers/CustomerProfile';
+import CustomerEditForm from './customers/CustomerEditForm';
+import ChangePassword from './customers/ChangePassword';
+import PaymentMethod from './customers/PaymentMethod';
+
 import Footer from './layouts/Footer';
 import Header from './layouts/Header';
 import Landing from './Landing';
@@ -32,6 +36,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { trackPromise } from 'react-promise-tracker';
 import { useUser } from './utilities/user';
+import history from './utilities/history';
 
 // import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
@@ -187,7 +192,7 @@ function Main() {
   ];
 
   return (
-    <Router>
+    <Router history={history}>
       <Header title='Blog' sections={sections} navbarLinks={navbarLinks} />
       <Switch>
         <Route path='/signin'>
@@ -211,6 +216,9 @@ function Main() {
           render={props => <ProductProfile {...props} />}
         />
         <PrivateRoute path='/profile' component={CustomerProfile} />
+        <PrivateRoute path='/edit-profile' component={CustomerEditForm} />
+        <PrivateRoute path='/change-password' component={ChangePassword} />
+        <PrivateRoute path='/payment-method' component={PaymentMethod} />
         <PrivateRoute path='/billings' component={CustomerBillings} />
         <Route exact path='/'>
           <Landing />

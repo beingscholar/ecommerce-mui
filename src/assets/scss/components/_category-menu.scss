@@ -341,6 +341,29 @@ body {
       justify-content: center;
     }
   }
+  @media screen and (min-width: 992px) {
+    .slick-slider {
+      height: 100%;
+      .slick-list {
+        height: 100%;
+        .slick-track {
+          height: 100%;
+          .slick-slide {
+            height: 100%;
+            & > div {
+              height: 100%;
+              .product-card {
+                height: 100%;
+                .MuiCardMedia-root {
+                  height: 100%;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 .all-products {

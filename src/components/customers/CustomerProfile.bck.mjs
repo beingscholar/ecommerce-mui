@@ -5,7 +5,7 @@ import {
   Link as RouterLink,
   Switch
 } from "react-router-dom";
-import Link from "@material-ui/core/Link";
+
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -28,22 +28,21 @@ import masterCard from "../../assets/img/mastercard.svg";
 import visa from "../../assets/img/visa.svg";
 import paypal from "../../assets/img/paypal.svg";
 import user from "../../assets/img/user.jpg";
-
+import Link from "@material-ui/core/Link";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Box,
   Button,
   ButtonGroup,
   CardHeader,
-  IconButton,
-  CardMedia
+  IconButton
 } from "@material-ui/core";
 
 import { Auth } from "aws-amplify";
 import CustomerEditForm from "./CustomerEditForm";
 
-import List from "@material-ui/core/List";
 import ListSubheader from "@material-ui/core/ListSubheader";
+import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -55,7 +54,6 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import StarBorder from "@material-ui/icons/StarBorder";
 import history from "../utilities/history";
-import CustomerMenu from "./CustomerMenu";
 
 const url =
   "http://myproject-alb-692769319.ap-southeast-1.elb.amazonaws.com/customers";
@@ -83,7 +81,7 @@ const CustomerProfile = () => {
   const [user_id, setUser_id] = useState("");
   const classes = useStyles();
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [birthDate, setBirthDate] = useState("2017-05-24");
@@ -207,39 +205,64 @@ const CustomerProfile = () => {
   };
 
   if (customer) {
-    const {
-      firstName,
-      lastName,
-      email,
-      phoneNumber,
-      gender,
-      birthDate,
-      profilePhotoUrl
-    } = customer;
     var customerData = (
-      <Grid item xs={12} sm={8} md={5}>
-        <Typography component="h3">{firstName + " " + lastName}</Typography>
-        <Typography>
-          <Typography component="strong">Email Address: </Typography>
-          {email}
-        </Typography>
-        <Typography>
-          <Typography component="strong">Address: </Typography>
-          Metro Manila Quezon City, Quezon City, Project 6
-        </Typography>
-        <Typography>
-          <Typography component="strong">Birthday: </Typography>
-          {new Date(birthDate).toLocaleDateString("fr-CA")}
-        </Typography>
-        <Typography>
-          <Typography component="strong">Gender: </Typography>
-          {gender}
-        </Typography>
-        <Typography>
-          <Typography component="strong">Mobile Number: </Typography>
-          {phoneNumber.replace(/(\+\d{2})\d{9}/, "$1*******")}
-        </Typography>
-      </Grid>
+      <div>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Typography variant="h4">
+              Customer: {customer.firstName + " " + customer.lastName}
+            </Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => handleEdit(customer)}
+            >
+              Edit My Account
+            </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              component={RouterLink}
+              to="/billings"
+            >
+              My Billings
+            </Button>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Card>
+              <CardContent>
+                <div style={{ marginBottom: "1em" }}>
+                  <strong>Personal Info</strong>
+                </div>
+                <Divider /> <br />
+                <strong>Customer Id:</strong> {customer.customerId} <br />
+                <strong>Email: </strong>
+                {customer.email} <br />
+                <strong>Username:</strong> {customer.userName} <br />
+                <strong>Phone Number:</strong> {customer.phoneNumber} <br />
+                <strong>Gender:</strong> {customer.gender} <br />
+                <strong>Birth Date:</strong> {customer.birthDate} <br />
+                <strong>Profile Photo URL:</strong> {customer.profilePhotoUrl}{" "}
+                <br />
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Card>
+              <CardContent>
+                <div style={{ marginBottom: "1em" }}>
+                  <strong>Account Info</strong>
+                </div>
+                <Divider /> <br />
+                <strong>Created Date: </strong>
+                {customer.createdDate}
+                <br />
+                <strong>Updated Date:</strong> {customer.updatedDate}
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+      </div>
     );
   }
   const [value, setValue] = React.useState("female");
@@ -247,47 +270,192 @@ const CustomerProfile = () => {
   const handleChange = event => {
     setValue(event.target.value);
   };
-
   return (
     <Box className="primary-structure">
       <Container maxWidth="lg">
         <Grid container>
-          <CustomerMenu />
+          <Grid item xs={12} sm={3} md={2}>
+            <Box className="sidebar">
+              <Box className="sidebar--header">
+                <Typography component="h3">Hello, Maria!</Typography>
+                <Typography>
+                  <img src={security} alt="security" />
+                  Verified Account
+                </Typography>
+              </Box>
 
+              <List
+                component="nav"
+                aria-labelledby="nested-list-subheader"
+                subheader={
+                  <ListSubheader component="div">Account</ListSubheader>
+                }
+              >
+                <ListItem button>
+                  <Link component={RouterLink} to="/profile">
+                    <ListItemText primary="My Profile" />
+                  </Link>
+                </ListItem>
+              </List>
+
+              <List
+                component="nav"
+                aria-labelledby="nested-list-subheader"
+                subheader={
+                  <ListSubheader component="div">My Orders</ListSubheader>
+                }
+              >
+                <ListItem button>
+                  <Link component={RouterLink} to="/">
+                    <ListItemText primary="List of orders" />
+                  </Link>
+                </ListItem>
+              </List>
+
+              {/* <List
+                component="nav"
+                aria-labelledby="nested-list-subheader"
+                subheader={
+                  <ListSubheader component="div">Account</ListSubheader>
+                }
+              >
+                <ListItem button onClick={handleClick}>
+                  <ListItemText primary="My Profile" />
+                  {open ? <ExpandLess /> : <ExpandMore />}
+                </ListItem>
+                <Collapse in={open} timeout="auto" unmountOnExit>
+                  <List component="div" disablePadding>
+                    <ListItem button>
+                      <Link component={RouterLink} to="/edit-profile">
+                        <ListItemText primary="Edit Profile" />
+                      </Link>
+                    </ListItem>
+                    <ListItem button>
+                      <Link component={RouterLink} to="/change-password">
+                        <ListItemText primary="Change Password" />
+                      </Link>
+                    </ListItem>
+                    <ListItem button>
+                      <Link component={RouterLink} to="/payment-method">
+                        <ListItemText primary="Update Card Details" />
+                      </Link>
+                    </ListItem>
+                  </List>
+                </Collapse>
+                <ListItem button>
+                  <Link component={RouterLink} to="/">
+                    <ListItemText primary="My Orders" />
+                  </Link>
+                </ListItem>
+                <ListItem button>
+                  <Link component={RouterLink} to="/">
+                    <ListItemText primary="List of orders" />
+                  </Link>
+                </ListItem>
+              </List> */}
+
+              {/* <ul>
+                <li>
+                  <Link className="active">Account</Link>
+                </li>
+                <li className="show">
+                  <a className="active">
+                    My Profile <ExpandLess />
+                  </a>
+                  <ul>
+                    <li>
+                      <Link component={RouterLink} to="/">
+                        Edit Profile
+                      </Link>
+                    </li>
+                    <li>
+                      <Link component={RouterLink} to="/">
+                        Change Password
+                      </Link>
+                    </li>
+                    <li>
+                      <Link component={RouterLink} to="/">
+                        Update Card Details
+                      </Link>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <Link component={RouterLink} to="/">
+                    My Orders
+                  </Link>
+                </li>
+                <li>
+                  <Link component={RouterLink} to="/">
+                    List of orders
+                  </Link>
+                </li>
+              </ul> */}
+            </Box>
+          </Grid>
           <Grid item xs={12} sm={9} md={10}>
             <Box className="primary-structure--content">
               <Box className="content-header">
                 <Typography component="h3">My Profile</Typography>
+                {/* <ButtonGroup>
+                  <Button variant="outlined" color="primary">
+                    Save Changes
+                  </Button>
+                  <Button variant="contained" color="primary" disableElevation>
+                    Update Profile
+                  </Button>
+                </ButtonGroup> */}
               </Box>
 
               <Box className="primary-structure--box">
                 <Grid container>
                   <Grid item xs={12} sm={4} md={2}>
                     <Box className="profile-image-box">
-                      <img
-                        src={user}
-                        className="user-image"
-                        alt="user"
-                        title="user"
-                      />
-                      {/* <CardMedia
-                        className="user-image"
-                        alt="user"
-                        title="user"
-                        image={customer ? customer.profilePhotoUrl : user}
-                      /> */}
-                      <Typography className="m-l-0 justify-content-start">
-                        {/* <img src={security} alt="security" /> */}
-                        <CardMedia
-                          alt="security"
-                          title="security"
-                          image={security}
-                        />
+                      <img src={user} className="user-image" alt="user" />
+                      <Typography>
+                        <img src={security} alt="security" />
                         Verified Account
                       </Typography>
                     </Box>
                   </Grid>
-                  {customerData}
+                  <Grid item xs={12} sm={8} md={5}>
+                    <h3>Maria Dela Cruz</h3>
+                    <Typography>
+                      <Typography component="strong">
+                        Email Address:{" "}
+                      </Typography>
+                      mariadelacruz@mail.com
+                    </Typography>
+                    <Typography>
+                      <Typography component="strong">Address: </Typography>
+                      Metro Manila Quezon City, Quezon City, Project 6
+                    </Typography>
+                    <Typography>
+                      <Typography component="strong">Gender: </Typography>
+                      Female
+                    </Typography>
+                    <Typography>
+                      <Typography component="strong">Birthday: </Typography>
+                      1993-10-25
+                    </Typography>
+                    <Typography>
+                      <Typography component="strong">
+                        Mobile Number:{" "}
+                      </Typography>
+                      +63 *******8
+                    </Typography>
+                    <Typography>
+                      <Typography component="strong">
+                        Payment Method:{" "}
+                      </Typography>
+                      <Box className="wrap">
+                        Mastercard
+                        <img src={masterCard} width="20" alt="Card" />
+                        {/* <img src={visa} width="30" alt="Card" />
+                        <img src={paypal} width="15" alt="Card" /> */}
+                      </Box>
+                    </Typography>
+                  </Grid>
                   <Grid item xs={12} md={5}>
                     <ButtonGroup>
                       <Button
