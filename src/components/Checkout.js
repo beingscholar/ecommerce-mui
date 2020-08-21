@@ -489,13 +489,13 @@ export default function Checkout() {
                         value="cc"
                         control={<Radio color="primary" />}
                         label="Credit Card/Debit Card"
-                        labelPlacement="start"
+                        // labelPlacement="start"
                       />
                       <FormControlLabel
                         value="paypal"
                         control={<Radio color="primary" />}
                         label="Paypal"
-                        labelPlacement="start"
+                        // labelPlacement="start"
                       />
                     </RadioGroup>
                   </FormControl>
