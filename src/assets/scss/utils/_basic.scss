@@ -194,3 +194,11 @@ a {
     }
   }
 }
+
+.font-bold {
+  font-weight: $font-bold !important;
+}
+
+.font-medium {
+  font-weight: $font-medium !important;
+}
