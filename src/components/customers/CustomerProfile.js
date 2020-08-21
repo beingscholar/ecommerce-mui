@@ -57,8 +57,7 @@ import StarBorder from "@material-ui/icons/StarBorder";
 import history from "../utilities/history";
 import CustomerMenu from "./CustomerMenu";
 
-const url =
-  "http://myproject-alb-692769319.ap-southeast-1.elb.amazonaws.com/customers";
+import { CUSTOMER_URL } from "../../config/apiUrl";
 
 function getModalStyle() {
   return {
@@ -99,11 +98,12 @@ const CustomerProfile = () => {
     trackPromise(
       Auth.currentAuthenticatedUser().then(user => {
         setUser_id(user.attributes.sub);
-        fetch(url + "/" + user.attributes.sub)
+        fetch(CUSTOMER_URL + "/" + user.attributes.sub)
           .then(response => {
             return response.json();
           })
           .then(data => {
+            console.log("data: ", data);
             setCustomer(data.customer);
           })
           .catch(error => {
@@ -114,7 +114,7 @@ const CustomerProfile = () => {
   }, []);
   function refreshCustomerList() {
     trackPromise(
-      fetch(url + "/" + user_id)
+      fetch(CUSTOMER_URL + "/" + user_id)
         .then(response => {
           return response.json();
         })
@@ -160,7 +160,7 @@ const CustomerProfile = () => {
       profilePhotoUrl: photoURL
     };
     console.log(JSON.stringify(data));
-    var newURL = url + "/" + customer.customerId;
+    var newURL = CUSTOMER_URL + "/" + customer.customerId;
     fetch(newURL, {
       method: "PUT",
       headers: {
@@ -216,6 +216,17 @@ const CustomerProfile = () => {
       birthDate,
       profilePhotoUrl
     } = customer;
+    console.log(customer);
+    const {
+      address_1,
+      address_2,
+      city,
+      state,
+      country,
+      zipcode
+    } = customer.address;
+    console.log(!Object.keys(customer.address).length);
+
     var customerData = (
       <Grid item xs={12} sm={8} md={5}>
         <Typography component="h3">{firstName + " " + lastName}</Typography>
@@ -225,7 +236,20 @@ const CustomerProfile = () => {
         </Typography>
         <Typography>
           <Typography component="strong">Address: </Typography>
-          Metro Manila Quezon City, Quezon City, Project 6
+          {/* Metro Manila Quezon City, Quezon City, Project 6 */}
+          {!Object.keys(customer.address).length
+            ? ""
+            : address_1 +
+              ", " +
+              address_2 +
+              ", " +
+              city +
+              ", " +
+              state +
+              ", " +
+              country +
+              " - " +
+              zipcode}
         </Typography>
         <Typography>
           <Typography component="strong">Birthday: </Typography>

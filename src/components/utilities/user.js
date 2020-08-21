@@ -1,6 +1,8 @@
 import { Auth } from 'aws-amplify';
 import React from 'react';
 
+import { CUSTOMER_URL } from "../../config/apiUrl";
+
 // Create a context that will hold the values that we are going to expose to our components.
 // Don't worry about the `null` value. It's gonna be *instantly* overriden by the component below
 export const UserContext = React.createContext(null);
@@ -9,8 +11,6 @@ export const UserContext = React.createContext(null);
 // components bellow via the `UserContext.Provider` component. This is where the Amplify will be
 // mapped to a different interface, the one that we are going to expose to the rest of the app.
 
-const customerUrl =
-    'http://myproject-alb-692769319.ap-southeast-1.elb.amazonaws.com/customers';
 export const UserProvider = ({ children }) => {
     const [user, setUser] = React.useState(null);
 
@@ -77,7 +77,7 @@ export const UserProvider = ({ children }) => {
                     phoneNumber: 'phoneNumber',
                     profilePhotoUrl: 'photoURL'
                 };
-                fetch(customerUrl, {
+                fetch(CUSTOMER_URL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
