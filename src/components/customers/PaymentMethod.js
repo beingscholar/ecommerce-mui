@@ -37,8 +37,7 @@ import { Auth } from "aws-amplify";
 import CustomerEditForm from "./CustomerEditForm";
 import CustomerMenu from "./CustomerMenu";
 
-const url =
-  "http://myproject-alb-692769319.ap-southeast-1.elb.amazonaws.com/customers";
+import { CUSTOMER_URL } from "../../config/apiUrl";
 
 function getModalStyle() {
   return {
@@ -88,7 +87,7 @@ const PaymentMethod = () => {
     trackPromise(
       Auth.currentAuthenticatedUser().then((user) => {
         setUser_id(user.attributes.sub);
-        fetch(url + "/" + user.attributes.sub)
+        fetch(CUSTOMER_URL + "/" + user.attributes.sub)
           .then((response) => {
             return response.json();
           })
@@ -103,7 +102,7 @@ const PaymentMethod = () => {
   }, []);
   function refreshCustomerList() {
     trackPromise(
-      fetch(url + "/" + user_id)
+      fetch(CUSTOMER_URL + "/" + user_id)
         .then((response) => {
           return response.json();
         })
@@ -149,7 +148,7 @@ const PaymentMethod = () => {
       profilePhotoUrl: photoURL,
     };
     console.log(JSON.stringify(data));
-    var newURL = url + "/" + customer.customerId;
+    var newURL = CUSTOMER_URL + "/" + customer.customerId;
     fetch(newURL, {
       method: "PUT",
       headers: {

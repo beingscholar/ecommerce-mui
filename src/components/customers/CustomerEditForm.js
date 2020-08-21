@@ -57,8 +57,7 @@ import StarBorder from "@material-ui/icons/StarBorder";
 import CustomerMenu from "./CustomerMenu";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 
-const url =
-  "http://myproject-alb-692769319.ap-southeast-1.elb.amazonaws.com/customers";
+import { CUSTOMER_URL } from "../../config/apiUrl";
 
 const CustomerForm = () => {
   const [user_id, setUser_id] = useState("");
@@ -68,6 +67,12 @@ const CustomerForm = () => {
   const [birthDate, setBirthDate] = useState("");
   const [gender, setGender] = useState("Female");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [address1, setAddress1] = useState("");
+  const [address2, setAddress2] = useState("");
+  const [city, setCity] = useState("");
+  const [region, setRegion] = useState("");
+  const [country, setCountry] = useState("");
+  const [zipCode, setZipCode] = useState("");
   const [profilePhotoUrl, setProfilePhotoUrl] = useState("");
 
   const handleChange = e => {
@@ -98,7 +103,7 @@ const CustomerForm = () => {
     trackPromise(
       Auth.currentAuthenticatedUser().then(user => {
         setUser_id(user.attributes.sub);
-        fetch(url + "/" + user.attributes.sub)
+        fetch(CUSTOMER_URL + "/" + user.attributes.sub)
           .then(response => {
             return response.json();
           })
@@ -111,12 +116,26 @@ const CustomerForm = () => {
               birthDate,
               profilePhotoUrl
             } = data.customer;
+            const {
+              address_1,
+              address_2,
+              city,
+              state,
+              country,
+              zipcode
+            } = data.customer.address;
             setFirstName(firstName);
             setLastName(lastName);
             setBirthDate(birthDate.split("T")[0]);
             setGender(gender);
             setPhoneNumber(phoneNumber);
             setProfilePhotoUrl(profilePhotoUrl);
+            setAddress1(address_1);
+            setAddress2(address_2);
+            setCity(city);
+            setRegion(state);
+            setCountry(country);
+            setZipCode(zipcode);
             setCustomer(data.customer);
           })
           .catch(error => {
@@ -132,7 +151,13 @@ const CustomerForm = () => {
     birthDate,
     gender,
     phoneNumber,
-    profilePhotoUrl
+    profilePhotoUrl,
+    address1,
+    address2,
+    city,
+    region,
+    country,
+    zipCode
   ) => {
     var data = {
       firstName: firstName,
@@ -143,9 +168,15 @@ const CustomerForm = () => {
       gender: gender,
       custAccountNo: customer.custAccountNo,
       phoneNumber: phoneNumber,
-      profilePhotoUrl: profilePhotoUrl
+      profilePhotoUrl: profilePhotoUrl,
+      address1,
+      address2,
+      city,
+      region,
+      country,
+      zipCode
     };
-    let newURL = url + "/" + customer.customerId;
+    let newURL = CUSTOMER_URL + "/" + customer.customerId;
     fetch(newURL, {
       method: "PUT",
       headers: {
@@ -202,7 +233,13 @@ const CustomerForm = () => {
                       birthDate,
                       gender,
                       phoneNumber,
-                      profilePhotoUrl
+                      profilePhotoUrl,
+                      address1,
+                      address2,
+                      city,
+                      region,
+                      country,
+                      zipCode
                     );
                   }}
                 >
@@ -356,60 +393,124 @@ const CustomerForm = () => {
                         <Grid item xs={12} sm={6}>
                           <Box className="form-group">
                             <label>Address 1</label>
-                            <TextField
-                              id="outlined-basic"
-                              type="password"
+                            <TextValidator
+                              autoComplete="address1"
                               variant="outlined"
+                              id="address_1"
+                              key="address_1"
+                              name="address_1"
+                              placeholder="Address"
+                              value={address1}
+                              onChange={e => {
+                                setAddress1(e.target.value);
+                              }}
+                              type="text"
+                              validators={["required"]}
+                              errorMessages={["this field is required"]}
                             />
                           </Box>
                         </Grid>
                         <Grid item xs={12} sm={6}>
                           <Box className="form-group">
                             <label>Address 2</label>
-                            <TextField
-                              id="outlined-basic"
-                              type="password"
+                            <TextValidator
+                              autoComplete="address1"
                               variant="outlined"
+                              id="address_2"
+                              key="address_2"
+                              name="address_2"
+                              value={address2}
+                              onChange={e => {
+                                setAddress2(e.target.value);
+                              }}
+                              type="text"
                             />
                           </Box>
                         </Grid>
                         <Grid item xs={12} sm={6}>
                           <Box className="form-group">
                             <label>City</label>
-                            <TextField
-                              id="outlined-basic"
-                              type="password"
+                            <TextValidator
+                              autoComplete="city"
                               variant="outlined"
+                              id="city"
+                              key="city"
+                              name="city"
+                              placeholder="City"
+                              value={city}
+                              onChange={e => {
+                                setCity(e.target.value);
+                              }}
+                              type="text"
+                              validators={["required"]}
+                              errorMessages={["this field is required"]}
                             />
                           </Box>
                         </Grid>
                         <Grid item xs={12} sm={6}>
                           <Box className="form-group">
                             <label>State/Province/Region</label>
-                            <TextField
-                              id="outlined-basic"
-                              type="password"
+                            <TextValidator
+                              autoComplete="region"
                               variant="outlined"
+                              id="region"
+                              key="region"
+                              name="region"
+                              placeholder="Region"
+                              value={region}
+                              onChange={e => {
+                                setRegion(e.target.value);
+                              }}
+                              type="text"
+                              validators={["required"]}
+                              errorMessages={["this field is required"]}
                             />
                           </Box>
                         </Grid>
                         <Grid item xs={12} sm={6}>
                           <Box className="form-group">
                             <label>Country</label>
-                            <TextField
-                              id="outlined-basic"
-                              type="password"
+                            <TextValidator
+                              autoComplete="country"
                               variant="outlined"
+                              id="country"
+                              key="country"
+                              name="country"
+                              placeholder="Country"
+                              value={country}
+                              onChange={e => {
+                                setCountry(e.target.value);
+                              }}
+                              type="text"
+                              validators={["required"]}
+                              errorMessages={["this field is required"]}
                             />
                           </Box>
                         </Grid>
                         <Grid item xs={12} sm={6}>
                           <Box className="form-group">
                             <label>Zip Code</label>
-                            <TextField
-                              id="outlined-basic"
-                              type="password"
+                            <TextValidator
+                              autoComplete="zipCode"
                               variant="outlined"
+                              id="zipCode"
+                              key="zipCode"
+                              name="zipCode"
+                              placeholder="Zipcode"
+                              value={zipCode}
+                              onChange={e => {
+                                e.target.value = Math.max(
+                                  0,
+                                  parseInt(e.target.value)
+                                )
+                                  .toString()
+                                  .slice(0, 6);
+                                setZipCode(e.target.value);
+                              }}
+                              type="number"
+                              min="6"
+                              validators={["required"]}
+                              errorMessages={["this field is required"]}
                             />
                           </Box>
                         </Grid>

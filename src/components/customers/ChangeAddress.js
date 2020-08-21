@@ -29,27 +29,26 @@ import {
   Button,
   ButtonGroup,
   CardHeader,
-  IconButton,
+  IconButton
 } from "@material-ui/core";
 
 import { Auth } from "aws-amplify";
 import CustomerEditForm from "./CustomerEditForm";
 
-const url =
-  "http://myproject-alb-692769319.ap-southeast-1.elb.amazonaws.com/customers";
+import { CUSTOMER_URL } from "../../config/apiUrl";
 
 function getModalStyle() {
   return {
-    margin: "auto",
+    margin: "auto"
   };
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     "& .MuiTextField-root": {
       margin: theme.spacing(2),
-      flexGrow: 1,
-    },
+      flexGrow: 1
+    }
   },
   paper: {
     position: "absolute",
@@ -58,14 +57,14 @@ const useStyles = makeStyles((theme) => ({
     border: "2px solid #000",
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
-    overflowX: "auto",
+    overflowX: "auto"
   },
   table: {
-    minWidth: 650,
+    minWidth: 650
   },
   tableHead: {
-    fontWeight: "bold",
-  },
+    fontWeight: "bold"
+  }
 }));
 
 const ChangeAddress = () => {
@@ -84,16 +83,16 @@ const ChangeAddress = () => {
 
   useEffect(() => {
     trackPromise(
-      Auth.currentAuthenticatedUser().then((user) => {
+      Auth.currentAuthenticatedUser().then(user => {
         setUser_id(user.attributes.sub);
-        fetch(url + "/" + user.attributes.sub)
-          .then((response) => {
+        fetch(CUSTOMER_URL + "/" + user.attributes.sub)
+          .then(response => {
             return response.json();
           })
-          .then((data) => {
+          .then(data => {
             setCustomer(data.customer);
           })
-          .catch((error) => {
+          .catch(error => {
             alert(error);
           });
       })
@@ -101,17 +100,17 @@ const ChangeAddress = () => {
   }, []);
   function refreshCustomerList() {
     trackPromise(
-      fetch(url + "/" + user_id)
-        .then((response) => {
+      fetch(CUSTOMER_URL + "/" + user_id)
+        .then(response => {
           return response.json();
         })
-        .then((data) => {
+        .then(data => {
           setCustomer(data.customer);
         })
     );
   }
 
-  const handleEdit = (customer) => {
+  const handleEdit = customer => {
     setFirstName(customer.firstName);
     setLastName(customer.lastName);
     //setEmail(customer.email);
@@ -144,18 +143,18 @@ const ChangeAddress = () => {
       gender: gender,
       custAccountNo: customer.custAccountNo,
       phoneNumber: phoneNumber,
-      profilePhotoUrl: photoURL,
+      profilePhotoUrl: photoURL
     };
     console.log(JSON.stringify(data));
-    var newURL = url + "/" + customer.customerId;
+    var newURL = CUSTOMER_URL + "/" + customer.customerId;
     fetch(newURL, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(data)
     })
-      .then((response) => {
+      .then(response => {
         if (response.status === 404 || response.status === 400) {
           NotificationManager.error(
             "Error editing customer " +
@@ -169,7 +168,7 @@ const ChangeAddress = () => {
         );
         refreshCustomerList();
       })
-      .catch((error) => {
+      .catch(error => {
         console.error("Error:", error);
       });
     handleClose();
@@ -190,7 +189,7 @@ const ChangeAddress = () => {
     photoURL,
     setPhotoURL,
     handleSubmit: handleEditSubmit,
-    handleClose,
+    handleClose
   };
 
   if (customer) {
@@ -256,7 +255,7 @@ const ChangeAddress = () => {
   }
   const [value, setValue] = React.useState("female");
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     setValue(event.target.value);
   };
   return (
