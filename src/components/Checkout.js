@@ -334,6 +334,13 @@ export default function Checkout() {
     setValue(event.target.value);
   };
 
+  const numberWithCommas = (x) => {
+    return x
+      .toFixed(2)
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
   const quantity = (products) => {
     let total = 0;
     products.forEach(function (product) {
@@ -343,10 +350,9 @@ export default function Checkout() {
   };
 
   const subTotal = (products) => {
-    console.log(products);
     let subTotal = 0;
     products.forEach(function (product, i) {
-      subTotal = subTotal + parseInt(product.price);
+      subTotal = subTotal + +parseInt(product.price);
     });
 
     return subTotal;
@@ -435,16 +441,34 @@ export default function Checkout() {
                         <Typography>
                           Subtotal ({quantity(products)} items)
                         </Typography>
-                        <Typography>{subTotal(products)}</Typography>
+                        <Typography>
+                          {products &&
+                            products.length &&
+                            products[0].currency +
+                              " " +
+                              numberWithCommas(subTotal(products))}
+                        </Typography>
                       </li>
                       <li>
                         <Typography>Shipping Fee</Typography>
-                        <Typography>{shippingFee}</Typography>
+                        <Typography>
+                          {products &&
+                            products.length &&
+                            products[0].currency +
+                              " " +
+                              numberWithCommas(shippingFee)}
+                        </Typography>
                       </li>
                       <li>
                         <Typography component="strong">Total</Typography>
                         <Typography component="strong">
-                          {subTotal(products) + shippingFee}
+                          {products &&
+                            products.length &&
+                            products[0].currency +
+                              " " +
+                              numberWithCommas(
+                                subTotal(products) + shippingFee
+                              )}
                         </Typography>
                       </li>
                     </ul>
