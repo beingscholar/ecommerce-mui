@@ -352,7 +352,7 @@ export default function Checkout() {
   const subTotal = (products) => {
     let subTotal = 0;
     products.forEach(function (product, i) {
-      subTotal = subTotal + +parseInt(product.price);
+      subTotal = subTotal + parseInt(product.price);
     });
 
     return subTotal;
@@ -485,12 +485,6 @@ export default function Checkout() {
                       value={value}
                       onChange={deliveryHandleChange}
                     >
-                      <FormControlLabel
-                        value="cod"
-                        control={<Radio color="primary" />}
-                        label="Cash on Delivery"
-                        labelPlacement="start"
-                      />
                       <FormControlLabel
                         value="cc"
                         control={<Radio color="primary" />}
