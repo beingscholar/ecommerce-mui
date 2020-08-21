@@ -82,6 +82,7 @@ export default function Checkout() {
   const [paymentMethod, setPaymentMethod] = useState("");
   const [cart_id, setCart_id] = useState("0");
   const [user_id, setUser_id] = useState("");
+  const shippingFee = 20;
 
   //payment form
   const [state, setState] = useState({
@@ -333,6 +334,24 @@ export default function Checkout() {
     setValue(event.target.value);
   };
 
+  const quantity = (products) => {
+    let total = 0;
+    products.forEach(function (product) {
+      total = total + parseInt(product.quantity);
+    });
+    return total;
+  };
+
+  const subTotal = (products) => {
+    console.log(products);
+    let subTotal = 0;
+    products.forEach(function (product, i) {
+      subTotal = subTotal + parseInt(product.price);
+    });
+
+    return subTotal;
+  };
+
   return (
     <div>
       <Box className="primary-structure">
@@ -399,9 +418,6 @@ export default function Checkout() {
 
                   <Box className="review-order">
                     <Typography className="font-bold">Review Order</Typography>
-                    {/* <Box className="product-table">
-
-										</Box> */}
                     {productsList}
                   </Box>
                   <Box className="standard-delivery-info">
@@ -416,16 +432,20 @@ export default function Checkout() {
                     <Typography className="font-bold">Order Summary</Typography>
                     <ul>
                       <li>
-                        <Typography>Subtotal (2 items)</Typography>
-                        <Typography>50,000</Typography>
+                        <Typography>
+                          Subtotal ({quantity(products)} items)
+                        </Typography>
+                        <Typography>{subTotal(products)}</Typography>
                       </li>
                       <li>
                         <Typography>Shipping Fee</Typography>
-                        <Typography>40.00</Typography>
+                        <Typography>{shippingFee}</Typography>
                       </li>
                       <li>
                         <Typography component="strong">Total</Typography>
-                        <Typography component="strong">50,040</Typography>
+                        <Typography component="strong">
+                          {subTotal(products) + shippingFee}
+                        </Typography>
                       </li>
                     </ul>
                   </Box>
