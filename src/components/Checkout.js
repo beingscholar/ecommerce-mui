@@ -1,182 +1,180 @@
-import React, { useEffect, useState } from "react";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import TextField from "@material-ui/core/TextField";
-import masterCard from "../assets/img/mastercard.svg";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
 import {
+  Box,
   Button,
-  Typography,
-  Link,
-  Grid,
-  Container,
-  CssBaseline,
   Card,
   CardContent,
   CardMedia,
-  Box,
+  Container,
+  Grid,
+  Link,
+  Typography
 } from "@material-ui/core";
-import { Link as RouterLink } from "react-router-dom";
-import { trackPromise } from "react-promise-tracker";
-import { makeStyles, rgbToHex } from "@material-ui/core/styles";
-import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
-import { NotificationManager } from "react-notifications";
-import Divider from "@material-ui/core/Divider";
-import Avatar from "@material-ui/core/Avatar";
-
-import FormLabel from "@material-ui/core/FormLabel";
 import FormControl from "@material-ui/core/FormControl";
-import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import Checkbox from "@material-ui/core/Checkbox";
-
-//stripe
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
-
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import DirectionsBikeOutlinedIcon from "@material-ui/icons/DirectionsBikeOutlined";
 //icons
 import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
+import MailOutlinedIcon from "@material-ui/icons/MailOutlined";
 import ReceiptOutlinedIcon from "@material-ui/icons/ReceiptOutlined";
 import StayCurrentPortraitOutlinedIcon from "@material-ui/icons/StayCurrentPortraitOutlined";
-import MailOutlinedIcon from "@material-ui/icons/MailOutlined";
-import DirectionsBikeOutlinedIcon from "@material-ui/icons/DirectionsBikeOutlined";
-
-//table
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
-
 import { Auth } from "aws-amplify";
+import React, { useEffect, useState } from "react";
+import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
+import { trackPromise } from "react-promise-tracker";
 import MediaQuery from "react-responsive";
-const CART_API_URL =
-  "http://myproject-alb-692769319.ap-southeast-1.elb.amazonaws.com/carts";
-const PRODUCT_API_URL =
-  "http://myproject-alb-692769319.ap-southeast-1.elb.amazonaws.com/products";
-const ORDER_API_URL =
-  "http://myproject-alb-692769319.ap-southeast-1.elb.amazonaws.com/orders";
+import masterCard from "../assets/img/mastercard.svg";
+import { CART_API_URL, PRODUCT_API_URL } from "../config/apiUrl";
 
-const useStyles = makeStyles((theme) => ({
-  orderCard: {
-    backgroundColor: "#F0F0F0",
-  },
-}));
-
-export default function Checkout() {
-  const classes = useStyles();
+const Checkout = () => {
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [address, setAddress] = useState("");
-  const [address2, setAddress2] = useState("");
-  const [country, setCountry] = useState("");
-  const [addressState, setAddressState] = useState("");
-  const [zipCode, setZipCode] = useState("");
-  const [city, setCity] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState("");
-  const [cart_id, setCart_id] = useState("0");
-  const [user_id, setUser_id] = useState("");
-  const shippingFee = 20;
+  const shippingFee = 0;
+
+  const [paymentOption, setPaymentOption] = React.useState("card");
+
+  const [cardNumber, setCardNumber] = React.useState("");
+  const [cardDate, setCardDate] = React.useState("");
+  const [cvvCode, setCVVCode] = React.useState("");
+
+  const [cardNumberError, setCardNumberError] = React.useState("");
+  const [expiryDateError, setExpiryDateError] = React.useState("");
+
+  const handleChange = event => {
+    setPaymentOption(event.target.value);
+  };
+
+  const setSecurityCode = e => {
+    let cvv = e.target.value;
+    const regex = /^\d+$/;
+    let isValid = regex.test(cvv);
+    if (cvv.length < 4 && isValid) {
+      setCVVCode(cvv);
+    }
+  };
+
+  const setExpiryDate = e => {
+    let expDate = e.target.value;
+    const regex = /^[0-9/]*$/;
+    let isValid = regex.test(expDate);
+    if (expDate.length < 8 && isValid) {
+      if (expDate.length == 2) {
+        if (e.keyCode != 8) {
+          expDate = expDate + "/";
+        }
+      }
+      setCardDate(expDate);
+    }
+  };
+
+  const setCreditCardNumber = e => {
+    setCardNumberError("");
+    let ccNum = e.target.value;
+    const regex = /^[0-9-]*$/;
+    let isValid = regex.test(ccNum);
+    if (ccNum.length < 20 && isValid) {
+      if (ccNum.length == 4 || ccNum.length == 9 || ccNum.length == 14) {
+        if (e.keyCode != 8) {
+          ccNum = ccNum + "-";
+        }
+      }
+      setCardNumber(ccNum);
+    }
+  };
+
+  const validateCreditCardNumber = () => {
+    let ccNum = cardNumber.replace(/-/g, "");
+    var visaRegEx = /^(?:4[0-9]{12}(?:[0-9]{3})?)$/;
+    var mastercardRegEx = /^(?:5[1-5][0-9]{14})$/;
+    var amexpRegEx = /^(?:3[47][0-9]{13})$/;
+    var discovRegEx = /^(?:6(?:011|5[0-9][0-9])[0-9]{12})$/;
+    var isValid = false;
+
+    if (visaRegEx.test(ccNum)) {
+      isValid = true;
+    } else if (mastercardRegEx.test(ccNum)) {
+      isValid = true;
+    } else if (amexpRegEx.test(ccNum)) {
+      isValid = true;
+    } else if (discovRegEx.test(ccNum)) {
+      isValid = true;
+    }
+    if (isValid) {
+      return true;
+    } else {
+      setCardNumberError(["Please provide a valid Visa number!"]);
+      return false;
+    }
+  };
+
+  const validateExpiryData = () => {
+    var today, newDay;
+    let cardMY = cardDate.split("/");
+    var exMonth = cardMY[0];
+    var exYear = cardMY[1];
+    today = new Date();
+    newDay = new Date();
+    newDay.setFullYear(exYear, exMonth, 1);
+    if (newDay < today) {
+      setExpiryDateError("Invalid expiry date");
+      return false;
+    }
+    return true;
+  };
+
+  const handleSubmit = event => {
+    event.preventDefault();
+
+    if (validateCreditCardNumber()) return false;
+    if (validateExpiryData()) return false;
+  };
 
   //payment form
   const [state, setState] = useState({
     Cod: false,
     CreditCard: false,
-    Paypal: false,
+    Paypal: false
   });
 
-  const handleChange = (event) => {
-    setState({ ...state, [event.target.name]: event.target.checked });
-  };
-
   const { Cod, CreditCard, Paypal } = state;
-  const error = [Cod, CreditCard, Paypal].filter((v) => v).length !== 2;
+  const error = [Cod, CreditCard, Paypal].filter(v => v).length !== 2;
 
   useEffect(() => {
-    Auth.currentAuthenticatedUser().then((user) => {
-      setUser_id(user.attributes.sub);
-    });
-    trackPromise(
-      fetch(CART_API_URL + "/test")
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          setCart(data.items);
-          var cartArr = data.items;
-          var promises = [];
-          cartArr.forEach(async function (item) {
-            console.log(item.product_id);
-            var promise = await fetch(PRODUCT_API_URL + "/" + item.product_id)
-              .then((response) => {
-                return response.json();
-              })
-              .then((data) => {
-                data.products[0].quantity = item.quantity;
-                setProducts((products) => [...products, data.products[0]]);
-              })
-              .catch((error) => {
-                alert(error);
-              });
+    Auth.currentAuthenticatedUser().then(user => {
+      trackPromise(
+        fetch(CART_API_URL + "/" + user.attributes.sub)
+          .then(response => {
+            return response.json();
+          })
+          .then(data => {
+            setCart(data.items);
+            var cartArr = data.items;
+            var promises = [];
+            cartArr.forEach(async function (item) {
+              console.log(item.product_id);
+              var promise = await fetch(PRODUCT_API_URL + "/" + item.product_id)
+                .then(response => {
+                  return response.json();
+                })
+                .then(data => {
+                  data.products[0].quantity = item.quantity;
+                  setProducts(products => [...products, data.products[0]]);
+                })
+                .catch(error => {
+                  alert(error);
+                });
 
-            promises.push(promise);
-          });
-        })
-        .catch((error) => {
-          alert(error);
-        })
-    );
+              promises.push(promise);
+            });
+          })
+          .catch(error => {
+            alert(error);
+          })
+      );
+    });
   }, []);
 
-  function handleSubmit(
-    name,
-    email,
-    address,
-    address2,
-    city,
-    state,
-    zipCode,
-    paymentMethod
-  ) {
-    var data = {
-      name: name,
-      email: email,
-      address: address,
-      address2: address2,
-      country: country,
-      state: state,
-      zipCode: zipCode,
-      city: city,
-      paymentMethod: paymentMethod,
-      cart_id: cart_id,
-      user_id: "test", // TODO: use actual user_id
-    };
-    fetch(ORDER_API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => {
-        if (response.status === 404 || response.status === 400) {
-          NotificationManager.error(
-            "Error creating order. Please ensure all fields are correct."
-          );
-          return response.json();
-        }
-        NotificationManager.success("Successfully created order.");
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  }
   var cartData = (
     <div>
       <Grid container spacing={2}>
@@ -209,7 +207,7 @@ export default function Checkout() {
             </Box>
           </Box>
         </MediaQuery>
-        {products.map((product) => (
+        {products.map(product => (
           <Card key={product.productId} className="product-table--row">
             <CardMedia
               image={product.imageUrl} /* change to product.imageUrl */
@@ -330,18 +328,18 @@ export default function Checkout() {
   }
   const [value, setValue] = React.useState("female");
 
-  const deliveryHandleChange = (event) => {
+  const deliveryHandleChange = event => {
     setValue(event.target.value);
   };
 
-  const numberWithCommas = (x) => {
+  const numberWithCommas = x => {
     return x
       .toFixed(2)
       .toString()
       .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
-  const quantity = (products) => {
+  const quantity = products => {
     let total = 0;
     products.forEach(function (product) {
       total = total + parseInt(product.quantity);
@@ -349,10 +347,10 @@ export default function Checkout() {
     return total;
   };
 
-  const subTotal = (products) => {
+  const subTotal = products => {
     let subTotal = 0;
     products.forEach(function (product, i) {
-      subTotal = subTotal + parseInt(product.price);
+      subTotal = subTotal + parseInt(product.price) * product.quantity;
     });
 
     return subTotal;
@@ -439,7 +437,7 @@ export default function Checkout() {
                     <ul>
                       <li>
                         <Typography>
-                          Subtotal ({quantity(products)} items)
+                          Subtotal ({products.length} items)
                         </Typography>
                         <Typography>
                           {products &&
@@ -476,66 +474,130 @@ export default function Checkout() {
                 </Box>
               </Grid>
               <Grid item xs={12} md={4}>
-                <Box className="primary-structure--box">
-                  <Typography className="font-bold">Payment Options</Typography>
-                  <FormControl component="fieldset">
-                    <RadioGroup
-                      aria-label="gender"
-                      name="gender1"
-                      value={value}
-                      onChange={deliveryHandleChange}
-                    >
-                      <FormControlLabel
-                        value="cc"
-                        control={<Radio color="primary" />}
-                        label="Credit Card/Debit Card"
-                        // labelPlacement="start"
-                      />
-                      <FormControlLabel
-                        value="paypal"
-                        control={<Radio color="primary" />}
-                        label="Paypal"
-                        // labelPlacement="start"
-                      />
-                    </RadioGroup>
-                  </FormControl>
-                  <Box className="form-group m-b-20">
-                    <label>Card Number*</label>
-                    <Box className="input-with-icon">
-                      <TextField
-                        id="outlined-basic"
-                        variant="outlined"
-                        placeholder="xxxx - xxxx - xxxx"
-                      />
-                      <img src={masterCard} width="20" alt="Card" />
-                      {/* <img src={visa} width="30" alt="Card" />
+                <ValidatorForm onSubmit={handleSubmit}>
+                  <Box className="primary-structure--box">
+                    <Typography className="font-bold">
+                      Payment Options
+                    </Typography>
+                    <FormControl component="fieldset">
+                      <RadioGroup
+                        aria-label="gender"
+                        name="payment_methods"
+                        value={paymentOption}
+                        onChange={handleChange}
+                      >
+                        <FormControlLabel
+                          value="card"
+                          control={<Radio color="primary" />}
+                          label="Credit Card/Debit Card"
+                          // labelPlacement="start"
+                        />
+                        <FormControlLabel
+                          value="paypal"
+                          control={<Radio color="primary" />}
+                          label="Paypal"
+                          // labelPlacement="start"
+                        />
+                      </RadioGroup>
+                    </FormControl>
+                    <Box className="form-group m-b-20">
+                      <label>Card Number*</label>
+                      <Box className="input-with-icon">
+                        <TextValidator
+                          autoFocus
+                          autoComplete="off"
+                          variant="outlined"
+                          id="card_number"
+                          key="card_number"
+                          name="card_number"
+                          placeholder="xxxx - xxxx - xxxx"
+                          value={cardNumber}
+                          onChange={e => {
+                            setCreditCardNumber(e);
+                          }}
+                          type="text"
+                          validators={["required"]}
+                          errorMessages={["this field is required"]}
+                        />
+                        <img src={masterCard} width="20" alt="Card" />
+                        {/* <img src={visa} width="30" alt="Card" />
                         <img src={paypal} width="15" alt="Card" /> */}
+                        {cardNumberError && (
+                          <Typography
+                            component="p"
+                            className="card_number_error Mui-error"
+                            id="card_number-helper-text"
+                          >
+                            {cardNumberError}
+                          </Typography>
+                        )}
+                      </Box>
                     </Box>
+                    <Grid container spacing={2}>
+                      <Grid item xs={6}>
+                        <Box className="form-group">
+                          <label>Expiry Date*</label>
+                          <TextValidator
+                            autoFocus
+                            autoComplete="off"
+                            variant="outlined"
+                            id="expiry_date"
+                            key="expiry_date"
+                            name="expiry_date"
+                            placeholder="01/2020"
+                            value={cardDate}
+                            onChange={e => {
+                              setExpiryDate(e);
+                            }}
+                            type="text"
+                            validators={["required"]}
+                            errorMessages={["this field is required"]}
+                          />
+                          {expiryDateError && (
+                            <Typography
+                              component="p"
+                              className="card_number_error Mui-error"
+                              id="card_number-helper-text"
+                            >
+                              {expiryDateError}
+                            </Typography>
+                          )}
+                        </Box>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Box className="form-group">
+                          <label>Security Code*</label>
+                          <TextValidator
+                            autoFocus
+                            autoComplete="off"
+                            variant="outlined"
+                            id="security_code"
+                            key="security_code"
+                            name="security_code"
+                            placeholder="123"
+                            value={cvvCode}
+                            onChange={e => {
+                              setSecurityCode(e);
+                            }}
+                            type="text"
+                            validators={["required"]}
+                            errorMessages={["this field is required"]}
+                          />
+                        </Box>
+                      </Grid>
+                    </Grid>
+                    <Button
+                      className="m-t-20"
+                      variant="contained"
+                      color="primary"
+                      disableElevation
+                      fullWidth
+                      type="submit"
+                    >
+                      Place Order
+                    </Button>
                   </Box>
-                  <Grid container spacing={2}>
-                    <Grid item xs={6}>
-                      <Box className="form-group">
-                        <label>Expiry Date*</label>
-                        <TextField id="outlined-basic" variant="outlined" />
-                      </Box>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Box className="form-group">
-                        <label>Security Code*</label>
-                        <TextField id="outlined-basic" variant="outlined" />
-                      </Box>
-                    </Grid>
-                  </Grid>
-                  <Button
-                    className="m-t-20"
-                    variant="contained"
-                    color="primary"
-                    disableElevation
-                    fullWidth
-                  >
-                    Place Order
-                  </Button>
-                </Box>
+                </ValidatorForm>
               </Grid>
             </Grid>
           </Box>
@@ -543,4 +605,6 @@ export default function Checkout() {
       </Box>
     </div>
   );
-}
+};
+
+export default Checkout;

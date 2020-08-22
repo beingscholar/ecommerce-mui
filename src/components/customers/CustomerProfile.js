@@ -1,64 +1,18 @@
-import React, { useEffect, useState } from "react";
-import {
-  Route,
-  BrowserRouter as Router,
-  Link as RouterLink,
-  Switch
-} from "react-router-dom";
-import Link from "@material-ui/core/Link";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
-import TextField from "@material-ui/core/TextField";
-import { useParams } from "react-router";
-import { trackPromise } from "react-promise-tracker";
-import { NotificationManager } from "react-notifications";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
+import { Box, Button, ButtonGroup, CardMedia } from "@material-ui/core";
 import Container from "@material-ui/core/Container";
-import Divider from "@material-ui/core/Divider";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import Modal from "@material-ui/core/Modal";
-import security from "../../assets/img/security.svg";
-import camera from "../../assets/img/camera.svg";
+import Grid from "@material-ui/core/Grid";
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import { Auth } from "aws-amplify";
+import React, { useEffect, useState } from "react";
+import { trackPromise } from "react-promise-tracker";
 import masterCard from "../../assets/img/mastercard.svg";
-import visa from "../../assets/img/visa.svg";
-import paypal from "../../assets/img/paypal.svg";
+import security from "../../assets/img/security.svg";
 // import user from "../../assets/img/user.jpg";
 import userDefaultImg from "../../assets/img/user-default-image.png";
-
-import { makeStyles } from "@material-ui/core/styles";
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  CardHeader,
-  IconButton,
-  CardMedia
-} from "@material-ui/core";
-
-import { Auth } from "aws-amplify";
-import CustomerEditForm from "./CustomerEditForm";
-
-import List from "@material-ui/core/List";
-import ListSubheader from "@material-ui/core/ListSubheader";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import Collapse from "@material-ui/core/Collapse";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import DraftsIcon from "@material-ui/icons/Drafts";
-import SendIcon from "@material-ui/icons/Send";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
-import StarBorder from "@material-ui/icons/StarBorder";
+import { CUSTOMER_URL } from "../../config/apiUrl";
 import history from "../utilities/history";
 import CustomerMenu from "./CustomerMenu";
-
-import { CUSTOMER_URL } from "../../config/apiUrl";
 
 function getModalStyle() {
   return {
@@ -78,22 +32,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const CustomerProfile = () => {
-  const [customer, setCustomer] = useState("");
-  const [modalStyle] = React.useState(getModalStyle);
   const [user_id, setUser_id] = useState("");
-  const classes = useStyles();
-
-  const [open, setOpen] = useState(false);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [birthDate, setBirthDate] = useState("2017-05-24");
-  const [gender, setGender] = useState("Female");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [photoURL, setPhotoURL] = useState("");
-
-  const handleClick = () => {
-    setOpen(!open);
-  };
+  const [customer, setCustomer] = useState("");
+  const [profilePic, setProfilePic] = useState(userDefaultImg);
 
   useEffect(() => {
     trackPromise(
@@ -105,6 +46,7 @@ const CustomerProfile = () => {
           })
           .then(data => {
             setCustomer(data.customer);
+            setProfilePic(data.customer.profilePhotoUrl);
           })
           .catch(error => {
             alert(error);
@@ -112,99 +54,6 @@ const CustomerProfile = () => {
       })
     );
   }, []);
-  function refreshCustomerList() {
-    trackPromise(
-      fetch(CUSTOMER_URL + "/" + user_id)
-        .then(response => {
-          return response.json();
-        })
-        .then(data => {
-          setCustomer(data.customer);
-        })
-    );
-  }
-
-  const handleEdit = customer => {
-    setFirstName(customer.firstName);
-    setLastName(customer.lastName);
-    //setEmail(customer.email);
-    //setUsername()
-    var cBirthDate = customer.birthDate.split("T");
-    setBirthDate(cBirthDate[0]);
-    setGender(customer.gender);
-    setPhoneNumber(customer.phoneNumber);
-    setPhotoURL(customer.profilePhotoUrl);
-    //custAcctNo
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const handleEditSubmit = (
-    firstName,
-    lastName,
-    birthDate,
-    gender,
-    phoneNumber,
-    photoURL
-  ) => {
-    var data = {
-      firstName: firstName,
-      lastName: lastName,
-      email: customer.email,
-      userName: customer.userName,
-      birthDate: birthDate + "T00:00:00.000000",
-      gender: gender,
-      custAccountNo: customer.custAccountNo,
-      phoneNumber: phoneNumber,
-      profilePhotoUrl: photoURL
-    };
-    console.log(JSON.stringify(data));
-    var newURL = CUSTOMER_URL + "/" + customer.customerId;
-    fetch(newURL, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
-    })
-      .then(response => {
-        if (response.status === 404 || response.status === 400) {
-          NotificationManager.error(
-            "Error editing customer " +
-              customer.customerId +
-              ". Please ensure all fields are correct."
-          );
-          return response.json();
-        }
-        NotificationManager.success(
-          "Successfully edited customer " + customer.customerId
-        );
-        refreshCustomerList();
-      })
-      .catch(error => {
-        console.error("Error:", error);
-      });
-    handleClose();
-  };
-
-  const props = {
-    label: "Edit My Account",
-    firstName,
-    setFirstName,
-    lastName,
-    setLastName,
-    birthDate,
-    setBirthDate,
-    gender,
-    setGender,
-    phoneNumber,
-    setPhoneNumber,
-    photoURL,
-    setPhotoURL,
-    handleSubmit: handleEditSubmit,
-    handleClose
-  };
 
   if (customer) {
     const {
@@ -265,11 +114,6 @@ const CustomerProfile = () => {
       </Grid>
     );
   }
-  const [value, setValue] = React.useState("female");
-
-  const handleChange = event => {
-    setValue(event.target.value);
-  };
 
   return (
     <Box className="primary-structure">
@@ -287,12 +131,7 @@ const CustomerProfile = () => {
                   <Grid item xs={12} sm={4} md={2}>
                     <Box className="profile-image-box">
                       <img
-                        src={
-                          customer.length &&
-                          customer.profilePhotoUrl === "photoURL"
-                            ? userDefaultImg
-                            : customer.profilePhotoUrl
-                        }
+                        src={profilePic}
                         className="user-image"
                         alt="user"
                         title="user"
@@ -347,7 +186,7 @@ const CustomerProfile = () => {
                     <ul>
                       <li>Credit Card/Debit Card: </li>
                       <li>
-                        5125 - xxxx - xxxx - xxxx
+                        xxxx - xxxx - xxxx - 5125
                         <img src={masterCard} width="20" alt="Card" />
                         {/* <img src={visa} width="30" alt="Card" />
                         <img src={paypal} width="15" alt="Card" /> */}

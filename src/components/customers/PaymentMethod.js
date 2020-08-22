@@ -1,265 +1,118 @@
-import React, { useEffect, useState } from "react";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { Box, Button } from "@material-ui/core";
+import Container from "@material-ui/core/Container";
+import FormControl from "@material-ui/core/FormControl";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Grid from "@material-ui/core/Grid";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
-import TextField from "@material-ui/core/TextField";
-import { useParams } from "react-router";
-import back from "../../assets/img/back.svg";
-import { trackPromise } from "react-promise-tracker";
-import { NotificationManager } from "react-notifications";
-import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import Container from "@material-ui/core/Container";
-import Divider from "@material-ui/core/Divider";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import Modal from "@material-ui/core/Modal";
-import security from "../../assets/img/security.svg";
-import camera from "../../assets/img/camera.svg";
+import React from "react";
+import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
+import { useHistory } from "react-router-dom";
+import back from "../../assets/img/back.svg";
 import masterCard from "../../assets/img/mastercard.svg";
-import visa from "../../assets/img/visa.svg";
-import paypal from "../../assets/img/paypal.svg";
-import user from "../../assets/img/user.jpg";
-import { makeStyles } from "@material-ui/core/styles";
-import { Link as RouterLink } from "react-router-dom";
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  CardHeader,
-  IconButton,
-} from "@material-ui/core";
-
-import { Auth } from "aws-amplify";
-import CustomerEditForm from "./CustomerEditForm";
 import CustomerMenu from "./CustomerMenu";
 
-import { CUSTOMER_URL } from "../../config/apiUrl";
-
-function getModalStyle() {
-  return {
-    margin: "auto",
-  };
-}
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    "& .MuiTextField-root": {
-      margin: theme.spacing(2),
-      flexGrow: 1,
-    },
-  },
-  paper: {
-    position: "absolute",
-    width: 500,
-    backgroundColor: theme.palette.background.paper,
-    border: "2px solid #000",
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-    overflowX: "auto",
-  },
-  table: {
-    minWidth: 650,
-  },
-  tableHead: {
-    fontWeight: "bold",
-  },
-}));
-
 const PaymentMethod = () => {
-  const [customer, setCustomer] = useState();
-  const [modalStyle] = React.useState(getModalStyle);
-  const [user_id, setUser_id] = useState("");
-  const classes = useStyles();
+  const history = useHistory();
+  const [paymentOption, setPaymentOption] = React.useState("card");
 
-  const [open, setOpen] = useState(false);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [birthDate, setBirthDate] = useState("2017-05-24");
-  const [gender, setGender] = useState("Female");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [photoURL, setPhotoURL] = useState("");
+  const [cardNumber, setCardNumber] = React.useState("");
+  const [cardDate, setCardDate] = React.useState("");
+  const [cvvCode, setCVVCode] = React.useState("");
 
-  useEffect(() => {
-    trackPromise(
-      Auth.currentAuthenticatedUser().then((user) => {
-        setUser_id(user.attributes.sub);
-        fetch(CUSTOMER_URL + "/" + user.attributes.sub)
-          .then((response) => {
-            return response.json();
-          })
-          .then((data) => {
-            setCustomer(data.customer);
-          })
-          .catch((error) => {
-            alert(error);
-          });
-      })
-    );
-  }, []);
-  function refreshCustomerList() {
-    trackPromise(
-      fetch(CUSTOMER_URL + "/" + user_id)
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          setCustomer(data.customer);
-        })
-    );
-  }
+  const [cardNumberError, setCardNumberError] = React.useState("");
+  const [expiryDateError, setExpiryDateError] = React.useState("");
 
-  const handleEdit = (customer) => {
-    setFirstName(customer.firstName);
-    setLastName(customer.lastName);
-    //setEmail(customer.email);
-    //setUsername()
-    var cBirthDate = customer.birthDate.split("T");
-    setBirthDate(cBirthDate[0]);
-    setGender(customer.gender);
-    setPhoneNumber(customer.phoneNumber);
-    setPhotoURL(customer.profilePhotoUrl);
-    //custAcctNo
-    setOpen(true);
+  const handleChange = event => {
+    setPaymentOption(event.target.value);
   };
-  const handleClose = () => {
-    setOpen(false);
+
+  const setSecurityCode = e => {
+    let cvv = e.target.value;
+    const regex = /^\d+$/;
+    let isValid = regex.test(cvv);
+    if (cvv.length < 4 && isValid) {
+      setCVVCode(cvv);
+    }
   };
-  const handleEditSubmit = (
-    firstName,
-    lastName,
-    birthDate,
-    gender,
-    phoneNumber,
-    photoURL
-  ) => {
-    var data = {
-      firstName: firstName,
-      lastName: lastName,
-      email: customer.email,
-      userName: customer.userName,
-      birthDate: birthDate + "T00:00:00.000000",
-      gender: gender,
-      custAccountNo: customer.custAccountNo,
-      phoneNumber: phoneNumber,
-      profilePhotoUrl: photoURL,
-    };
-    console.log(JSON.stringify(data));
-    var newURL = CUSTOMER_URL + "/" + customer.customerId;
-    fetch(newURL, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => {
-        if (response.status === 404 || response.status === 400) {
-          NotificationManager.error(
-            "Error editing customer " +
-              customer.customerId +
-              ". Please ensure all fields are correct."
-          );
-          return response.json();
+
+  const setExpiryDate = e => {
+    let expDate = e.target.value;
+    const regex = /^[0-9/]*$/;
+    let isValid = regex.test(expDate);
+    if (expDate.length < 8 && isValid) {
+      if (expDate.length == 2) {
+        if (e.keyCode != 8) {
+          expDate = expDate + "/";
         }
-        NotificationManager.success(
-          "Successfully edited customer " + customer.customerId
-        );
-        refreshCustomerList();
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-    handleClose();
+      }
+      setCardDate(expDate);
+    }
   };
 
-  const props = {
-    label: "Edit My Account",
-    firstName,
-    setFirstName,
-    lastName,
-    setLastName,
-    birthDate,
-    setBirthDate,
-    gender,
-    setGender,
-    phoneNumber,
-    setPhoneNumber,
-    photoURL,
-    setPhotoURL,
-    handleSubmit: handleEditSubmit,
-    handleClose,
+  const setCreditCardNumber = e => {
+    setCardNumberError("");
+    let ccNum = e.target.value;
+    const regex = /^[0-9-]*$/;
+    let isValid = regex.test(ccNum);
+    if (ccNum.length < 20 && isValid) {
+      if (ccNum.length == 4 || ccNum.length == 9 || ccNum.length == 14) {
+        if (e.keyCode != 8) {
+          ccNum = ccNum + "-";
+        }
+      }
+      setCardNumber(ccNum);
+    }
   };
 
-  if (customer) {
-    var customerData = (
-      <div>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Typography variant="h4">
-              Customer: {customer.firstName + " " + customer.lastName}
-            </Typography>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => handleEdit(customer)}
-            >
-              Edit My Account
-            </Button>
-            <Button
-              variant="contained"
-              color="secondary"
-              component={RouterLink}
-              to="/billings"
-            >
-              My Billings
-            </Button>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Card>
-              <CardContent>
-                <div style={{ marginBottom: "1em" }}>
-                  <strong>Personal Info</strong>
-                </div>
-                <Divider /> <br />
-                <strong>Customer Id:</strong> {customer.customerId} <br />
-                <strong>Email: </strong>
-                {customer.email} <br />
-                <strong>Username:</strong> {customer.userName} <br />
-                <strong>Phone Number:</strong> {customer.phoneNumber} <br />
-                <strong>Gender:</strong> {customer.gender} <br />
-                <strong>Birth Date:</strong> {customer.birthDate} <br />
-                <strong>Profile Photo URL:</strong> {customer.profilePhotoUrl}{" "}
-                <br />
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Card>
-              <CardContent>
-                <div style={{ marginBottom: "1em" }}>
-                  <strong>Account Info</strong>
-                </div>
-                <Divider /> <br />
-                <strong>Created Date: </strong>
-                {customer.createdDate}
-                <br />
-                <strong>Updated Date:</strong> {customer.updatedDate}
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
-      </div>
-    );
-  }
-  const [value, setValue] = React.useState("female");
+  const validateCreditCardNumber = () => {
+    let ccNum = cardNumber.replace(/-/g, "");
+    var visaRegEx = /^(?:4[0-9]{12}(?:[0-9]{3})?)$/;
+    var mastercardRegEx = /^(?:5[1-5][0-9]{14})$/;
+    var amexpRegEx = /^(?:3[47][0-9]{13})$/;
+    var discovRegEx = /^(?:6(?:011|5[0-9][0-9])[0-9]{12})$/;
+    var isValid = false;
 
-  const handleChange = (event) => {
-    setValue(event.target.value);
+    if (visaRegEx.test(ccNum)) {
+      isValid = true;
+    } else if (mastercardRegEx.test(ccNum)) {
+      isValid = true;
+    } else if (amexpRegEx.test(ccNum)) {
+      isValid = true;
+    } else if (discovRegEx.test(ccNum)) {
+      isValid = true;
+    }
+    if (isValid) {
+      return true;
+    } else {
+      setCardNumberError(["Please provide a valid Visa number!"]);
+      return false;
+    }
   };
+
+  const validateExpiryData = () => {
+    var today, newDay;
+    let cardMY = cardDate.split("/");
+    var exMonth = cardMY[0];
+    var exYear = cardMY[1];
+    today = new Date();
+    newDay = new Date();
+    newDay.setFullYear(exYear, exMonth, 1);
+    if (newDay < today) {
+      setExpiryDateError("Invalid expiry date");
+      return false;
+    }
+    return true;
+  };
+
+  const handleSubmit = event => {
+    event.preventDefault();
+
+    if (validateCreditCardNumber()) return false;
+    if (validateExpiryData()) return false;
+  };
+
   return (
     <Box className="primary-structure">
       <Container maxWidth="lg">
@@ -273,75 +126,140 @@ const PaymentMethod = () => {
               </Box>
               <Grid container justify="center">
                 <Grid item xs={12} md={6} lg={5}>
-                  <Box className="back-arrow">
+                  <Box
+                    className="back-arrow"
+                    onClick={() => history.push("/profile")}
+                  >
                     <img src={back} alt="back" />
                     Go back
                   </Box>
-                  <Box className="primary-structure--box">
-                    <Typography className="m-b-30">
-                      <Typography component="strong">
-                        Manage Payment Method
+                  <ValidatorForm onSubmit={handleSubmit}>
+                    <Box className="primary-structure--box">
+                      <Typography className="m-b-30">
+                        <Typography component="strong">
+                          Manage Payment Method
+                        </Typography>
                       </Typography>
-                    </Typography>
-                    <FormControl component="fieldset">
-                      <RadioGroup
-                        aria-label="gender"
-                        name="gender1"
-                        value={value}
-                        onChange={handleChange}
-                      >
-                        <FormControlLabel
-                          value="female"
-                          control={<Radio color="primary" />}
-                          label="Credit Card/Debit Card"
-                          // labelPlacement="start"
-                        />
-                        <FormControlLabel
-                          value="male"
-                          control={<Radio color="primary" />}
-                          label="Paypal"
-                          // labelPlacement="start"
-                        />
-                      </RadioGroup>
-                    </FormControl>
 
-                    <Box className="form-group m-b-20">
-                      <label>Card Number*</label>
-                      <Box className="input-with-icon">
-                        <TextField
-                          id="outlined-basic"
-                          variant="outlined"
-                          placeholder="xxxx - xxxx - xxxx"
-                        />
-                        <img src={masterCard} width="20" alt="Card" />
-                        {/* <img src={visa} width="30" alt="Card" />
+                      <FormControl component="fieldset">
+                        <RadioGroup
+                          aria-label="gender"
+                          name="payment_methods"
+                          value={paymentOption}
+                          onChange={handleChange}
+                        >
+                          <FormControlLabel
+                            value="card"
+                            control={<Radio color="primary" />}
+                            label="Credit Card/Debit Card"
+                            // labelPlacement="start"
+                          />
+                          <FormControlLabel
+                            value="paypal"
+                            control={<Radio color="primary" />}
+                            label="Paypal"
+                            // labelPlacement="start"
+                          />
+                        </RadioGroup>
+                      </FormControl>
+                      <Box className="form-group m-b-20">
+                        <label>Card Number*</label>
+                        <Box className="input-with-icon">
+                          <TextValidator
+                            autoFocus
+                            autoComplete="off"
+                            variant="outlined"
+                            id="card_number"
+                            key="card_number"
+                            name="card_number"
+                            placeholder="xxxx - xxxx - xxxx"
+                            value={cardNumber}
+                            onChange={e => {
+                              setCreditCardNumber(e);
+                            }}
+                            type="text"
+                            validators={["required"]}
+                            errorMessages={["this field is required"]}
+                          />
+                          <img src={masterCard} width="20" alt="Card" />
+                          {/* <img src={visa} width="30" alt="Card" />
                         <img src={paypal} width="15" alt="Card" /> */}
+                          {cardNumberError && (
+                            <Typography
+                              component="p"
+                              className="card_number_error Mui-error"
+                              id="card_number-helper-text"
+                            >
+                              {cardNumberError}
+                            </Typography>
+                          )}
+                        </Box>
                       </Box>
+                      <Grid container spacing={2}>
+                        <Grid item xs={12} sm={6}>
+                          <Box className="form-group">
+                            <label>Expiry Date*</label>
+                            <TextValidator
+                              autoFocus
+                              autoComplete="off"
+                              variant="outlined"
+                              id="expiry_date"
+                              key="expiry_date"
+                              name="expiry_date"
+                              placeholder="01/2020"
+                              value={cardDate}
+                              onChange={e => {
+                                setExpiryDate(e);
+                              }}
+                              type="text"
+                              validators={["required"]}
+                              errorMessages={["this field is required"]}
+                            />
+                            {expiryDateError && (
+                              <Typography
+                                component="p"
+                                className="card_number_error Mui-error"
+                                id="card_number-helper-text"
+                              >
+                                {expiryDateError}
+                              </Typography>
+                            )}
+                          </Box>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Box className="form-group">
+                            <label>Security Code*</label>
+                            <TextValidator
+                              autoFocus
+                              autoComplete="off"
+                              variant="outlined"
+                              id="security_code"
+                              key="security_code"
+                              name="security_code"
+                              placeholder="123"
+                              value={cvvCode}
+                              onChange={e => {
+                                setSecurityCode(e);
+                              }}
+                              type="text"
+                              validators={["required"]}
+                              errorMessages={["this field is required"]}
+                            />
+                          </Box>
+                        </Grid>
+                      </Grid>
+                      <Button
+                        className="m-t-20"
+                        variant="contained"
+                        color="primary"
+                        disableElevation
+                        fullWidth
+                        type="submit"
+                      >
+                        Update
+                      </Button>
                     </Box>
-                    <Grid container spacing={2}>
-                      <Grid item xs={12} sm={6}>
-                        <Box className="form-group">
-                          <label>Expiry Date*</label>
-                          <TextField id="outlined-basic" variant="outlined" />
-                        </Box>
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <Box className="form-group">
-                          <label>Security Code*</label>
-                          <TextField id="outlined-basic" variant="outlined" />
-                        </Box>
-                      </Grid>
-                    </Grid>
-                    <Button
-                      className="m-t-20"
-                      variant="contained"
-                      color="primary"
-                      disableElevation
-                      fullWidth
-                    >
-                      Update
-                    </Button>
-                  </Box>
+                  </ValidatorForm>
                 </Grid>
               </Grid>
             </Box>

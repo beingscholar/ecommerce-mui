@@ -1,41 +1,26 @@
-import React, { useEffect, useState } from "react";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
-import TextField from "@material-ui/core/TextField";
-import { useParams } from "react-router";
-import { trackPromise } from "react-promise-tracker";
-import { NotificationManager } from "react-notifications";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import Container from "@material-ui/core/Container";
-import Divider from "@material-ui/core/Divider";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import Modal from "@material-ui/core/Modal";
-import security from "../../assets/img/security.svg";
-import camera from "../../assets/img/camera.svg";
-import masterCard from "../../assets/img/mastercard.svg";
-import visa from "../../assets/img/visa.svg";
-import paypal from "../../assets/img/paypal.svg";
-import user from "../../assets/img/user.jpg";
-import { makeStyles } from "@material-ui/core/styles";
-import { Link as RouterLink } from "react-router-dom";
 import {
   Box,
   Button,
-  ButtonGroup,
-  CardHeader,
-  IconButton
+  ButtonGroup
 } from "@material-ui/core";
-
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import Container from "@material-ui/core/Container";
+import Divider from "@material-ui/core/Divider";
+import Grid from "@material-ui/core/Grid";
+import { makeStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { Auth } from "aws-amplify";
-import CustomerEditForm from "./CustomerEditForm";
-
+import React, { useEffect, useState } from "react";
+import { NotificationManager } from "react-notifications";
+import { trackPromise } from "react-promise-tracker";
+import { Link as RouterLink } from "react-router-dom";
+import security from "../../assets/img/security.svg";
 import { CUSTOMER_URL } from "../../config/apiUrl";
+
+
 
 function getModalStyle() {
   return {

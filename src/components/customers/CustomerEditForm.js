@@ -1,67 +1,21 @@
-import React, { useEffect, useState } from "react";
-import {
-  Route,
-  BrowserRouter as Router,
-  Link as RouterLink,
-  Switch
-} from "react-router-dom";
-
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
-import TextField from "@material-ui/core/TextField";
-import { useParams } from "react-router";
-import { trackPromise } from "react-promise-tracker";
-import { NotificationManager } from "react-notifications";
+import { Box, Button, CardMedia, MenuItem } from "@material-ui/core";
+import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import Container from "@material-ui/core/Container";
-import Divider from "@material-ui/core/Divider";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import Modal from "@material-ui/core/Modal";
-import security from "../../assets/img/security.svg";
-import camera from "../../assets/img/camera.svg";
-import masterCard from "../../assets/img/mastercard.svg";
-import visa from "../../assets/img/visa.svg";
-import paypal from "../../assets/img/paypal.svg";
-// import user from "../../assets/img/user.jpg";
-import userDefaultImg from "../../assets/img/user-default-image.png";
-import Link from "@material-ui/core/Link";
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  CardHeader,
-  IconButton,
-  CardMedia,
-  MenuItem
-} from "@material-ui/core";
-
 import { Auth } from "aws-amplify";
-import CustomerEditForm from "./CustomerEditForm";
-
-import ListSubheader from "@material-ui/core/ListSubheader";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import Collapse from "@material-ui/core/Collapse";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import DraftsIcon from "@material-ui/icons/Drafts";
-import SendIcon from "@material-ui/icons/Send";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
-import StarBorder from "@material-ui/icons/StarBorder";
-import CustomerMenu from "./CustomerMenu";
+import React, { useEffect, useState } from "react";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
-
+import { NotificationManager } from "react-notifications";
+import { trackPromise } from "react-promise-tracker";
+import camera from "../../assets/img/camera.svg";
+import security from "../../assets/img/security.svg";
+import userDefaultImg from "../../assets/img/user-default-image.png";
 import { CUSTOMER_URL, S3_BUCKET_URL } from "../../config/apiUrl";
+import CustomerMenu from "./CustomerMenu";
+import { useHistory } from "react-router-dom";
 
 const CustomerForm = () => {
-  const [user_id, setUser_id] = useState("");
+  const history = useHistory();
   const [customer, setCustomer] = useState();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -74,26 +28,11 @@ const CustomerForm = () => {
   const [region, setRegion] = useState("");
   const [country, setCountry] = useState("");
   const [zipCode, setZipCode] = useState("");
-  const [profilePhotoUrl, setProfilePhotoUrl] = useState("");
-
-  /* const handleUpload = async e => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("image", image.raw);
-
-    await fetch("YOUR_URL", {
-      method: "POST",
-      headers: {
-        "Content-Type": "multipart/form-data"
-      },
-      body: formData
-    });
-  }; */
+  const [profilePhotoUrl, setProfilePhotoUrl] = useState(userDefaultImg);
 
   useEffect(() => {
     trackPromise(
       Auth.currentAuthenticatedUser().then(user => {
-        setUser_id(user.attributes.sub);
         fetch(CUSTOMER_URL + "/" + user.attributes.sub)
           .then(response => {
             return response.json();
@@ -188,6 +127,7 @@ const CustomerForm = () => {
           "Successfully edited customer " + customer.customerId
         );
         // refreshCustomerList();
+        history.push("/profile");
       })
       .catch(error => {
         console.error("Error:", error);
@@ -227,7 +167,9 @@ const CustomerForm = () => {
           <Grid item xs={12} sm={9} md={10}>
             <Box className="primary-structure--content">
               <Box className="content-header">
-                <Typography component="h3">My Profile</Typography>
+                <Typography component="h3">
+                  Please update your details
+                </Typography>
                 {/* <ButtonGroup>
                   <Button variant="outlined" color="primary">
                     Save Changes
