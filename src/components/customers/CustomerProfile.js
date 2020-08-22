@@ -27,7 +27,8 @@ import camera from "../../assets/img/camera.svg";
 import masterCard from "../../assets/img/mastercard.svg";
 import visa from "../../assets/img/visa.svg";
 import paypal from "../../assets/img/paypal.svg";
-import user from "../../assets/img/user.jpg";
+// import user from "../../assets/img/user.jpg";
+import userDefaultImg from "../../assets/img/user-default-image.png";
 
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -77,7 +78,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const CustomerProfile = () => {
-  const [customer, setCustomer] = useState();
+  const [customer, setCustomer] = useState("");
   const [modalStyle] = React.useState(getModalStyle);
   const [user_id, setUser_id] = useState("");
   const classes = useStyles();
@@ -103,7 +104,6 @@ const CustomerProfile = () => {
             return response.json();
           })
           .then(data => {
-            console.log("data: ", data);
             setCustomer(data.customer);
           })
           .catch(error => {
@@ -216,7 +216,7 @@ const CustomerProfile = () => {
       birthDate,
       profilePhotoUrl
     } = customer;
-    console.log(customer);
+
     const {
       address_1,
       address_2,
@@ -225,7 +225,6 @@ const CustomerProfile = () => {
       country,
       zipcode
     } = customer.address;
-    console.log(!Object.keys(customer.address).length);
 
     var customerData = (
       <Grid item xs={12} sm={8} md={5}>
@@ -283,13 +282,17 @@ const CustomerProfile = () => {
               <Box className="content-header">
                 <Typography component="h3">My Profile</Typography>
               </Box>
-
               <Box className="primary-structure--box">
                 <Grid container>
                   <Grid item xs={12} sm={4} md={2}>
                     <Box className="profile-image-box">
                       <img
-                        src={user}
+                        src={
+                          customer.length &&
+                          customer.profilePhotoUrl === "photoURL"
+                            ? userDefaultImg
+                            : customer.profilePhotoUrl
+                        }
                         className="user-image"
                         alt="user"
                         title="user"

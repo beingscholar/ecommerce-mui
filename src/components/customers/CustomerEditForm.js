@@ -27,7 +27,8 @@ import camera from "../../assets/img/camera.svg";
 import masterCard from "../../assets/img/mastercard.svg";
 import visa from "../../assets/img/visa.svg";
 import paypal from "../../assets/img/paypal.svg";
-import user from "../../assets/img/user.jpg";
+// import user from "../../assets/img/user.jpg";
+import userDefaultImg from "../../assets/img/user-default-image.png";
 import Link from "@material-ui/core/Link";
 import {
   Box,
@@ -57,7 +58,7 @@ import StarBorder from "@material-ui/icons/StarBorder";
 import CustomerMenu from "./CustomerMenu";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 
-import { CUSTOMER_URL } from "../../config/apiUrl";
+import { CUSTOMER_URL, S3_BUCKET_URL } from "../../config/apiUrl";
 
 const CustomerForm = () => {
   const [user_id, setUser_id] = useState("");
@@ -74,16 +75,6 @@ const CustomerForm = () => {
   const [country, setCountry] = useState("");
   const [zipCode, setZipCode] = useState("");
   const [profilePhotoUrl, setProfilePhotoUrl] = useState("");
-
-  const handleChange = e => {
-    if (e.target.files.length) {
-      setProfilePhotoUrl(URL.createObjectURL(e.target.files[0]));
-      /* setProfilePhotoUrl({
-        preview: URL.createObjectURL(e.target.files[0]),
-        raw: e.target.files[0]
-      }); */
-    }
-  };
 
   /* const handleUpload = async e => {
     e.preventDefault();
@@ -203,6 +194,30 @@ const CustomerForm = () => {
       });
   };
 
+  const fileSelectedHandler = event => {
+    const files = event.target.files;
+    if (files.length) {
+      // setSelectedFile(event.target.files[0]);
+      console.log(files[0].name);
+      const formData = new FormData();
+      formData.append("file", files[0]);
+      let newURL = CUSTOMER_URL + "/upload";
+      fetch(newURL, { method: "POST", body: formData })
+        .then(response => {
+          if (response.status === 404 || response.status === 400) {
+            NotificationManager.error(
+              "Error uploading image to S3 " + customer.customerId
+            );
+            return response.json();
+          }
+          setProfilePhotoUrl(S3_BUCKET_URL + "/" + files[0].name);
+        })
+        .catch(error => {
+          console.error("Error:", error);
+        });
+    }
+  };
+
   return (
     <Box className="primary-structure">
       <Container maxWidth="lg">
@@ -248,15 +263,20 @@ const CustomerForm = () => {
                       <Box className="profile-image-box">
                         <Box className="position-relative">
                           <img
-                            src={profilePhotoUrl}
+                            src={
+                              profilePhotoUrl === "photoURL"
+                                ? userDefaultImg
+                                : profilePhotoUrl
+                            }
                             className="user-image"
                             alt="user"
                           />
                           <label>
                             <input
+                              name="image_upload"
                               accept="image/*"
                               type="file"
-                              onChange={handleChange}
+                              onChange={fileSelectedHandler}
                             />
                             <img src={camera} alt="camera" />
                             Change Photo
