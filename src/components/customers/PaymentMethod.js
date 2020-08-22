@@ -200,7 +200,6 @@ const PaymentMethod = () => {
                           <Box className="form-group">
                             <label>Expiry Date*</label>
                             <TextValidator
-                              autoFocus
                               autoComplete="off"
                               variant="outlined"
                               id="expiry_date"
@@ -230,7 +229,6 @@ const PaymentMethod = () => {
                           <Box className="form-group">
                             <label>Security Code*</label>
                             <TextValidator
-                              autoFocus
                               autoComplete="off"
                               variant="outlined"
                               id="security_code"

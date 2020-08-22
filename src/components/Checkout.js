@@ -25,12 +25,12 @@ import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import { trackPromise } from "react-promise-tracker";
 import MediaQuery from "react-responsive";
 import masterCard from "../assets/img/mastercard.svg";
-import { CART_API_URL, PRODUCT_API_URL } from "../config/apiUrl";
+import { CART_API_URL, CUSTOMER_URL, PRODUCT_API_URL } from "../config/apiUrl";
 
 const Checkout = () => {
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
-  const shippingFee = 0;
+  const [customer, setCustomer] = React.useState("");
 
   const [paymentOption, setPaymentOption] = React.useState("card");
 
@@ -40,6 +40,7 @@ const Checkout = () => {
 
   const [cardNumberError, setCardNumberError] = React.useState("");
   const [expiryDateError, setExpiryDateError] = React.useState("");
+  const shippingFee = 0;
 
   const handleChange = event => {
     setPaymentOption(event.target.value);
@@ -130,19 +131,20 @@ const Checkout = () => {
     if (validateExpiryData()) return false;
   };
 
-  //payment form
-  const [state, setState] = useState({
-    Cod: false,
-    CreditCard: false,
-    Paypal: false
-  });
-
-  const { Cod, CreditCard, Paypal } = state;
-  const error = [Cod, CreditCard, Paypal].filter(v => v).length !== 2;
-
   useEffect(() => {
-    Auth.currentAuthenticatedUser().then(user => {
-      trackPromise(
+    trackPromise(
+      Auth.currentAuthenticatedUser().then(user => {
+        fetch(CUSTOMER_URL + "/" + user.attributes.sub)
+          .then(response => {
+            return response.json();
+          })
+          .then(data => {
+            setCustomer(data.customer);
+          })
+          .catch(error => {
+            alert(error);
+          });
+
         fetch(CART_API_URL + "/" + user.attributes.sub)
           .then(response => {
             return response.json();
@@ -170,9 +172,9 @@ const Checkout = () => {
           })
           .catch(error => {
             alert(error);
-          })
-      );
-    });
+          });
+      })
+    );
   }, []);
 
   var cartData = (
@@ -356,6 +358,25 @@ const Checkout = () => {
     return subTotal;
   };
 
+  const { firstName, lastName, email, phoneNumber } = customer || "";
+
+  const { address_1, address_2, city, state, country, zipcode } =
+    customer.address || "";
+
+  const customer_address = !Object.keys(customer).length
+    ? ""
+    : address_1 +
+      ", " +
+      address_2 +
+      ", " +
+      city +
+      ", " +
+      state +
+      ", " +
+      country +
+      " - " +
+      zipcode;
+
   return (
     <div>
       <Box className="primary-structure">
@@ -375,11 +396,9 @@ const Checkout = () => {
                         <LocationOnOutlinedIcon></LocationOnOutlinedIcon>
                         <Box className="shipping-info--content">
                           <Typography className="title">
-                            Maria Dela Cruz
+                            {firstName + " " + lastName}
                           </Typography>
-                          <Typography>
-                            Metro Manila, Quezon City, Quezon City, Project 6
-                          </Typography>
+                          <Typography>{customer_address}</Typography>
                         </Box>
                       </Box>
                       <Button color="primary">Edit</Button>
@@ -401,7 +420,9 @@ const Checkout = () => {
                       <Box className="wrap">
                         <StayCurrentPortraitOutlinedIcon></StayCurrentPortraitOutlinedIcon>
                         <Box className="shipping-info--content">
-                          <Typography className="title">9124556770</Typography>
+                          <Typography className="title">
+                            {phoneNumber}
+                          </Typography>
                         </Box>
                       </Box>
                       <Button color="primary">Edit</Button>
@@ -411,9 +432,7 @@ const Checkout = () => {
                       <Box className="wrap">
                         <MailOutlinedIcon></MailOutlinedIcon>
                         <Box className="shipping-info--content">
-                          <Typography className="title">
-                            mariadelacruz@mail.com
-                          </Typography>
+                          <Typography className="title">{email}</Typography>
                         </Box>
                       </Box>
                       <Button color="primary">Edit</Button>
@@ -538,7 +557,6 @@ const Checkout = () => {
                         <Box className="form-group">
                           <label>Expiry Date*</label>
                           <TextValidator
-                            autoFocus
                             autoComplete="off"
                             variant="outlined"
                             id="expiry_date"
@@ -568,7 +586,6 @@ const Checkout = () => {
                         <Box className="form-group">
                           <label>Security Code*</label>
                           <TextValidator
-                            autoFocus
                             autoComplete="off"
                             variant="outlined"
                             id="security_code"

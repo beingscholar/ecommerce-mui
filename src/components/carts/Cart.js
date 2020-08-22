@@ -1,39 +1,26 @@
-import React, { Component } from "react";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import Checkbox from "@material-ui/core/Checkbox";
-import Card from "@material-ui/core/Card";
+import { Box, Button, InputBase } from "@material-ui/core";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
-import Grid from "@material-ui/core/Grid";
-import Link from "@material-ui/core/Link";
+import Checkbox from "@material-ui/core/Checkbox";
 import Container from "@material-ui/core/Container";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import { Link as RouterLink } from "react-router-dom";
-import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
-import FavoriteBorderOutlinedIcon from "@material-ui/icons/FavoriteBorderOutlined";
-import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
-import NumberField from "../ui/NumberField";
+import Grid from "@material-ui/core/Grid";
+import Link from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-import { trackPromise } from "react-promise-tracker";
+import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import FavoriteBorderOutlinedIcon from "@material-ui/icons/FavoriteBorderOutlined";
+import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
 import { Auth } from "aws-amplify";
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  CardHeader,
-  IconButton,
-  InputBase
-} from "@material-ui/core";
-
+import React, { Component } from "react";
+import { trackPromise } from "react-promise-tracker";
+import { Link as RouterLink } from "react-router-dom";
 //temp url for carts
-const CART_API_URL =
-  "http://myproject-alb-692769319.ap-southeast-1.elb.amazonaws.com/carts";
-const PRODUCT_API_URL =
-  "http://myproject-alb-692769319.ap-southeast-1.elb.amazonaws.com/products";
-
-const inventory_url =
-  "http://myproject-alb-692769319.ap-southeast-1.elb.amazonaws.com/inventory";
+import {
+  CART_API_URL,
+  CUSTOMER_URL,
+  INVENTORY_URL,
+  PRODUCT_API_URL
+} from "../../config/apiUrl";
 
 class Cart extends Component {
   constructor(props) {
@@ -43,7 +30,8 @@ class Cart extends Component {
       products: [],
       cart: [],
       quantity: 1,
-      user_id: 0
+      user_id: 0,
+      customerAddress: ""
     };
   }
 
@@ -52,6 +40,18 @@ class Cart extends Component {
     trackPromise(
       Auth.currentAuthenticatedUser().then(user => {
         that.setState({ user_id: user.attributes.sub });
+
+        fetch(CUSTOMER_URL + "/" + user.attributes.sub)
+          .then(response => {
+            return response.json();
+          })
+          .then(data => {
+            this.setState({ customerAddress: data.customer.address });
+          })
+          .catch(error => {
+            alert(error);
+          });
+
         fetch(CART_API_URL + "/" + user.attributes.sub)
           .then(response => {
             return response.json();
@@ -63,7 +63,7 @@ class Cart extends Component {
             let maxQuantity = 0;
             cartArr.forEach(async function (product) {
               // console.log(product.product_id);
-              var inv = await fetch(inventory_url + "/" + product.product_id)
+              var inv = await fetch(INVENTORY_URL + "/" + product.product_id)
                 .then(response => {
                   return response.json();
                 })
@@ -336,6 +336,29 @@ class Cart extends Component {
         (totalPrice, product) => totalPrice + parseInt(product.netTotal),
         0
       );
+    console.log();
+    const {
+      address_1,
+      address_2,
+      city,
+      state,
+      country,
+      zipcode
+    } = this.state.customerAddress;
+
+    const customer_address = !Object.keys(this.state.customerAddress).length
+      ? ""
+      : address_1 +
+        ", " +
+        address_2 +
+        ", " +
+        city +
+        ", " +
+        state +
+        ", " +
+        country +
+        " - " +
+        zipcode;
 
     return (
       <Box component="div" className="main-content">
@@ -378,7 +401,7 @@ class Cart extends Component {
                   <ul>
                     <li>
                       <LocationOnOutlinedIcon />
-                      Metro Manila Quezon City, Quezon City, Project 6
+                      {customer_address}
                     </li>
                   </ul>
                 </Box>
