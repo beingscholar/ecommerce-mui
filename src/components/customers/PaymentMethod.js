@@ -24,11 +24,11 @@ const PaymentMethod = () => {
   const [cardNumberError, setCardNumberError] = React.useState("");
   const [expiryDateError, setExpiryDateError] = React.useState("");
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     setPaymentOption(event.target.value);
   };
 
-  const setSecurityCode = e => {
+  const setSecurityCode = (e) => {
     let cvv = e.target.value;
     const regex = /^\d+$/;
     let isValid = regex.test(cvv);
@@ -37,7 +37,7 @@ const PaymentMethod = () => {
     }
   };
 
-  const setExpiryDate = e => {
+  const setExpiryDate = (e) => {
     let expDate = e.target.value;
     const regex = /^[0-9/]*$/;
     let isValid = regex.test(expDate);
@@ -51,7 +51,7 @@ const PaymentMethod = () => {
     }
   };
 
-  const setCreditCardNumber = e => {
+  const setCreditCardNumber = (e) => {
     setCardNumberError("");
     let ccNum = e.target.value;
     const regex = /^[0-9-]*$/;
@@ -106,7 +106,7 @@ const PaymentMethod = () => {
     return true;
   };
 
-  const handleSubmit = event => {
+  const handleSubmit = (event) => {
     event.preventDefault();
 
     if (validateCreditCardNumber()) return false;
@@ -174,7 +174,7 @@ const PaymentMethod = () => {
                             name="card_number"
                             placeholder="xxxx - xxxx - xxxx"
                             value={cardNumber}
-                            onChange={e => {
+                            onChange={(e) => {
                               setCreditCardNumber(e);
                             }}
                             type="text"
@@ -187,7 +187,7 @@ const PaymentMethod = () => {
                           {cardNumberError && (
                             <Typography
                               component="p"
-                              className="card_number_error Mui-error"
+                              className="custom-error"
                               id="card_number-helper-text"
                             >
                               {cardNumberError}
@@ -207,7 +207,7 @@ const PaymentMethod = () => {
                               name="expiry_date"
                               placeholder="01/2020"
                               value={cardDate}
-                              onChange={e => {
+                              onChange={(e) => {
                                 setExpiryDate(e);
                               }}
                               type="text"
@@ -236,7 +236,7 @@ const PaymentMethod = () => {
                               name="security_code"
                               placeholder="123"
                               value={cvvCode}
-                              onChange={e => {
+                              onChange={(e) => {
                                 setSecurityCode(e);
                               }}
                               type="text"

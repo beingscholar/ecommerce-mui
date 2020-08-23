@@ -16,19 +16,19 @@ import CustomerMenu from "./CustomerMenu";
 
 function getModalStyle() {
   return {
-    margin: "auto"
+    margin: "auto",
   };
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
     maxWidth: 360,
-    backgroundColor: theme.palette.background.paper
+    backgroundColor: theme.palette.background.paper,
   },
   nested: {
-    paddingLeft: theme.spacing(4)
-  }
+    paddingLeft: theme.spacing(4),
+  },
 }));
 
 const CustomerProfile = () => {
@@ -38,17 +38,17 @@ const CustomerProfile = () => {
 
   useEffect(() => {
     trackPromise(
-      Auth.currentAuthenticatedUser().then(user => {
+      Auth.currentAuthenticatedUser().then((user) => {
         setUser_id(user.attributes.sub);
         fetch(CUSTOMER_URL + "/" + user.attributes.sub)
-          .then(response => {
+          .then((response) => {
             return response.json();
           })
-          .then(data => {
+          .then((data) => {
             setCustomer(data.customer);
             setProfilePic(data.customer.profilePhotoUrl);
           })
-          .catch(error => {
+          .catch((error) => {
             alert(error);
           });
       })
@@ -63,7 +63,7 @@ const CustomerProfile = () => {
       phoneNumber,
       gender,
       birthDate,
-      profilePhotoUrl
+      profilePhotoUrl,
     } = customer;
 
     const {
@@ -72,11 +72,11 @@ const CustomerProfile = () => {
       city,
       state,
       country,
-      zipcode
+      zipcode,
     } = customer.address;
 
     var customerData = (
-      <Grid item xs={12} sm={8} md={5}>
+      <Grid item xs={12} sm={8} md={6} className="user-profile-spacing">
         <Typography component="h3">{firstName + " " + lastName}</Typography>
         <Typography>
           <Typography component="strong">Email Address: </Typography>
@@ -154,7 +154,7 @@ const CustomerProfile = () => {
                     </Box>
                   </Grid>
                   {customerData}
-                  <Grid item xs={12} md={5}>
+                  <Grid item xs={12} md={4}>
                     <ButtonGroup>
                       <Button
                         variant="contained"

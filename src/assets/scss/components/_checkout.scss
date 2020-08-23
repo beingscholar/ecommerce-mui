@@ -53,18 +53,18 @@
       }
       p {
         margin: 0;
-        font-family: Roboto;
-        font-size: 11px;
-        line-height: 13px;
+        // font-family: Roboto;
+        // font-size: 11px;
+        // line-height: 13px;
         letter-spacing: -0.015em;
         color: #000000;
         &:not(.title) {
           margin-top: 3px;
         }
         &.title {
-          font-size: 14px;
-          line-height: 16px;
-          font-weight: $font-bold;
+          font-size: 16px;
+          line-height: normal;
+          font-weight: $font-medium;
         }
       }
     }
@@ -168,8 +168,19 @@
     margin-top: 30px;
     display: flex;
     flex-wrap: wrap;
-    @media screen and (min-width: 768px) {
-      align-items: center;
+    align-items: flex-start;
+    h3 {
+      letter-spacing: normal;
+      line-height: normal;
+      font-weight: 500;
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+    p {
+      letter-spacing: normal;
+      line-height: normal;
+      font-size: 1rem;
+      font-weight: $font-regular;
     }
     .MuiCardMedia-root {
       width: 100%;
@@ -188,8 +199,8 @@
       // align-items: flex-end;
       @media screen and (min-width: 768px) {
         width: calc(100% - 120px);
-        padding: 16px !important;
-        align-items: center;
+        padding: 0 16px !important;
+        // align-items: center;
       }
       .product-info {
         width: 100%;
@@ -201,7 +212,7 @@
       .product-price {
         order: 2;
         width: 100%;
-        margin: 10px 0;
+        margin: 15px 0;
         @media screen and (min-width: 768px) {
           width: 100px;
           margin: 0;
@@ -209,11 +220,9 @@
           order: 3;
         }
         p {
-          font-weight: $font-medium;
-          font-size: 14px;
-          line-height: 16px;
+          font-weight: $font-regular;
           letter-spacing: -0.015em;
-          color: #cd4a12;
+          color: #ed716c;
         }
       }
       .product-quantity {
@@ -225,7 +234,7 @@
           flex-direction: column;
           order: 2;
           width: 100px;
-          align-items: center;
+          align-items: flex-start;
           justify-content: center;
         }
         span {
@@ -252,6 +261,8 @@
             font-size: 10px;
             margin-top: 2px;
             line-height: 12px;
+            width: 49px;
+            text-align: center;
           }
         }
       }
@@ -260,10 +271,12 @@
           margin-top: 7px;
         }
       }
-      .font-medium {
-        line-height: 14px;
-        font-size: 12px;
-      }
     }
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .user-profile-spacing {
+    padding-left: 50px;
   }
 }

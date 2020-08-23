@@ -7,7 +7,7 @@ import {
   Container,
   Grid,
   Link,
-  Typography
+  Typography,
 } from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -42,11 +42,11 @@ const Checkout = () => {
   const [expiryDateError, setExpiryDateError] = React.useState("");
   const shippingFee = 0;
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     setPaymentOption(event.target.value);
   };
 
-  const setSecurityCode = e => {
+  const setSecurityCode = (e) => {
     let cvv = e.target.value;
     const regex = /^\d+$/;
     let isValid = regex.test(cvv);
@@ -55,7 +55,7 @@ const Checkout = () => {
     }
   };
 
-  const setExpiryDate = e => {
+  const setExpiryDate = (e) => {
     let expDate = e.target.value;
     const regex = /^[0-9/]*$/;
     let isValid = regex.test(expDate);
@@ -69,7 +69,7 @@ const Checkout = () => {
     }
   };
 
-  const setCreditCardNumber = e => {
+  const setCreditCardNumber = (e) => {
     setCardNumberError("");
     let ccNum = e.target.value;
     const regex = /^[0-9-]*$/;
@@ -124,7 +124,7 @@ const Checkout = () => {
     return true;
   };
 
-  const handleSubmit = event => {
+  const handleSubmit = (event) => {
     event.preventDefault();
 
     if (validateCreditCardNumber()) return false;
@@ -133,44 +133,44 @@ const Checkout = () => {
 
   useEffect(() => {
     trackPromise(
-      Auth.currentAuthenticatedUser().then(user => {
+      Auth.currentAuthenticatedUser().then((user) => {
         fetch(CUSTOMER_URL + "/" + user.attributes.sub)
-          .then(response => {
+          .then((response) => {
             return response.json();
           })
-          .then(data => {
+          .then((data) => {
             setCustomer(data.customer);
           })
-          .catch(error => {
+          .catch((error) => {
             alert(error);
           });
 
         fetch(CART_API_URL + "/" + user.attributes.sub)
-          .then(response => {
+          .then((response) => {
             return response.json();
           })
-          .then(data => {
+          .then((data) => {
             setCart(data.items);
             var cartArr = data.items;
             var promises = [];
             cartArr.forEach(async function (item) {
               console.log(item.product_id);
               var promise = await fetch(PRODUCT_API_URL + "/" + item.product_id)
-                .then(response => {
+                .then((response) => {
                   return response.json();
                 })
-                .then(data => {
+                .then((data) => {
                   data.products[0].quantity = item.quantity;
-                  setProducts(products => [...products, data.products[0]]);
+                  setProducts((products) => [...products, data.products[0]]);
                 })
-                .catch(error => {
+                .catch((error) => {
                   alert(error);
                 });
 
               promises.push(promise);
             });
           })
-          .catch(error => {
+          .catch((error) => {
             alert(error);
           });
       })
@@ -209,7 +209,7 @@ const Checkout = () => {
             </Box>
           </Box>
         </MediaQuery>
-        {products.map(product => (
+        {products.map((product) => (
           <Card key={product.productId} className="product-table--row">
             <CardMedia
               image={product.imageUrl} /* change to product.imageUrl */
@@ -217,12 +217,8 @@ const Checkout = () => {
             ></CardMedia>
             <CardContent>
               <Box className="product-info">
-                <Typography className="font-bold">
-                  {product.productName}
-                </Typography>
-                <Typography className="font-medium">
-                  {product.productDescription}
-                </Typography>
+                <Typography component="h3">{product.productName}</Typography>
+                <Typography>{product.productDescription}</Typography>
               </Box>
 
               <Box className="product-quantity">
@@ -330,18 +326,18 @@ const Checkout = () => {
   }
   const [value, setValue] = React.useState("female");
 
-  const deliveryHandleChange = event => {
+  const deliveryHandleChange = (event) => {
     setValue(event.target.value);
   };
 
-  const numberWithCommas = x => {
+  const numberWithCommas = (x) => {
     return x
       .toFixed(2)
       .toString()
       .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
-  const quantity = products => {
+  const quantity = (products) => {
     let total = 0;
     products.forEach(function (product) {
       total = total + parseInt(product.quantity);
@@ -349,7 +345,7 @@ const Checkout = () => {
     return total;
   };
 
-  const subTotal = products => {
+  const subTotal = (products) => {
     let subTotal = 0;
     products.forEach(function (product, i) {
       subTotal = subTotal + parseInt(product.price) * product.quantity;
@@ -531,7 +527,7 @@ const Checkout = () => {
                           name="card_number"
                           placeholder="xxxx - xxxx - xxxx"
                           value={cardNumber}
-                          onChange={e => {
+                          onChange={(e) => {
                             setCreditCardNumber(e);
                           }}
                           type="text"
@@ -564,7 +560,7 @@ const Checkout = () => {
                             name="expiry_date"
                             placeholder="01/2020"
                             value={cardDate}
-                            onChange={e => {
+                            onChange={(e) => {
                               setExpiryDate(e);
                             }}
                             type="text"
@@ -593,7 +589,7 @@ const Checkout = () => {
                             name="security_code"
                             placeholder="123"
                             value={cvvCode}
-                            onChange={e => {
+                            onChange={(e) => {
                               setSecurityCode(e);
                             }}
                             type="text"
