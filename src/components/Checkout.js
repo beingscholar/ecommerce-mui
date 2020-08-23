@@ -381,7 +381,7 @@ const Checkout = () => {
             <Typography component="h4">Checkout (2) items</Typography>
             <Grid container spacing={3}>
               <Grid item xs={12} md={8}>
-                <Box className="primary-structure--box">
+                <Box className="primary-box delivery-info-box">
                   <Typography className="font-bold">
                     Shipping Details
                   </Typography>
@@ -447,14 +447,14 @@ const Checkout = () => {
                     </Typography>
                   </Box>
 
-                  <Box className="order-summary">
-                    <Typography className="font-bold">Order Summary</Typography>
-                    <ul>
+                  <Box className="warranty-box">
+                    <Typography component="h3">Order Summary</Typography>
+                    <ul className="order-summary">
                       <li>
-                        <Typography>
+                        <Typography component="span">
                           Subtotal ({products.length} items)
                         </Typography>
-                        <Typography>
+                        <Typography component="span">
                           {products &&
                             products.length &&
                             products[0].currency +
@@ -463,8 +463,8 @@ const Checkout = () => {
                         </Typography>
                       </li>
                       <li>
-                        <Typography>Shipping Fee</Typography>
-                        <Typography>
+                        <Typography component="span">Shipping Fee</Typography>
+                        <Typography component="span">
                           {products &&
                             products.length &&
                             products[0].currency +
@@ -472,20 +472,21 @@ const Checkout = () => {
                               numberWithCommas(shippingFee)}
                         </Typography>
                       </li>
-                      <li>
-                        <Typography component="strong">Total</Typography>
-                        <Typography component="strong">
-                          {products &&
-                            products.length &&
-                            products[0].currency +
-                              " " +
-                              numberWithCommas(
-                                subTotal(products) + shippingFee
-                              )}
-                        </Typography>
-                      </li>
                     </ul>
                   </Box>
+
+                  <Typography className="order-total">
+                    <Typography>Total</Typography>
+                    <Typography component="strong">
+                      <strong>
+                        {products &&
+                          products.length &&
+                          products[0].currency +
+                            " " +
+                            numberWithCommas(subTotal(products) + shippingFee)}
+                      </strong>
+                    </Typography>
+                  </Typography>
                 </Box>
               </Grid>
               <Grid item xs={12} md={4}>
@@ -540,7 +541,7 @@ const Checkout = () => {
                         {cardNumberError && (
                           <Typography
                             component="p"
-                            className="card_number_error Mui-error"
+                            className="custom-error"
                             id="card_number-helper-text"
                           >
                             {cardNumberError}
@@ -570,7 +571,7 @@ const Checkout = () => {
                           {expiryDateError && (
                             <Typography
                               component="p"
-                              className="card_number_error Mui-error"
+                              className="custom-error"
                               id="card_number-helper-text"
                             >
                               {expiryDateError}

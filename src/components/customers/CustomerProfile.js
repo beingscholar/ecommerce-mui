@@ -76,7 +76,7 @@ const CustomerProfile = () => {
     } = customer.address;
 
     var customerData = (
-      <Grid item xs={12} sm={8} md={6} className="user-profile-spacing">
+      <Grid item xs={12} sm={8} lg={5} className="user-profile-spacing">
         <Typography component="h3">{firstName + " " + lastName}</Typography>
         <Typography>
           <Typography component="strong">Email Address: </Typography>
@@ -128,7 +128,7 @@ const CustomerProfile = () => {
               </Box>
               <Box className="primary-structure--box">
                 <Grid container>
-                  <Grid item xs={12} sm={4} md={2}>
+                  <Grid item xs={12} sm={4} lg={2}>
                     <Box className="profile-image-box">
                       <img
                         src={profilePic}
@@ -154,7 +154,7 @@ const CustomerProfile = () => {
                     </Box>
                   </Grid>
                   {customerData}
-                  <Grid item xs={12} md={4}>
+                  <Grid item xs={12} lg={5}>
                     <ButtonGroup>
                       <Button
                         variant="contained"

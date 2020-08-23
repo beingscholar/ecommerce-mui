@@ -217,7 +217,7 @@ const PaymentMethod = () => {
                             {expiryDateError && (
                               <Typography
                                 component="p"
-                                className="card_number_error Mui-error"
+                                className="custom-error"
                                 id="card_number-helper-text"
                               >
                                 {expiryDateError}
