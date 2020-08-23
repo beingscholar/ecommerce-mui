@@ -67,7 +67,7 @@
       padding: 50px 40px;
     }
 
-    @media screen and (max-width: 992px) {
+    @media screen and (max-width: 1279px) {
       button {
         margin-top: 20px;
       }
@@ -200,7 +200,7 @@
       .user-image {
         border-radius: 50%;
         width: 96px;
-        object-fit: contain;
+        // object-fit: contain;
         display: block;
         margin: auto;
         height: 96px;
