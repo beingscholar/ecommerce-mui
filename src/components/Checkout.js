@@ -381,7 +381,7 @@ const Checkout = () => {
             <Typography component="h4">Checkout (2) items</Typography>
             <Grid container spacing={3}>
               <Grid item xs={12} md={8}>
-                <Box className="primary-box delivery-info-box">
+                <Box className="primary-structure--box">
                   <Typography className="font-bold">
                     Shipping Details
                   </Typography>
@@ -447,14 +447,14 @@ const Checkout = () => {
                     </Typography>
                   </Box>
 
-                  <Box className="warranty-box">
-                    <Typography component="h3">Order Summary</Typography>
-                    <ul className="order-summary">
+                  <Box className="order-summary">
+                    <Typography className="font-bold">Order Summary</Typography>
+                    <ul>
                       <li>
-                        <Typography component="span">
+                        <Typography>
                           Subtotal ({products.length} items)
                         </Typography>
-                        <Typography component="span">
+                        <Typography>
                           {products &&
                             products.length &&
                             products[0].currency +
@@ -463,8 +463,8 @@ const Checkout = () => {
                         </Typography>
                       </li>
                       <li>
-                        <Typography component="span">Shipping Fee</Typography>
-                        <Typography component="span">
+                        <Typography>Shipping Fee</Typography>
+                        <Typography>
                           {products &&
                             products.length &&
                             products[0].currency +
@@ -472,21 +472,20 @@ const Checkout = () => {
                               numberWithCommas(shippingFee)}
                         </Typography>
                       </li>
+                      <li>
+                        <Typography component="strong">Total</Typography>
+                        <Typography component="strong">
+                          {products &&
+                            products.length &&
+                            products[0].currency +
+                              " " +
+                              numberWithCommas(
+                                subTotal(products) + shippingFee
+                              )}
+                        </Typography>
+                      </li>
                     </ul>
                   </Box>
-
-                  <Typography className="order-total">
-                    <Typography>Total</Typography>
-                    <Typography component="strong">
-                      <strong>
-                        {products &&
-                          products.length &&
-                          products[0].currency +
-                            " " +
-                            numberWithCommas(subTotal(products) + shippingFee)}
-                      </strong>
-                    </Typography>
-                  </Typography>
                 </Box>
               </Grid>
               <Grid item xs={12} md={4}>
