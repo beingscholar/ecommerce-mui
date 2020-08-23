@@ -167,9 +167,7 @@ const CustomerForm = () => {
           <Grid item xs={12} sm={9} md={10}>
             <Box className="primary-structure--content">
               <Box className="content-header">
-                <Typography component="h3">
-                  Please update your details
-                </Typography>
+                <Typography component="h3">My Profile</Typography>
                 {/* <ButtonGroup>
                   <Button variant="outlined" color="primary">
                     Save Changes
@@ -181,6 +179,11 @@ const CustomerForm = () => {
               </Box>
 
               <Box className="primary-structure--box">
+                <Typography className="m-b-30">
+                  <Typography component="strong">
+                    Please update your details
+                  </Typography>
+                </Typography>
                 <ValidatorForm
                   onSubmit={e => {
                     e.preventDefault();

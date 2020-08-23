@@ -86,7 +86,7 @@ const PaymentMethod = () => {
     if (isValid) {
       return true;
     } else {
-      setCardNumberError(["Please provide a valid Visa number!"]);
+      setCardNumberError(["Please provide a valid card number!"]);
       return false;
     }
   };
@@ -217,7 +217,7 @@ const PaymentMethod = () => {
                             {expiryDateError && (
                               <Typography
                                 component="p"
-                                className="card_number_error Mui-error"
+                                className="custom-error"
                                 id="card_number-helper-text"
                               >
                                 {expiryDateError}
