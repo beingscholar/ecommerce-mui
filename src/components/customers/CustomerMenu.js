@@ -1,26 +1,14 @@
-import React from "react";
+import { Box } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  CardHeader,
-  IconButton
-} from "@material-ui/core";
-import security from "../../assets/img/security.svg";
-import List from "@material-ui/core/List";
-import ListSubheader from "@material-ui/core/ListSubheader";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import {
-  Route,
-  BrowserRouter as Router,
-  Link as RouterLink,
-  Switch
-} from "react-router-dom";
 import Link from "@material-ui/core/Link";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListSubheader from "@material-ui/core/ListSubheader";
+import Typography from "@material-ui/core/Typography";
+import React from "react";
+import { Link as RouterLink } from "react-router-dom";
+import security from "../../assets/img/security.svg";
 
 const CustomerMenu = props => {
   return (

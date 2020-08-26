@@ -591,12 +591,17 @@
       }
       &.order-summary {
         li {
-          padding: 10px 0;
+          padding: 0;
           display: flex;
           align-items: center;
           justify-content: space-between;
+
+          & + li {
+            margin-top: 20px;
+          }
           span {
             font-size: 14px;
+            margin: 0;
             font-weight: 300;
           }
         }
@@ -798,7 +803,8 @@
       }
       .icon-group {
         display: flex;
-        align-self: center;
+        align-items: center;
+        justify-content: center;
         svg {
           & + svg {
             margin-left: 15px;
@@ -816,7 +822,8 @@
         display: block;
         margin: 0;
         width: 263px;
-        padding: 0 100px;
+        padding: 0 50px;
+        text-align: center;
       }
       h5 {
         margin: 0;

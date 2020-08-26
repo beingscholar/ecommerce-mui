@@ -1,56 +1,33 @@
-import React, { useEffect, useState } from "react";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
-import TextField from "@material-ui/core/TextField";
-import { useParams } from "react-router";
-import { trackPromise } from "react-promise-tracker";
-import { NotificationManager } from "react-notifications";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import Container from "@material-ui/core/Container";
-import Divider from "@material-ui/core/Divider";
+import { Box, Button } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import Modal from "@material-ui/core/Modal";
-import security from "../../assets/img/security.svg";
-import camera from "../../assets/img/camera.svg";
-import masterCard from "../../assets/img/mastercard.svg";
-import visa from "../../assets/img/visa.svg";
-import paypal from "../../assets/img/paypal.svg";
-import back from "../../assets/img/back.svg";
-import user from "../../assets/img/user.jpg";
+import Container from "@material-ui/core/Container";
+import Divider from "@material-ui/core/Divider";
+import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
-import { Link as RouterLink } from "react-router-dom";
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  CardHeader,
-  IconButton,
-} from "@material-ui/core";
-
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
 import { Auth } from "aws-amplify";
-import CustomerEditForm from "./CustomerEditForm";
-import CustomerMenu from "./CustomerMenu";
-
+import React, { useEffect, useState } from "react";
+import { NotificationManager } from "react-notifications";
+import { trackPromise } from "react-promise-tracker";
+import { Link as RouterLink, useHistory } from "react-router-dom";
+import back from "../../assets/img/back.svg";
 import { CUSTOMER_URL } from "../../config/apiUrl";
+import CustomerMenu from "./CustomerMenu";
 
 function getModalStyle() {
   return {
-    margin: "auto",
+    margin: "auto"
   };
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     "& .MuiTextField-root": {
       margin: theme.spacing(2),
-      flexGrow: 1,
-    },
+      flexGrow: 1
+    }
   },
   paper: {
     position: "absolute",
@@ -59,17 +36,18 @@ const useStyles = makeStyles((theme) => ({
     border: "2px solid #000",
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
-    overflowX: "auto",
+    overflowX: "auto"
   },
   table: {
-    minWidth: 650,
+    minWidth: 650
   },
   tableHead: {
-    fontWeight: "bold",
-  },
+    fontWeight: "bold"
+  }
 }));
 
 const ChangePassword = () => {
+  const history = useHistory();
   const [customer, setCustomer] = useState();
   const [modalStyle] = React.useState(getModalStyle);
   const [user_id, setUser_id] = useState("");
@@ -85,16 +63,16 @@ const ChangePassword = () => {
 
   useEffect(() => {
     trackPromise(
-      Auth.currentAuthenticatedUser().then((user) => {
+      Auth.currentAuthenticatedUser().then(user => {
         setUser_id(user.attributes.sub);
         fetch(CUSTOMER_URL + "/" + user.attributes.sub)
-          .then((response) => {
+          .then(response => {
             return response.json();
           })
-          .then((data) => {
+          .then(data => {
             setCustomer(data.customer);
           })
-          .catch((error) => {
+          .catch(error => {
             alert(error);
           });
       })
@@ -103,16 +81,16 @@ const ChangePassword = () => {
   function refreshCustomerList() {
     trackPromise(
       fetch(CUSTOMER_URL + "/" + user_id)
-        .then((response) => {
+        .then(response => {
           return response.json();
         })
-        .then((data) => {
+        .then(data => {
           setCustomer(data.customer);
         })
     );
   }
 
-  const handleEdit = (customer) => {
+  const handleEdit = customer => {
     setFirstName(customer.firstName);
     setLastName(customer.lastName);
     //setEmail(customer.email);
@@ -145,18 +123,18 @@ const ChangePassword = () => {
       gender: gender,
       custAccountNo: customer.custAccountNo,
       phoneNumber: phoneNumber,
-      profilePhotoUrl: photoURL,
+      profilePhotoUrl: photoURL
     };
     console.log(JSON.stringify(data));
     var newURL = CUSTOMER_URL + "/" + customer.customerId;
     fetch(newURL, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(data)
     })
-      .then((response) => {
+      .then(response => {
         if (response.status === 404 || response.status === 400) {
           NotificationManager.error(
             "Error editing customer " +
@@ -170,7 +148,7 @@ const ChangePassword = () => {
         );
         refreshCustomerList();
       })
-      .catch((error) => {
+      .catch(error => {
         console.error("Error:", error);
       });
     handleClose();
@@ -191,7 +169,7 @@ const ChangePassword = () => {
     photoURL,
     setPhotoURL,
     handleSubmit: handleEditSubmit,
-    handleClose,
+    handleClose
   };
 
   if (customer) {
@@ -257,7 +235,7 @@ const ChangePassword = () => {
   }
   const [value, setValue] = React.useState("female");
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     setValue(event.target.value);
   };
   return (
@@ -274,7 +252,10 @@ const ChangePassword = () => {
 
               <Grid container justify="center">
                 <Grid item xs={12} md={8} lg={7}>
-                  <Box className="back-arrow">
+                  <Box
+                    className="back-arrow"
+                    onClick={() => history.push("/profile")}
+                  >
                     <img src={back} alt="back" />
                     Go back
                   </Box>

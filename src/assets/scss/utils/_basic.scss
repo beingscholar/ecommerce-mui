@@ -143,8 +143,8 @@ a {
   img {
     position: absolute;
     right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 15px;
+    // transform: translateY(-50%);
   }
 }
 
@@ -162,6 +162,7 @@ a {
   align-items: center;
   letter-spacing: -0.015em;
   color: #000000;
+  cursor: pointer;
   img {
     margin-right: 5px;
   }
@@ -193,4 +194,16 @@ a {
       padding-left: 50px;
     }
   }
+}
+
+.font-bold {
+  font-weight: $font-bold !important;
+}
+
+.font-medium {
+  font-weight: $font-medium !important;
+}
+
+.custom-error {
+  color: #f44336 !important;
 }
