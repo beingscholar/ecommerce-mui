@@ -7,7 +7,6 @@ import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
 import Rating from "@material-ui/lab/Rating";
 import React from "react";
 
-
 const CustomerRatings = props => {
   return (
     <Box component="div" className="content-box--body">

@@ -11,14 +11,14 @@ import PropTypes from "prop-types";
 import React, { Fragment } from "react";
 import CustomerRatings from "./CustomerRatings";
 
-const RatingFilter = () => {
+/* const RatingFilter = () => {
   const stars = [5, 4, 3, 2, 1];
   return stars.map(star => (
     <MenuItem value={star} className="product-rating" key={star}>
       <Rating name="half-rating-read" defaultValue={star} readOnly />
     </MenuItem>
   ));
-};
+}; */
 
 const ProductDelivery = props => {
   const [filteredValue, setFilteredValue] = React.useState("");
@@ -53,8 +53,6 @@ const ProductDelivery = props => {
       "aria-controls": `simple-tabpanel-${index}`
     };
   };
-
-  const LoadingCard = <Box>Loading...</Box>;
 
   return (
     <Fragment>
@@ -138,19 +136,39 @@ const ProductDelivery = props => {
                   >
                     <MenuItem value="">All Stars</MenuItem>
                     <MenuItem value={5} className="product-rating">
-                      <Rating name="half-rating-read" defaultValue={5} readOnly />
+                      <Rating
+                        name="half-rating-read"
+                        defaultValue={5}
+                        readOnly
+                      />
                     </MenuItem>
                     <MenuItem value={4} className="product-rating">
-                      <Rating name="half-rating-read" defaultValue={4} readOnly />
+                      <Rating
+                        name="half-rating-read"
+                        defaultValue={4}
+                        readOnly
+                      />
                     </MenuItem>
                     <MenuItem value={3} className="product-rating">
-                      <Rating name="half-rating-read" defaultValue={3} readOnly />
+                      <Rating
+                        name="half-rating-read"
+                        defaultValue={3}
+                        readOnly
+                      />
                     </MenuItem>
                     <MenuItem value={2} className="product-rating">
-                      <Rating name="half-rating-read" defaultValue={2} readOnly />
+                      <Rating
+                        name="half-rating-read"
+                        defaultValue={2}
+                        readOnly
+                      />
                     </MenuItem>
                     <MenuItem value={1} className="product-rating">
-                      <Rating name="half-rating-read" defaultValue={1} readOnly />
+                      <Rating
+                        name="half-rating-read"
+                        defaultValue={1}
+                        readOnly
+                      />
                     </MenuItem>
                   </Select>
                 </FormControl>

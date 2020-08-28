@@ -263,7 +263,6 @@ const ProductProfile = () => {
     };
   }
 
-
   var productListSlider = {
     dots: false,
     infinite: false,
