@@ -32,13 +32,13 @@ const ProductDelivery = props => {
             <li>
               <FormControl className="width-auto">
                 <Select
-                  value={sort}
-                  onChange={SortBy}
+                  value={filteredValue}
+                  onChange={(e, val) => setFilteredValue(val)}
                   variant="outlined"
                   displayEmpty
                   IconComponent={() => <ExpandMoreIcon />}
                 >
-                  <MenuItem value="">All Stars</MenuItem>
+                  <MenuItem value="">All Tags</MenuItem>
                 </Select>
               </FormControl>
             </li>

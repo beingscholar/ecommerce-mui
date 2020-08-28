@@ -1,8 +1,4 @@
-import { Box, Button, ButtonGroup, CircularProgress } from "@material-ui/core";
-import Accordion from "@material-ui/core/Accordion";
-import AccordionDetails from "@material-ui/core/AccordionDetails";
-import AccordionSummary from "@material-ui/core/AccordionSummary";
-import Avatar from "@material-ui/core/Avatar";
+import { Box, Button, CircularProgress } from "@material-ui/core";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -10,37 +6,28 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Container from "@material-ui/core/Container";
 import Divider from "@material-ui/core/Divider";
-import FormControl from "@material-ui/core/FormControl";
 import Grid from "@material-ui/core/Grid";
 import Link from "@material-ui/core/Link";
-import MenuItem from "@material-ui/core/MenuItem";
-import Paper from "@material-ui/core/Paper";
-import Select from "@material-ui/core/Select";
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
-import CheckOutlinedIcon from "@material-ui/icons/CheckOutlined";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import LocalShippingOutlinedIcon from "@material-ui/icons/LocalShippingOutlined";
-import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
-import MonetizationOnOutlinedIcon from "@material-ui/icons/MonetizationOnOutlined";
-import ThumbUpAltOutlinedIcon from "@material-ui/icons/ThumbUpAltOutlined";
-import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
 import Rating from "@material-ui/lab/Rating";
 import { Auth } from "aws-amplify";
 import PropTypes from "prop-types";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { trackPromise } from "react-promise-tracker";
 import { useParams } from "react-router";
 import { Link as RouterLink, useHistory } from "react-router-dom";
 import Slider from "react-slick";
 import { CART_API_URL, PRODUCT_API_URL } from "../../config/apiUrl";
-import ProductSummary from "./ProductSummary";
+import FooterTop from "../layouts/FooterTop";
 import ProductDelivery from "./ProductDelivery";
 import ProductDetails from "./ProductDetails";
+import ProductSummary from "./ProductSummary";
+import QuestionAnswer from "./QuestionAnswer";
 import RatingReview from "./RatingReview";
 
 const ProductProfile = () => {
@@ -51,12 +38,25 @@ const ProductProfile = () => {
   const [productQuantity, setProductQuantity] = useState("-1");
   const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState();
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     trackPromise(
       Auth.currentAuthenticatedUser().then(user => {
         setUserId(user.attributes.sub);
       })
+    );
+    trackPromise(
+      fetch(PRODUCT_API_URL)
+        .then(response => {
+          return response.json();
+        })
+        .then(data => {
+          setProducts(data.products);
+        })
+        .catch(error => {
+          alert(error);
+        })
     );
     trackPromise(
       fetch(`${PRODUCT_API_URL}/${id}`)
@@ -69,6 +69,44 @@ const ProductProfile = () => {
         })
     );
   }, [id]);
+
+  let productList = "";
+  if (products) {
+    productList = products.map(product => {
+      return (
+        <Card key={product.productId} className="product-card">
+          <CardActionArea
+            component={RouterLink}
+            to={"/products/" + product.productId}
+          >
+            <CardMedia
+              image={product.imageUrl} /* change to product.imageUrl */
+              title="Image title"
+            />
+          </CardActionArea>
+
+          <CardContent>
+            <Typography component="h4">{product.productName}</Typography>
+            <Typography component="h5">
+              {product.currency} {product.price}
+            </Typography>
+            <Typography className="description">
+              {product.productDescription}
+            </Typography>
+            <Typography className="product-rating">
+              <Rating
+                name="half-rating-read"
+                defaultValue={2.5}
+                precision={0.5}
+                readOnly
+              />
+              (55)
+            </Typography>
+          </CardContent>
+        </Card>
+      );
+    });
+  }
 
   var productData = <div></div>;
   if (product) {
@@ -225,10 +263,44 @@ const ProductProfile = () => {
     };
   }
 
-  const [sort, setSort] = React.useState("");
 
-  const SortBy = event => {
-    setSort(event.target.value);
+  var productListSlider = {
+    dots: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 5,
+    slidesToScroll: 1,
+    initialSlide: 0,
+    prevArrow: (
+      <Box component="div">
+        <ArrowBackIosIcon />
+      </Box>
+    ),
+    nextArrow: (
+      <Box component="div">
+        <ArrowForwardIosIcon />
+      </Box>
+    ),
+    responsive: [
+      {
+        breakpoint: 1280,
+        settings: {
+          slidesToShow: 3
+        }
+      },
+      {
+        breakpoint: 767,
+        settings: {
+          slidesToShow: 2
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1
+        }
+      }
+    ]
   };
 
   const LoadingCard = (
@@ -284,323 +356,21 @@ const ProductProfile = () => {
             <RatingReview />
           </TabPanel>
           <TabPanel value={tabValue} index={2}>
-            
+            <QuestionAnswer />
           </TabPanel>
         </Box>
 
         <Box component="div" className="products-box">
           <Typography component="h3">From the same store</Typography>
-          <Slider {...productListSlider}>
-            <Card className="product-card">
-              <CardActionArea>
-                <CardMedia title="Image title" />
-              </CardActionArea>
-
-              <CardContent>
-                <Typography component="h4">Macbook Pro 2020</Typography>
-                <Typography component="h5">Php 25,000</Typography>
-                <Typography className="description">
-                  Lorem ipsum is simply dummy text.
-                </Typography>
-                <Typography className="product-rating">
-                  <Rating
-                    name="half-rating-read"
-                    defaultValue={2.5}
-                    precision={0.5}
-                    readOnly
-                  />
-                  (55)
-                </Typography>
-              </CardContent>
-            </Card>
-            <Card className="product-card">
-              <CardActionArea>
-                <CardMedia title="Image title" />
-              </CardActionArea>
-
-              <CardContent>
-                <Typography component="h4">Macbook Pro 2020</Typography>
-                <Typography component="h5">Php 25,000</Typography>
-                <Typography className="description">
-                  Lorem ipsum is simply dummy text.
-                </Typography>
-                <Typography className="product-rating">
-                  <Rating
-                    name="half-rating-read"
-                    defaultValue={2.5}
-                    precision={0.5}
-                    readOnly
-                  />
-                  (55)
-                </Typography>
-              </CardContent>
-            </Card>
-            <Card className="product-card">
-              <CardActionArea>
-                <CardMedia title="Image title" />
-              </CardActionArea>
-
-              <CardContent>
-                <Typography component="h4">Macbook Pro 2020</Typography>
-                <Typography component="h5">Php 25,000</Typography>
-                <Typography className="description">
-                  Lorem ipsum is simply dummy text.
-                </Typography>
-                <Typography className="product-rating">
-                  <Rating
-                    name="half-rating-read"
-                    defaultValue={2.5}
-                    precision={0.5}
-                    readOnly
-                  />
-                  (55)
-                </Typography>
-              </CardContent>
-            </Card>
-            <Card className="product-card">
-              <CardActionArea>
-                <CardMedia title="Image title" />
-              </CardActionArea>
-
-              <CardContent>
-                <Typography component="h4">Macbook Pro 2020</Typography>
-                <Typography component="h5">Php 25,000</Typography>
-                <Typography className="description">
-                  Lorem ipsum is simply dummy text.
-                </Typography>
-                <Typography className="product-rating">
-                  <Rating
-                    name="half-rating-read"
-                    defaultValue={2.5}
-                    precision={0.5}
-                    readOnly
-                  />
-                  (55)
-                </Typography>
-              </CardContent>
-            </Card>
-            <Card className="product-card">
-              <CardActionArea>
-                <CardMedia title="Image title" />
-              </CardActionArea>
-
-              <CardContent>
-                <Typography component="h4">Macbook Pro 2020</Typography>
-                <Typography component="h5">Php 25,000</Typography>
-                <Typography className="description">
-                  Lorem ipsum is simply dummy text.
-                </Typography>
-                <Typography className="product-rating">
-                  <Rating
-                    name="half-rating-read"
-                    defaultValue={2.5}
-                    precision={0.5}
-                    readOnly
-                  />
-                  (55)
-                </Typography>
-              </CardContent>
-            </Card>
-            <Card className="product-card">
-              <CardActionArea>
-                <CardMedia title="Image title" />
-              </CardActionArea>
-
-              <CardContent>
-                <Typography component="h4">Macbook Pro 2020</Typography>
-                <Typography component="h5">Php 25,000</Typography>
-                <Typography className="description">
-                  Lorem ipsum is simply dummy text.
-                </Typography>
-                <Typography className="product-rating">
-                  <Rating
-                    name="half-rating-read"
-                    defaultValue={2.5}
-                    precision={0.5}
-                    readOnly
-                  />
-                  (55)
-                </Typography>
-              </CardContent>
-            </Card>
-          </Slider>
+          <Slider {...productListSlider}>{productList}</Slider>
         </Box>
 
         <Box component="div" className="products-box">
           <Typography component="h3">Similar items</Typography>
-          <Slider {...productListSlider}>
-            <Card className="product-card">
-              <CardActionArea>
-                <CardMedia title="Image title" />
-              </CardActionArea>
-
-              <CardContent>
-                <Typography component="h4">Macbook Pro 2020</Typography>
-                <Typography component="h5">Php 25,000</Typography>
-                <Typography className="description">
-                  Lorem ipsum is simply dummy text.
-                </Typography>
-                <Typography className="product-rating">
-                  <Rating
-                    name="half-rating-read"
-                    defaultValue={2.5}
-                    precision={0.5}
-                    readOnly
-                  />
-                  (55)
-                </Typography>
-              </CardContent>
-            </Card>
-            <Card className="product-card">
-              <CardActionArea>
-                <CardMedia title="Image title" />
-              </CardActionArea>
-
-              <CardContent>
-                <Typography component="h4">Macbook Pro 2020</Typography>
-                <Typography component="h5">Php 25,000</Typography>
-                <Typography className="description">
-                  Lorem ipsum is simply dummy text.
-                </Typography>
-                <Typography className="product-rating">
-                  <Rating
-                    name="half-rating-read"
-                    defaultValue={2.5}
-                    precision={0.5}
-                    readOnly
-                  />
-                  (55)
-                </Typography>
-              </CardContent>
-            </Card>
-            <Card className="product-card">
-              <CardActionArea>
-                <CardMedia title="Image title" />
-              </CardActionArea>
-
-              <CardContent>
-                <Typography component="h4">Macbook Pro 2020</Typography>
-                <Typography component="h5">Php 25,000</Typography>
-                <Typography className="description">
-                  Lorem ipsum is simply dummy text.
-                </Typography>
-                <Typography className="product-rating">
-                  <Rating
-                    name="half-rating-read"
-                    defaultValue={2.5}
-                    precision={0.5}
-                    readOnly
-                  />
-                  (55)
-                </Typography>
-              </CardContent>
-            </Card>
-            <Card className="product-card">
-              <CardActionArea>
-                <CardMedia title="Image title" />
-              </CardActionArea>
-
-              <CardContent>
-                <Typography component="h4">Macbook Pro 2020</Typography>
-                <Typography component="h5">Php 25,000</Typography>
-                <Typography className="description">
-                  Lorem ipsum is simply dummy text.
-                </Typography>
-                <Typography className="product-rating">
-                  <Rating
-                    name="half-rating-read"
-                    defaultValue={2.5}
-                    precision={0.5}
-                    readOnly
-                  />
-                  (55)
-                </Typography>
-              </CardContent>
-            </Card>
-            <Card className="product-card">
-              <CardActionArea>
-                <CardMedia title="Image title" />
-              </CardActionArea>
-
-              <CardContent>
-                <Typography component="h4">Macbook Pro 2020</Typography>
-                <Typography component="h5">Php 25,000</Typography>
-                <Typography className="description">
-                  Lorem ipsum is simply dummy text.
-                </Typography>
-                <Typography className="product-rating">
-                  <Rating
-                    name="half-rating-read"
-                    defaultValue={2.5}
-                    precision={0.5}
-                    readOnly
-                  />
-                  (55)
-                </Typography>
-              </CardContent>
-            </Card>
-            <Card className="product-card">
-              <CardActionArea>
-                <CardMedia title="Image title" />
-              </CardActionArea>
-
-              <CardContent>
-                <Typography component="h4">Macbook Pro 2020</Typography>
-                <Typography component="h5">Php 25,000</Typography>
-                <Typography className="description">
-                  Lorem ipsum is simply dummy text.
-                </Typography>
-                <Typography className="product-rating">
-                  <Rating
-                    name="half-rating-read"
-                    defaultValue={2.5}
-                    precision={0.5}
-                    readOnly
-                  />
-                  (55)
-                </Typography>
-              </CardContent>
-            </Card>
-          </Slider>
+          <Slider {...productListSlider}>{productList}</Slider>
         </Box>
-        <Box className="payment-info-box">
-          <Grid container>
-            <Grid item xs={12} sm={4}>
-              <Box className="box no-border">
-                <Avatar
-                  alt="Secure Payments"
-                  src="/static/images/avatar/1.jpg"
-                />
-                <Typography component="h3">100% Secure Payments</Typography>
-                <Typography>
-                  Moving your card details to a{" "}
-                  <span> much more secured place.</span>
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Box className="box">
-                <Avatar alt="Trustpay" src="/static/images/avatar/1.jpg" />
-                <Typography component="h3">Trustpay</Typography>
-                <Typography>
-                  100% Payment Protection. <span>Easy Return Policy</span>
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Box className="box">
-                <Avatar
-                  alt="Shop on the Go"
-                  src="/static/images/avatar/1.jpg"
-                />
-                <Typography component="h3">Shop on the Go</Typography>
-                <Typography>
-                  100% Payment Protection. <span>Easy Return Policy</span>
-                </Typography>
-              </Box>
-            </Grid>
-          </Grid>
-        </Box>
+
+        <FooterTop />
       </Container>
     </Box>
   );

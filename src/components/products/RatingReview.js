@@ -1,5 +1,4 @@
-import { Box, Button, ButtonGroup } from "@material-ui/core";
-import Avatar from "@material-ui/core/Avatar";
+import { Box, Button, ButtonGroup, Tab, Tabs } from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
 import Grid from "@material-ui/core/Grid";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -7,13 +6,55 @@ import Paper from "@material-ui/core/Paper";
 import Select from "@material-ui/core/Select";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import ThumbUpAltOutlinedIcon from "@material-ui/icons/ThumbUpAltOutlined";
-import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
 import Rating from "@material-ui/lab/Rating";
+import PropTypes from "prop-types";
 import React, { Fragment } from "react";
+import CustomerRatings from "./CustomerRatings";
+
+const RatingFilter = () => {
+  const stars = [5, 4, 3, 2, 1];
+  return stars.map(star => (
+    <MenuItem value={star} className="product-rating" key={star}>
+      <Rating name="half-rating-read" defaultValue={star} readOnly />
+    </MenuItem>
+  ));
+};
 
 const ProductDelivery = props => {
   const [filteredValue, setFilteredValue] = React.useState("");
+  const [tabValue, setTabValue] = React.useState(0);
+
+  const TabPanel = props => {
+    const { children, value, index, ...other } = props;
+
+    return (
+      <div
+        role="tabpanel"
+        className="tab-content"
+        hidden={value !== index}
+        id={`simple-tabpanel-${index}`}
+        aria-labelledby={`simple-tab-${index}`}
+        {...other}
+      >
+        {value === index && <>{children}</>}
+      </div>
+    );
+  };
+
+  TabPanel.propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.any.isRequired,
+    value: PropTypes.any.isRequired
+  };
+
+  const a11yProps = index => {
+    return {
+      id: `simple-tab-${index}`,
+      "aria-controls": `simple-tabpanel-${index}`
+    };
+  };
+
+  const LoadingCard = <Box>Loading...</Box>;
 
   return (
     <Fragment>
@@ -34,7 +75,7 @@ const ProductDelivery = props => {
                 />
               </Typography>
             </Fragment>
-            <Typography>38 Ratings &amp; 5 Reviews</Typography>
+            <Typography>{"38 Ratings & 5 Reviews"}</Typography>
           </Paper>
         </Grid>
         <Grid item xs={12} sm={4}>
@@ -63,8 +104,9 @@ const ProductDelivery = props => {
             <Typography component="span">1-5 of 5 Reviews</Typography>
             Customer Reviews
           </Typography>
+
           <Box component="div" className="wrap">
-            <ul>
+            {/* <ul>
               <li>Sort By:</li>
               <li>
                 <span className="active">Most Helpful</span>
@@ -72,99 +114,56 @@ const ProductDelivery = props => {
               <li>
                 <span>Most Recent</span>
               </li>
-            </ul>
+            </ul> */}
+            <Typography>Sort By:</Typography>
+            <Tabs
+              value={tabValue}
+              onChange={(e, v) => setTabValue(v)}
+              indicatorColor="primary"
+            >
+              <Tab label="Most Helpful" {...a11yProps(0)} />
+              <Tab label="Most Recent" {...a11yProps(1)} />
+            </Tabs>
 
             <ul>
               <li>Filter By:</li>
               <li>
-                <FormControl className="width-auto">
+                <FormControl className="width-auto product-rating">
                   <Select
                     value={filteredValue}
-                    onChange={(e, val) => setFilteredValue(val)}
+                    onChange={e => setFilteredValue(e.target.value)}
                     variant="outlined"
                     displayEmpty
                     IconComponent={() => <ExpandMoreIcon />}
                   >
                     <MenuItem value="">All Stars</MenuItem>
+                    <MenuItem value={5} className="product-rating">
+                      <Rating name="half-rating-read" defaultValue={5} readOnly />
+                    </MenuItem>
+                    <MenuItem value={4} className="product-rating">
+                      <Rating name="half-rating-read" defaultValue={4} readOnly />
+                    </MenuItem>
+                    <MenuItem value={3} className="product-rating">
+                      <Rating name="half-rating-read" defaultValue={3} readOnly />
+                    </MenuItem>
+                    <MenuItem value={2} className="product-rating">
+                      <Rating name="half-rating-read" defaultValue={2} readOnly />
+                    </MenuItem>
+                    <MenuItem value={1} className="product-rating">
+                      <Rating name="half-rating-read" defaultValue={1} readOnly />
+                    </MenuItem>
                   </Select>
                 </FormControl>
               </li>
             </ul>
           </Box>
         </Box>
-        <Box component="div" className="content-box--body">
-          <Grid container className="review-row">
-            <Grid item xs={12} sm={4} md={3} lg={2}>
-              <Avatar
-                alt="Remy Sharp"
-                className="avtar-lg"
-                src="/static/images/avatar/1.jpg"
-              />
-              <Typography className="verified-buyer">
-                <VerifiedUserIcon />
-                Verified Buyer
-              </Typography>
-            </Grid>
-            <Grid item xs={12} sm={8} md={9} lg={10}>
-              <Typography className="product-rating">
-                <Rating
-                  name="half-rating-read"
-                  defaultValue={2.5}
-                  precision={0.5}
-                  readOnly
-                />
-              </Typography>
-              <Typography className="review-date">
-                by shubham pandey on Oct 24, 2016
-              </Typography>
-              <Typography className="review-desc">
-                Lorem ipsum dummy text.
-              </Typography>
-              <Typography className="review-helpful">
-                5 People Found this review helpful. Was this review helpful?
-                <Button variant="outlined" className="default">
-                  <ThumbUpAltOutlinedIcon />5
-                </Button>
-              </Typography>
-            </Grid>
-          </Grid>
-
-          <Grid container className="review-row">
-            <Grid item xs={12} sm={4} md={3} lg={2}>
-              <Avatar
-                alt="Remy Sharp"
-                className="avtar-lg"
-                src="/static/images/avatar/1.jpg"
-              />
-              <Typography className="verified-buyer">
-                <VerifiedUserIcon />
-                Verified Buyer
-              </Typography>
-            </Grid>
-            <Grid item xs={12} sm={8} md={9} lg={10}>
-              <Typography className="product-rating">
-                <Rating
-                  name="half-rating-read"
-                  defaultValue={2.5}
-                  precision={0.5}
-                  readOnly
-                />
-              </Typography>
-              <Typography className="review-date">
-                by shubham pandey on Oct 24, 2016
-              </Typography>
-              <Typography className="review-desc">
-                Lorem ipsum dummy text.
-              </Typography>
-              <Typography className="review-helpful">
-                5 People Found this review helpful. Was this review helpful?
-                <Button variant="outlined" className="default">
-                  <ThumbUpAltOutlinedIcon />5
-                </Button>
-              </Typography>
-            </Grid>
-          </Grid>
-        </Box>
+        <TabPanel value={tabValue} index={0}>
+          <CustomerRatings />
+        </TabPanel>
+        <TabPanel value={tabValue} index={1}>
+          <CustomerRatings />
+        </TabPanel>
       </Box>
     </Fragment>
   );
