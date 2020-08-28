@@ -9,7 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import React from "react";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import { useHistory } from "react-router-dom";
-import back from "../../assets/img/back.svg";
+// import back from "../../assets/img/back.svg";
 import masterCard from "../../assets/img/mastercard.svg";
 import CustomerMenu from "./CustomerMenu";
 
@@ -42,8 +42,8 @@ const PaymentMethod = () => {
     const regex = /^[0-9/]*$/;
     let isValid = regex.test(expDate);
     if (expDate.length < 8 && isValid) {
-      if (expDate.length == 2) {
-        if (e.keyCode != 8) {
+      if (expDate.length === 2) {
+        if (e.keyCode !== 8) {
           expDate = expDate + "/";
         }
       }
@@ -57,7 +57,7 @@ const PaymentMethod = () => {
     const regex = /^[0-9-]*$/;
     let isValid = regex.test(ccNum);
     if (ccNum.length < 20 && isValid) {
-      if (ccNum.length == 4 || ccNum.length == 9 || ccNum.length == 14) {
+      if (ccNum.length === 4 || ccNum.length === 9 || ccNum.length === 14) {
         if (e.keyCode != 8) {
           ccNum = ccNum + "-";
         }

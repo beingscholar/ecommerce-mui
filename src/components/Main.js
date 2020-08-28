@@ -30,6 +30,7 @@ import MySignUp from './auth/MySignUp';
 import Aboutus from './Aboutus';
 import PrivateRoute from './utilities/PrivateRoute';
 import ProductProfile from './products/ProductProfile';
+import ProductProfileOld from './products/ProductProfile_old';
 import Products from './products/Products';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -214,6 +215,10 @@ function Main() {
         <Route
           path='/products/:id'
           render={props => <ProductProfile {...props} />}
+        />
+        <Route
+          path='/products_old/:id'
+          render={props => <ProductProfileOld {...props} />}
         />
         <PrivateRoute path='/profile' component={CustomerProfile} />
         <PrivateRoute path='/edit-profile' component={CustomerEditForm} />

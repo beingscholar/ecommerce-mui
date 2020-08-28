@@ -1,11 +1,12 @@
 /* LOCAL ENV */
-/* 
-const LOCAL_ENV = "http://0.0.0.0:5000";
+
+/* const LOCAL_ENV = "http://0.0.0.0:5000";
 export const CUSTOMER_URL = LOCAL_ENV + "/customers";
 export const CART_API_URL = LOCAL_ENV + "/carts";
 export const PRODUCT_API_URL = LOCAL_ENV + "/products";
 export const ORDER_API_URL = LOCAL_ENV + "/orders"; 
-*/
+export const INVENTORY_URL = LOCAL_ENV + "/inventory"; */
+
 
 /* PROD ENV */
 const PROD_ENV =
