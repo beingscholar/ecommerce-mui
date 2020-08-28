@@ -15,7 +15,7 @@ const CustomerMenu = props => {
     <Grid item xs={12} sm={3} md={2}>
       <Box className="sidebar">
         <Box className="sidebar--header">
-          <Typography component="h3">Hello, Maria!</Typography>
+          <Typography component="h3">Hello, {props.customerName}!</Typography>
           <Typography>
             <img src={security} alt="security" />
             Verified Account
