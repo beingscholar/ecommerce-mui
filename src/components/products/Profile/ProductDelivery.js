@@ -8,7 +8,7 @@ import MonetizationOnOutlinedIcon from "@material-ui/icons/MonetizationOnOutline
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 
-const ProductDelivery = props => {
+const ProductDelivery = (props) => {
   return (
     <Box component="div" className="primary-box delivery-info-box">
       <Box className="delivey-box">
@@ -27,8 +27,10 @@ const ProductDelivery = props => {
             <ListItemIcon>
               <LocalShippingOutlinedIcon />
             </ListItemIcon>
-            <ListItemText primary="Standard Delivery" />
-            <Typography component="span">{"12-15 Day(s)"}</Typography>
+            <Box>
+              <ListItemText primary="Standard Delivery" />
+              <Typography component="small">{"12-15 Day(s)"}</Typography>
+            </Box>
           </Typography>
           <Typography component="li">
             <ListItemIcon>
@@ -38,7 +40,7 @@ const ProductDelivery = props => {
           </Typography>
         </List>
 
-        <ul>
+        {/* <ul>
           <li>
             <LocationOnOutlinedIcon />
             Metro Manila Quezon City, Quezon City, Project 6
@@ -52,7 +54,7 @@ const ProductDelivery = props => {
             <MonetizationOnOutlinedIcon />
             Cash on Delivery Available
           </li>
-        </ul>
+        </ul> */}
       </Box>
 
       <Box className="warranty-box">

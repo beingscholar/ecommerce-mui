@@ -6,13 +6,16 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import PropTypes from "prop-types";
 import React from "react";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
 import CustomerQNA from "./CustomerQNA";
 
-const ProductDelivery = props => {
+const ProductDelivery = (props) => {
   const [filteredValue, setFilteredValue] = React.useState("");
   const [tabValue, setTabValue] = React.useState(0);
 
-  const TabPanel = props => {
+  const TabPanel = (props) => {
     const { children, value, index, ...other } = props;
 
     return (
@@ -32,13 +35,13 @@ const ProductDelivery = props => {
   TabPanel.propTypes = {
     children: PropTypes.node,
     index: PropTypes.any.isRequired,
-    value: PropTypes.any.isRequired
+    value: PropTypes.any.isRequired,
   };
 
-  const a11yProps = index => {
+  const a11yProps = (index) => {
     return {
       id: `simple-tab-${index}`,
-      "aria-controls": `simple-tabpanel-${index}`
+      "aria-controls": `simple-tabpanel-${index}`,
     };
   };
 
@@ -68,13 +71,15 @@ const ProductDelivery = props => {
             <Tab label="Most Recent" {...a11yProps(1)} />
           </Tabs>
 
-          <ul>
-            <li>Filter By:</li>
-            <li>
+          <List component="ul" className="filter-by">
+            <ListItem>
+              <ListItemText primary="Filter By:" />
+            </ListItem>
+            <ListItem>
               <FormControl className="width-auto">
                 <Select
                   value={filteredValue}
-                  onChange={e => setFilteredValue(e.target.value)}
+                  onChange={(e) => setFilteredValue(e.target.value)}
                   variant="outlined"
                   displayEmpty
                   IconComponent={() => <ExpandMoreIcon />}
@@ -84,8 +89,8 @@ const ProductDelivery = props => {
                   <MenuItem value="screen">Screen</MenuItem>
                 </Select>
               </FormControl>
-            </li>
-          </ul>
+            </ListItem>
+          </List>
         </Box>
       </Box>
       <TabPanel value={tabValue} index={0}>

@@ -80,11 +80,19 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
+.MuiSelect-select:focus {
+  background-color: transparent !important;
+}
+
 ::-webkit-search-decoration,
 ::-webkit-search-cancel-button,
 ::-webkit-search-results-button,
 ::-webkit-search-results-decoration {
   display: none;
+}
+
+.width-auto {
+  width: auto !important;
 }
 
 button,

@@ -4,9 +4,14 @@ import {
   CardMedia,
   CircularProgress,
   IconButton,
-  Link
+  Link,
 } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import FormControl from "@material-ui/core/FormControl";
@@ -14,6 +19,7 @@ import Grid from "@material-ui/core/Grid";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import { makeStyles } from "@material-ui/core/styles";
+import CardActionArea from "@material-ui/core/CardActionArea";
 import Typography from "@material-ui/core/Typography";
 import { Favorite, FavoriteBorderOutlined } from "@material-ui/icons";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
@@ -23,40 +29,45 @@ import React, { useEffect, useState } from "react";
 import { trackPromise } from "react-promise-tracker";
 import { useHistory, useParams } from "react-router";
 import { CART_API_URL, INVENTORY_URL } from "../../../config/apiUrl";
+import Slider from "react-slick";
 import NumberField from "../../ui/NumberField";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container: {
-    height: "100%"
+    height: "100%",
   },
   cardMedia: {
     borderRadius: "10px",
-    paddingTop: "56.25%" // 16:9
+    paddingTop: "56.25%", // 16:9
   },
   grid: {
-    padding: "1em"
+    padding: "1em",
   },
   checkoutForm: {
     display: "flex",
     flexDirection: "column",
-    paddingLeft: "16px"
+    paddingLeft: "16px",
   },
   checkoutButtons: {
-    display: "flex"
+    display: "flex",
   },
   iconsRow: {
     display: "flex",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   linkRowItem: {
-    marginRight: "0.5em"
+    marginRight: "0.5em",
   },
   quantityRow: {
     display: "flex",
     alignItems: "center",
-    marginBottom: "1em"
-  }
+    marginBottom: "1em",
+  },
 }));
+
+function ListItemLink(props) {
+  return <ListItem button component="a" {...props} />;
+}
 
 const ProductSummary = ({ product, userId }) => {
   const classes = useStyles();
@@ -76,18 +87,18 @@ const ProductSummary = ({ product, userId }) => {
       body: JSON.stringify({
         product_id: id,
         action: "add",
-        quantity: quantity
-      })
+        quantity: quantity,
+      }),
     };
     trackPromise(
       fetch(`${CART_API_URL}/${userId}`, requestOptions)
-        .then(response => {
+        .then((response) => {
           return response.json();
         })
-        .then(data => {
+        .then((data) => {
           // setProduct(data);
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
           alert(error);
         })
@@ -97,14 +108,54 @@ const ProductSummary = ({ product, userId }) => {
     history.push("/cart");
   };
 
+  var productSlider = {
+    dots: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 4,
+    arrows: false,
+    slidesToScroll: 1,
+    initialSlide: 0,
+    prevArrow: (
+      <Box component="div">
+        <ArrowBackIosIcon />
+      </Box>
+    ),
+    nextArrow: (
+      <Box component="div">
+        <ArrowForwardIosIcon />
+      </Box>
+    ),
+    responsive: [
+      {
+        breakpoint: 1280,
+        settings: {
+          slidesToShow: 3,
+        },
+      },
+      {
+        breakpoint: 767,
+        settings: {
+          slidesToShow: 3,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 3,
+        },
+      },
+    ],
+  };
+
   useEffect(() => {
     trackPromise(
       fetch(`${INVENTORY_URL}/${product.productId}`)
-        .then(response => response.json())
-        .then(data => {
+        .then((response) => response.json())
+        .then((data) => {
           setProductQuantity(parseInt(data.product.quantity));
         })
-        .catch(error => {
+        .catch((error) => {
           alert(error);
         })
     );
@@ -128,7 +179,7 @@ const ProductSummary = ({ product, userId }) => {
       currency,
       price,
       category,
-      createdDate
+      createdDate,
     } = product || "";
     productData = (
       <Box
@@ -145,12 +196,88 @@ const ProductSummary = ({ product, userId }) => {
                 image={imageUrl}
                 title="Image title"
               />
-              <ul>
-                <li>Slide 1</li>
-                <li>Slide 2</li>
-                <li>Slide 3</li>
-                <li>Slide 4</li>
-              </ul>
+              <Slider {...productSlider}>
+                <Card key={product.productId}>
+                  <CardActionArea>
+                    <CardMedia
+                      image={product.imageUrl} /* change to product.imageUrl */
+                      title="Image title"
+                    />
+                  </CardActionArea>
+                </Card>
+                <Card key={product.productId}>
+                  <CardActionArea>
+                    <CardMedia
+                      image={product.imageUrl} /* change to product.imageUrl */
+                      title="Image title"
+                    />
+                  </CardActionArea>
+                </Card>
+                <Card key={product.productId}>
+                  <CardActionArea>
+                    <CardMedia
+                      image={product.imageUrl} /* change to product.imageUrl */
+                      title="Image title"
+                    />
+                  </CardActionArea>
+                </Card>
+                <Card key={product.productId}>
+                  <CardActionArea>
+                    <CardMedia
+                      image={product.imageUrl} /* change to product.imageUrl */
+                      title="Image title"
+                    />
+                  </CardActionArea>
+                </Card>
+                <Card key={product.productId}>
+                  <CardActionArea>
+                    <CardMedia
+                      image={product.imageUrl} /* change to product.imageUrl */
+                      title="Image title"
+                    />
+                  </CardActionArea>
+                </Card>
+                <Card key={product.productId}>
+                  <CardActionArea>
+                    <CardMedia
+                      image={product.imageUrl} /* change to product.imageUrl */
+                      title="Image title"
+                    />
+                  </CardActionArea>
+                </Card>
+                <Card key={product.productId}>
+                  <CardActionArea>
+                    <CardMedia
+                      image={product.imageUrl} /* change to product.imageUrl */
+                      title="Image title"
+                    />
+                  </CardActionArea>
+                </Card>
+                <Card key={product.productId}>
+                  <CardActionArea>
+                    <CardMedia
+                      image={product.imageUrl} /* change to product.imageUrl */
+                      title="Image title"
+                    />
+                  </CardActionArea>
+                </Card>
+                <Card key={product.productId}>
+                  <CardActionArea>
+                    <CardMedia
+                      image={product.imageUrl} /* change to product.imageUrl */
+                      title="Image title"
+                    />
+                  </CardActionArea>
+                </Card>
+                <Card key={product.productId}>
+                  <CardActionArea>
+                    <CardMedia
+                      image={product.imageUrl} /* change to product.imageUrl */
+                      title="Image title"
+                    />
+                  </CardActionArea>
+                </Card>
+              </Slider>
             </Box>
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -183,17 +310,23 @@ const ProductSummary = ({ product, userId }) => {
                 </IconButton>
               </Box>
             </Box>
-            <ul className="have-questions">
-              <li>
-                <Link>{ratingValue} Ratings</Link>
-              </li>
-              <li>
-                <Link>{ratingValue} Reviews</Link>
-              </li>
-              <li>
-                <Link>Have Questions?</Link>
-              </li>
-            </ul>
+            <List component="ul" className="have-questions">
+              <ListItem>
+                <ListItemLink href="#">
+                  <ListItemText primary={ratingValue + " Ratings"} />
+                </ListItemLink>
+              </ListItem>
+              <ListItem>
+                <ListItemLink href="#">
+                  <ListItemText primary={ratingValue + " Reviews"} />
+                </ListItemLink>
+              </ListItem>
+              <ListItem>
+                <ListItemLink href="#">
+                  <ListItemText primary="Have Questions?" />
+                </ListItemLink>
+              </ListItem>
+            </List>
 
             <Box className="color-family">
               <Typography>Color Family: Blue</Typography>
@@ -203,6 +336,32 @@ const ProductSummary = ({ product, userId }) => {
                 <li>Space Grey</li>
                 <li>Black</li>
               </ul>
+              <List component="ul" className="color-palette">
+                <ListItem>
+                  <ListItemLink href="#">
+                    <ListItemText
+                      primary="Blue"
+                      style={{ backgroundColor: "blue" }}
+                    />
+                  </ListItemLink>
+                </ListItem>
+                <ListItem>
+                  <ListItemLink href="#">
+                    <ListItemText
+                      primary="Space Grey"
+                      style={{ backgroundColor: "grey" }}
+                    />
+                  </ListItemLink>
+                </ListItem>
+                <ListItem>
+                  <ListItemLink href="#">
+                    <ListItemText
+                      primary="Black"
+                      style={{ backgroundColor: "Black" }}
+                    />
+                  </ListItemLink>
+                </ListItem>
+              </List>
             </Box>
 
             <Typography className="strorage-capacity">
@@ -210,7 +369,7 @@ const ProductSummary = ({ product, userId }) => {
               <FormControl className="width-auto">
                 <Select
                   value={storageCapacity}
-                  onChange={e => setStorageCapacity(e.target.value)}
+                  onChange={(e) => setStorageCapacity(e.target.value)}
                   variant="outlined"
                   displayEmpty
                   IconComponent={() => <ExpandMoreIcon />}

@@ -15,8 +15,11 @@
         margin-left: 25px;
         margin-top: 0;
       }
-      button + button {
-        margin-left: 10px;
+      button {
+        border: 1px solid rgba(0, 0, 0, 0.23);
+        & + button {
+          margin-left: 10px;
+        }
       }
     }
   }

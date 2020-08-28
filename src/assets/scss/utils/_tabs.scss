@@ -47,10 +47,13 @@
             margin: 0 0 30px;
           }
         }
-        button + button {
-          margin-left: 10px;
-          @media screen and (min-width: 768px) {
-            margin-left: 15px;
+        button {
+          border: 1px solid rgba(0, 0, 0, 0.23);
+          & + button {
+            margin-left: 10px;
+            @media screen and (min-width: 768px) {
+              margin-left: 15px;
+            }
           }
         }
       }
