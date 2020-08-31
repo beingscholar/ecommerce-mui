@@ -21,6 +21,7 @@ import {
   INVENTORY_URL,
   PRODUCT_API_URL
 } from "../../config/apiUrl";
+import FooterTop from "../layouts/FooterTop";
 
 class Cart extends Component {
   constructor(props) {
@@ -444,6 +445,7 @@ class Cart extends Component {
               </Box>
             </Grid>
           </Grid>
+          <FooterTop />
         </Container>
       </Box>
     );

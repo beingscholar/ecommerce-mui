@@ -1,0 +1,120 @@
+.horizontal-tabs {
+  .MuiGrid-container {
+    @media screen and (min-width: 768px) {
+      .MuiGrid-grid-sm-4 {
+        padding: 0 15px;
+        &:first-child {
+          padding: 0 15px 0 0;
+        }
+        &:last-child {
+          padding: 0 0 0 15px;
+        }
+      }
+    }
+  }
+  .tab-content {
+    padding: 15px;
+    @media screen and (min-width: 768px) {
+      padding: 30px;
+    }
+    .MuiCard-root {
+      box-shadow: none;
+      border-radius: 0;
+    }
+    .rating-box {
+      text-align: center;
+      background-color: #f5f5f5;
+      border-radius: 6px;
+      height: 200px;
+      margin-bottom: 20px;
+      display: flex;
+      padding: 0 10px;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      @media screen and (min-width: 768px) {
+        margin-bottom: 40px;
+      }
+      &.transparent {
+        background-color: transparent;
+        height: auto;
+        @media screen and (min-width: 768px) {
+          height: 200px;
+        }
+        p {
+          margin: 0 0 20px;
+          @media screen and (min-width: 768px) {
+            margin: 0 0 30px;
+          }
+        }
+        button {
+          border: 1px solid rgba(0, 0, 0, 0.23);
+          & + button {
+            margin-left: 10px;
+            @media screen and (min-width: 768px) {
+              margin-left: 15px;
+            }
+          }
+        }
+      }
+      .product-rating {
+        margin-top: 5px;
+        .MuiRating-root {
+          font-size: 16px;
+        }
+      }
+      h4 {
+        color: #b1b1b1;
+        font-size: 20px;
+        font-weight: $font-medium;
+      }
+      strong {
+        font-size: 40px;
+        font-weight: $font-medium;
+        line-height: 1;
+        color: #000;
+        letter-spacing: normal;
+      }
+      p {
+        display: block;
+        font-size: 16px;
+        line-height: 1;
+        margin-top: 20px;
+        color: #5d5d5d;
+      }
+    }
+  }
+  .MuiTabs-root {
+    min-height: 1px;
+    padding: 15px 15px 0;
+    border-bottom: 1px solid #dbdbdb;
+    @media screen and (min-width: 768px) {
+      padding: 15px 30px 0;
+    }
+    .MuiTabs-indicator {
+      background-color: $primaryColor;
+      height: 3px;
+    }
+    .MuiTab-root {
+      min-width: 1px;
+      opacity: 1;
+      font-size: 14px;
+      color: #000;
+      text-transform: none;
+      padding: 15px 0;
+      line-height: 1;
+      letter-spacing: normal;
+      font-weight: $font-medium;
+      min-height: 1px;
+      @media screen and (min-width: 768px) {
+        font-size: 16px;
+      }
+      & + .MuiTab-root {
+        margin-left: 25px;
+        @media screen and (min-width: 768px) {
+          margin-left: 50px;
+        }
+      }
+    }
+  }
+}

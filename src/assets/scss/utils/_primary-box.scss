@@ -94,6 +94,34 @@
   &--header {
     padding-bottom: 5px;
     border-bottom: 1px solid #dbdbdb;
+    .MuiTabs-root {
+      padding: 0 !important;
+      // margin-bottom: -5px;
+      border: none !important;
+      @media screen and (max-width: 500px) {
+        order: 3;
+      }
+      button {
+        margin-left: 27px !important;
+        font-weight: 500 !important;
+        font-size: 14px !important;
+        line-height: 16px !important;
+        letter-spacing: -0.015em !important;
+        color: rgba(0, 0, 0, 0.4) !important;
+        @media screen and (max-width: 500px) {
+          margin-left: 0 !important;
+        }
+        @media screen and (min-width: 768px) and (max-width: 1023px) {
+          margin-left: 10px !important;
+        }
+        & + button {
+          margin-left: 27px !important;
+          @media screen and (min-width: 768px) and (max-width: 1023px) {
+            margin-left: 10px !important;
+          }
+        }
+      }
+    }
     @media screen and (max-width: 500px) {
       padding-bottom: 12px;
     }
@@ -105,10 +133,40 @@
     .wrap {
       display: flex;
       flex-direction: column;
+      .filter-by {
+        margin-left: 50px;
+        @media screen and (min-width: 768px) and (max-width: 1023px) {
+          margin-left: 10px !important;
+        }
+        li {
+          padding: 0;
+          width: auto;
+          span {
+            cursor: default !important;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 16px;
+          }
+        }
+      }
+      p {
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 16px;
+        display: flex;
+        align-items: center;
+        letter-spacing: -0.015em;
+
+        color: rgba(0, 0, 0, 0.4);
+        @media screen and (max-width: 500px) {
+          order: 2;
+        }
+      }
       @media screen and (min-width: 500px) {
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
+        margin-bottom: -5px;
       }
       ul {
         display: flex;
@@ -155,6 +213,8 @@
             }
             .MuiOutlinedInput-input {
               padding: 6px 3px 6px 12px;
+              display: flex;
+              align-items: center;
             }
           }
           &:nth-child(3) {
@@ -326,6 +386,19 @@
 }
 
 .product-gallery {
+  .slick-slider {
+    margin: 20px -5px 0;
+    .slick-slide {
+      padding: 0 5px;
+    }
+    .MuiCard-root {
+      border-radius: 6px;
+    }
+    .MuiCardMedia-root {
+      height: 79px;
+      width: 100%;
+    }
+  }
   h3 {
     font-size: 20px;
     font-weight: $font-medium;
@@ -375,19 +448,14 @@
     }
   }
   .have-questions {
+    padding: 0;
     @media screen and (min-width: 480px) {
       display: flex;
       align-items: center;
     }
     li {
       padding: 5px 0;
-      & + li {
-        // border-top: 1px solid #cfcfcf;
-        @media screen and (min-width: 480px) {
-          border-left: 1px solid #cfcfcf;
-          // border-top: none;
-        }
-      }
+      width: auto;
       @media screen and (min-width: 480px) {
         padding: 0 15px;
         &:first-child {
@@ -397,19 +465,41 @@
           padding-right: 0;
         }
       }
+      & + li {
+        // border-top: 1px solid #cfcfcf;
+        @media screen and (min-width: 480px) {
+          border-left: 1px solid #cfcfcf;
+          // border-top: none;
+        }
+      }
       a {
         color: $primaryColor;
         letter-spacing: normal;
         cursor: pointer;
         font-size: 14px;
+        min-height: 1px;
+        padding: 0;
+        span {
+          font-size: 14px;
+        }
+        div {
+          margin: 0;
+        }
         @media screen and (min-width: 1024px) {
           font-size: 16px;
+          span {
+            font-size: 16px;
+          }
         }
         @media screen and (min-width: 768px) {
           font-size: 15px;
+          span {
+            font-size: 15px;
+          }
         }
         &:hover {
           text-decoration: none;
+          background-color: transparent;
         }
       }
     }
@@ -450,12 +540,24 @@
     flex-wrap: wrap;
     li {
       font-size: 0;
-      cursor: pointer;
-      width: 35px;
+      padding: 0;
+      width: auto;
       margin-right: 10px;
-      border-radius: 4px;
-      height: 35px;
-      background-color: #d0d0d0;
+      // background-color: #d0d0d0;
+      a {
+        padding: 0;
+        display: block;
+        min-height: 1px;
+        div {
+          margin: 0;
+          border-radius: 4px;
+          height: 35px;
+          width: 35px;
+        }
+        span {
+          font-size: 0;
+        }
+      }
     }
   }
 }
@@ -610,26 +712,51 @@
   }
 
   .delivey-box {
+    UL {
+      margin: 0;
+      padding: 0;
+    }
     ul {
       li {
-        font-size: 14px;
-        letter-spacing: normal;
-        font-weight: $font-light;
-        padding: 10px 0 10px 30px;
-        line-height: normal;
-        color: #000;
+        padding: 10px 0 10px 0;
+
         position: relative;
         border-bottom: 1px solid #e5e5e5;
+        display: flex;
+        align-items: center;
+        a {
+          font-size: 14px;
+          align-self: start;
+          line-height: normal;
+          color: rgb(24, 160, 251);
+          text-decoration: underline;
+        }
+        .MuiListItemText-root {
+          margin: 0;
+        }
+        .MuiListItemIcon-root {
+          min-width: 1px;
+          margin-right: 6px;
+        }
         svg {
           fill: #757575;
-          position: absolute;
-          left: 0;
-          top: 50%;
-          transform: translateY(-50%);
+          // position: absolute;
+          // left: 0;
+          // top: 50%;
+          // transform: translateY(-50%);
         }
         span {
+          font-size: 14px;
+          letter-spacing: normal;
+          font-weight: $font-light;
+          line-height: normal;
+          color: #000;
+        }
+        small {
+          font-size: 14px;
           display: block;
           line-height: 1;
+          font-weight: 300;
           color: #b2b2b2;
           margin-top: 2px;
         }

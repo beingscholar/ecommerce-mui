@@ -1,4 +1,10 @@
-import { Box, Button, CardMedia, MenuItem } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  CardMedia,
+  MenuItem,
+  ButtonGroup
+} from "@material-ui/core";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -162,7 +168,7 @@ const CustomerForm = () => {
     <Box className="primary-structure">
       <Container maxWidth="lg">
         <Grid container>
-          <CustomerMenu />
+          <CustomerMenu customerName={firstName} />
 
           <Grid item xs={12} sm={9} md={10}>
             <Box className="primary-structure--content">
@@ -331,7 +337,7 @@ const CustomerForm = () => {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                           <Box className="form-group">
-                            <label>Mobile Number</label>
+                            <label>Phone Number</label>
                             <TextValidator
                               autoComplete="phoneNumber"
                               variant="outlined"
@@ -480,17 +486,31 @@ const CustomerForm = () => {
                           </Box>
                         </Grid>
 
-                        <Grid item xs={12} sm={5} md={4}>
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            fullWidth
-                            className="m-t-10"
-                            disableElevation
-                            type="submit"
-                          >
-                            Update Profile
-                          </Button>
+                        <Grid item xs={12} lg={12}>
+                          <ButtonGroup>
+                            <Grid container justify="space-between">
+                              <Button
+                                variant="contained"
+                                color="primary"
+                                className="m-t-30"
+                                disableElevation
+                                fullWidth
+                                type="submit"
+                              >
+                                Update Profile
+                              </Button>
+                              <Button
+                                variant="outlined"
+                                color="primary"
+                                disableElevation
+                                className="m-t-30"
+                                fullWidth
+                                onClick={() => history.push("/profile")}
+                              >
+                                Go Back
+                              </Button>
+                            </Grid>
+                          </ButtonGroup>
                         </Grid>
                       </Grid>
                     </Grid>

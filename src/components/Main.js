@@ -29,7 +29,7 @@ import MySignIn from './auth/MySignIn';
 import MySignUp from './auth/MySignUp';
 import Aboutus from './Aboutus';
 import PrivateRoute from './utilities/PrivateRoute';
-import ProductProfile from './products/ProductProfile';
+import ProductProfile from './products/Profile/ProductProfile';
 import Products from './products/Products';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';

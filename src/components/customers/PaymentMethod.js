@@ -1,4 +1,4 @@
-import { Box, Button } from "@material-ui/core";
+import { Box, Button, ButtonGroup } from "@material-ui/core";
 import Container from "@material-ui/core/Container";
 import FormControl from "@material-ui/core/FormControl";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -9,7 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import React from "react";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import { useHistory } from "react-router-dom";
-import back from "../../assets/img/back.svg";
+// import back from "../../assets/img/back.svg";
 import masterCard from "../../assets/img/mastercard.svg";
 import CustomerMenu from "./CustomerMenu";
 
@@ -24,11 +24,11 @@ const PaymentMethod = () => {
   const [cardNumberError, setCardNumberError] = React.useState("");
   const [expiryDateError, setExpiryDateError] = React.useState("");
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     setPaymentOption(event.target.value);
   };
 
-  const setSecurityCode = (e) => {
+  const setSecurityCode = e => {
     let cvv = e.target.value;
     const regex = /^\d+$/;
     let isValid = regex.test(cvv);
@@ -37,13 +37,13 @@ const PaymentMethod = () => {
     }
   };
 
-  const setExpiryDate = (e) => {
+  const setExpiryDate = e => {
     let expDate = e.target.value;
     const regex = /^[0-9/]*$/;
     let isValid = regex.test(expDate);
     if (expDate.length < 8 && isValid) {
-      if (expDate.length == 2) {
-        if (e.keyCode != 8) {
+      if (expDate.length === 2) {
+        if (e.keyCode !== 8) {
           expDate = expDate + "/";
         }
       }
@@ -51,13 +51,13 @@ const PaymentMethod = () => {
     }
   };
 
-  const setCreditCardNumber = (e) => {
+  const setCreditCardNumber = e => {
     setCardNumberError("");
     let ccNum = e.target.value;
     const regex = /^[0-9-]*$/;
     let isValid = regex.test(ccNum);
     if (ccNum.length < 20 && isValid) {
-      if (ccNum.length == 4 || ccNum.length == 9 || ccNum.length == 14) {
+      if (ccNum.length === 4 || ccNum.length === 9 || ccNum.length === 14) {
         if (e.keyCode != 8) {
           ccNum = ccNum + "-";
         }
@@ -106,7 +106,7 @@ const PaymentMethod = () => {
     return true;
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     event.preventDefault();
 
     if (validateCreditCardNumber()) return false;
@@ -126,13 +126,13 @@ const PaymentMethod = () => {
               </Box>
               <Grid container justify="center">
                 <Grid item xs={12} md={6} lg={5}>
-                  <Box
+                  {/* <Box
                     className="back-arrow"
                     onClick={() => history.push("/profile")}
                   >
                     <img src={back} alt="back" />
                     Go back
-                  </Box>
+                  </Box> */}
                   <ValidatorForm onSubmit={handleSubmit}>
                     <Box className="primary-structure--box">
                       <Typography className="m-b-30">
@@ -174,7 +174,7 @@ const PaymentMethod = () => {
                             name="card_number"
                             placeholder="xxxx - xxxx - xxxx"
                             value={cardNumber}
-                            onChange={(e) => {
+                            onChange={e => {
                               setCreditCardNumber(e);
                             }}
                             type="text"
@@ -207,7 +207,7 @@ const PaymentMethod = () => {
                               name="expiry_date"
                               placeholder="01/2020"
                               value={cardDate}
-                              onChange={(e) => {
+                              onChange={e => {
                                 setExpiryDate(e);
                               }}
                               type="text"
@@ -236,7 +236,7 @@ const PaymentMethod = () => {
                               name="security_code"
                               placeholder="123"
                               value={cvvCode}
-                              onChange={(e) => {
+                              onChange={e => {
                                 setSecurityCode(e);
                               }}
                               type="text"
@@ -246,7 +246,33 @@ const PaymentMethod = () => {
                           </Box>
                         </Grid>
                       </Grid>
-                      <Button
+                      <Grid item xs={12} lg={12}>
+                        <ButtonGroup>
+                          <Grid container justify="space-between">
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              className="m-t-30"
+                              disableElevation
+                              fullWidth
+                              type="submit"
+                            >
+                              Update
+                            </Button>
+                            <Button
+                              variant="outlined"
+                              color="primary"
+                              disableElevation
+                              className="m-t-30"
+                              fullWidth
+                              onClick={() => history.push("/profile")}
+                            >
+                              Go Back
+                            </Button>
+                          </Grid>
+                        </ButtonGroup>
+                      </Grid>
+                      {/* <Button
                         className="m-t-20"
                         variant="contained"
                         color="primary"
@@ -255,7 +281,7 @@ const PaymentMethod = () => {
                         type="submit"
                       >
                         Update
-                      </Button>
+                      </Button> */}
                     </Box>
                   </ValidatorForm>
                 </Grid>

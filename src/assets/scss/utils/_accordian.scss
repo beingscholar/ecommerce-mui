@@ -1,0 +1,89 @@
+.primary-accordian {
+  .helpful-info {
+    margin-top: 30px;
+    font-size: 14px;
+    color: #000;
+    @media screen and (min-width: 575px) {
+      display: flex;
+      font-size: 16px;
+      align-items: center;
+    }
+    .MuiButtonGroup-root {
+      display: block;
+      margin-top: 10px;
+      @media screen and (min-width: 575px) {
+        margin-left: 25px;
+        margin-top: 0;
+      }
+      button {
+        border: 1px solid rgba(0, 0, 0, 0.23);
+        & + button {
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+  .MuiAccordion-root {
+    border-radius: 0 !important;
+    .MuiAccordionDetails-root {
+      padding: 20px;
+      display: block;
+      p + p {
+        margin-top: 15px;
+      }
+      ul {
+        display: flex;
+        flex-wrap: wrap;
+        li {
+          position: relative;
+          padding-right: 10px;
+          color: #000;
+          margin-bottom: 15px;
+          font-size: 14px;
+          padding-left: 18px;
+          @media screen and (min-width: 768px) {
+            width: 50%;
+            font-size: 16px;
+          }
+          &::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            position: absolute;
+            left: 0;
+            top: 5px;
+            background-color: #c4c4c4;
+          }
+        }
+      }
+    }
+    &.Mui-expanded {
+      margin: 0;
+    }
+    // &:first-child {
+    //   .MuiAccordionSummary-root {
+    //     .MuiAccordionSummary-content {
+    //       padding-top: 0;
+    //     }
+    //   }
+    // }
+    &::before {
+      display: none;
+    }
+    .MuiAccordionSummary-root {
+      min-height: 1px;
+      padding: 0;
+      border-bottom: 1px solid #d6d6d6;
+      .MuiAccordionSummary-content {
+        margin: 0;
+        padding: 25px 0;
+        p {
+          letter-spacing: 0;
+          font-weight: $font-medium;
+          line-height: normal;
+        }
+      }
+    }
+  }
+}
