@@ -1,21 +1,21 @@
-import React, { useState } from "react";
-import { Link as RouterLink, useHistory } from "react-router-dom";
-import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
-import HetchlyAccount from "../../assets/img/hetchly-account.svg";
-import Button from "@material-ui/core/Button";
-import Checkbox from "@material-ui/core/Checkbox";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import { Link } from "@material-ui/core";
-import TextField from "@material-ui/core/TextField";
-import { useUser } from "../utilities/user";
+import React, { useState } from 'react';
+import { Link as RouterLink, useHistory } from 'react-router-dom';
+import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator';
+
+import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { Link } from '@material-ui/core';
+import TextField from '@material-ui/core/TextField';
+import { useUser } from '../utilities/user';
 
 const MySignUp = () => {
   const history = useHistory();
   const { signup } = useUser();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [givenName, setGivenName] = useState("");
-  const [familyName, setFamilyName] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [givenName, setGivenName] = useState('');
+  const [familyName, setFamilyName] = useState('');
   const [isSubscribed, setIsSubscribed] = React.useState(false);
 
   async function handleSignUp(
@@ -29,7 +29,7 @@ const MySignUp = () => {
       // wait to see if login was successful (we don't care about the return
       // value here)
       await signup(username, password, givenName, familyName);
-      history.push("/check-email");
+      history.push('/check-email');
     } catch (err) {
       // If an error occured, showcase the proper message (we customised the
       // message ourselves in `UserProvider`'s code)
@@ -38,165 +38,141 @@ const MySignUp = () => {
   }
 
   return (
-    <section className="user-page">
-      <p>
-        Already a Member?{" "}
-        <Link component={RouterLink} to="/signin">
-          Login
-        </Link>{" "}
-        here.
-      </p>
-      <div className="user-page--wrapper">
-        <div className="user-page--info">
-          <h3>Create your Hetchly Account</h3>
-          <div className="info">
-            <p>
-              <strong>Manage Your Orders</strong>
-            </p>
-            <p>Track orders, manage cancellations &amp; returns.</p>
-          </div>
-
-          <div className="info">
-            <p>
-              <strong>Shortlist your wishlist items you love</strong>
-            </p>
-            <p>Keep items you love on a watchlist.</p>
-          </div>
-
-          <div className="info">
-            <p>
-              <strong>Awesome offers and updates for you</strong>
-            </p>
-            <p>Be first to know about great offers and save.</p>
-          </div>
-
-          <img src={HetchlyAccount} alt="Hetchly_Account" />
-        </div>
-        <div className="user-page--form">
-          <ValidatorForm
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleSignUp(
-                username,
-                password,
-                givenName,
-                familyName,
-                isSubscribed
-              );
-            }}
-          >
-            <div className="form-group">
+    <section className='user-structure'>
+      <div className='wrapper'>
+        <p>
+          Already a Member?{' '}
+          <Link component={RouterLink} to='/signin'>
+            Login
+          </Link>{' '}
+          here.
+        </p>
+        <ValidatorForm
+          onSubmit={e => {
+            e.preventDefault();
+            handleSignUp(
+              username,
+              password,
+              givenName,
+              familyName,
+              isSubscribed
+            );
+          }}
+        >
+          <div className='user-structure--box'>
+            <h3>Create your Hetchly Account</h3>
+            <div className='form-group'>
               <label>First Name*</label>
               <TextValidator
                 autoFocus
                 required
-                autoComplete="fname"
-                variant="outlined"
-                id="given_name"
-                key="given_name"
-                name="given_name"
-                placeholder="First Name"
+                autoComplete='fname'
+                variant='outlined'
+                id='given_name'
+                key='given_name'
+                name='given_name'
+                placeholder='First Name'
                 value={givenName}
-                onChange={(e) => {
+                onChange={e => {
                   setGivenName(e.target.value);
                 }}
-                type="text"
-                validators={["required"]}
-                errorMessages={["this field is required"]}
+                type='text'
+                validators={['required']}
+                errorMessages={['this field is required']}
               />
             </div>
-            <div className="form-group">
+            <div className='form-group'>
               <label>Family Name*</label>
               <TextValidator
-                autoComplete="lname"
+                autoComplete='lname'
                 required
-                variant="outlined"
-                placeholder="Family Name"
-                id="family_name"
-                key="family_name"
-                name="family_name"
-                onChange={(e) => {
+                variant='outlined'
+                placeholder='Family Name'
+                id='family_name'
+                key='family_name'
+                name='family_name'
+                onChange={e => {
                   setFamilyName(e.target.value);
                 }}
                 value={familyName}
-                type="text"
+                type='text'
               />
             </div>
-            <div className="form-group">
+            <div className='form-group'>
               <label>Email*</label>
               <TextValidator
-                autoComplete="email"
-                variant="outlined"
+                autoComplete='email'
+                variant='outlined'
                 fullWidth
                 required
-                placeholder="johndoe@mail.com"
-                id="username"
-                key="username"
-                name="username"
+                placeholder='johndoe@mail.com'
+                id='username'
+                key='username'
+                name='username'
                 value={username}
-                onChange={(e) => {
+                onChange={e => {
                   setUsername(e.target.value);
                 }}
-                type="text"
-                validators={["required", "isEmail"]}
-                errorMessages={["this field is required", "Email is not valid"]}
+                type='text'
+                validators={['required', 'isEmail']}
+                errorMessages={['this field is required', 'Email is not valid']}
               />
             </div>
-            <div className="form-group">
+            <div className='form-group'>
               <label>Password*</label>
               <TextValidator
                 required
-                variant="outlined"
-                autoComplete="current-password"
-                placeholder="Password"
+                variant='outlined'
+                autoComplete='current-password'
+                placeholder='Password'
                 fullWidth
-                id="password"
-                key="password"
-                name="password"
+                id='password'
+                key='password'
+                name='password'
                 value={password}
-                onChange={(e) => {
+                onChange={e => {
                   setPassword(e.target.value);
                 }}
-                type="password"
+                type='password'
               />
             </div>
             <Button
-              variant="contained"
-              color="primary"
+              variant='contained'
+              color='primary'
               disableElevation
-              type="submit"
+              type='submit'
             >
               Sign up
             </Button>
 
-            <div className="recieve-offers">
+            <div className='recieve-offers'>
               <FormControlLabel
                 control={
                   <Checkbox
                     required
-                    name="subscribed"
+                    name='subscribed'
                     // Subscribed={isSubscribed}
                     value={isSubscribed ? 1 : 0}
                     onChange={() => setIsSubscribed(true)}
-                    color="primary"
+                    color='primary'
                   />
                 }
-                label="I want to receive exclusive offers and promotions from Hetchly."
+                label='I want to receive exclusive offers and promotions from Hetchly.'
               />
             </div>
 
             <p>
-              By clicking "SIGN UP", I agree to Hetchly{" "}
-              <Link to="/" component={RouterLink}>
+              By clicking "SIGN UP", I agree to Hetchly{' '}
+              <Link to='/' component={RouterLink}>
                 Terms of Use
-              </Link>{" "}
-              and{" "}
-              <Link to="/" component={RouterLink}>
+              </Link>{' '}
+              and{' '}
+              <Link to='/' component={RouterLink}>
                 Privacy Policy
               </Link>
             </p>
-          </ValidatorForm>
-        </div>
+          </div>
+        </ValidatorForm>
       </div>
     </section>
   );
