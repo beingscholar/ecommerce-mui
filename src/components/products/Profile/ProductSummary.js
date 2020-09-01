@@ -3,7 +3,7 @@ import {
   ButtonGroup,
   CardMedia,
   CircularProgress,
-  IconButton
+  IconButton,
 } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
@@ -31,37 +31,37 @@ import Slider from "react-slick";
 import { CART_API_URL, INVENTORY_URL } from "../../../config/apiUrl";
 import NumberField from "../../ui/NumberField";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container: {
-    height: "100%"
+    height: "100%",
   },
   cardMedia: {
     borderRadius: "10px",
-    paddingTop: "56.25%" // 16:9
+    paddingTop: "56.25%", // 16:9
   },
   grid: {
-    padding: "1em"
+    padding: "1em",
   },
   checkoutForm: {
     display: "flex",
     flexDirection: "column",
-    paddingLeft: "16px"
+    paddingLeft: "16px",
   },
   checkoutButtons: {
-    display: "flex"
+    display: "flex",
   },
   iconsRow: {
     display: "flex",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   linkRowItem: {
-    marginRight: "0.5em"
+    marginRight: "0.5em",
   },
   quantityRow: {
     display: "flex",
     alignItems: "center",
-    marginBottom: "1em"
-  }
+    marginBottom: "1em",
+  },
 }));
 
 function ListItemLink(props) {
@@ -86,18 +86,18 @@ const ProductSummary = ({ product, userId }) => {
       body: JSON.stringify({
         product_id: id,
         action: "add",
-        quantity: quantity
-      })
+        quantity: quantity,
+      }),
     };
     trackPromise(
       fetch(`${CART_API_URL}/${userId}`, requestOptions)
-        .then(response => {
+        .then((response) => {
           return response.json();
         })
-        .then(data => {
+        .then((data) => {
           // setProduct(data);
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
           alert(error);
         })
@@ -129,32 +129,32 @@ const ProductSummary = ({ product, userId }) => {
       {
         breakpoint: 1280,
         settings: {
-          slidesToShow: 3
-        }
+          slidesToShow: 3,
+        },
       },
       {
         breakpoint: 767,
         settings: {
-          slidesToShow: 3
-        }
+          slidesToShow: 3,
+        },
       },
       {
         breakpoint: 480,
         settings: {
-          slidesToShow: 3
-        }
-      }
-    ]
+          slidesToShow: 3,
+        },
+      },
+    ],
   };
 
   useEffect(() => {
     trackPromise(
       fetch(`${INVENTORY_URL}/${product.productId}`)
-        .then(response => response.json())
-        .then(data => {
+        .then((response) => response.json())
+        .then((data) => {
           setProductQuantity(parseInt(data.product.quantity));
         })
-        .catch(error => {
+        .catch((error) => {
           alert(error);
         })
     );
@@ -178,7 +178,7 @@ const ProductSummary = ({ product, userId }) => {
       currency,
       price,
       category,
-      createdDate
+      createdDate,
     } = product || "";
     productData = (
       <Box
@@ -368,7 +368,7 @@ const ProductSummary = ({ product, userId }) => {
               <FormControl className="width-auto">
                 <Select
                   value={storageCapacity}
-                  onChange={e => setStorageCapacity(e.target.value)}
+                  onChange={(e) => setStorageCapacity(e.target.value)}
                   variant="outlined"
                   displayEmpty
                   IconComponent={() => <ExpandMoreIcon />}
