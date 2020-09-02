@@ -1,11 +1,12 @@
 import React, { useState } from "react";
+import { Box, Link, CardMedia } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
 import { Link as RouterLink, useHistory } from "react-router-dom";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import HetchlyAccount from "../../assets/img/hetchly-account.svg";
 import Button from "@material-ui/core/Button";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import { Link } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import { useUser } from "../utilities/user";
 
@@ -38,41 +39,49 @@ const MySignUp = () => {
   }
 
   return (
-    <section className="user-page">
-      <p>
+    <Box className="user-page">
+      <Typography>
         Already a Member?{" "}
         <Link component={RouterLink} to="/signin">
           Login
         </Link>{" "}
         here.
-      </p>
-      <div className="user-page--wrapper">
-        <div className="user-page--info">
-          <h3>Create your Hetchly Account</h3>
-          <div className="info">
-            <p>
-              <strong>Manage Your Orders</strong>
-            </p>
-            <p>Track orders, manage cancellations &amp; returns.</p>
-          </div>
+      </Typography>
+      <Box className="user-page--wrapper">
+        <Box className="user-page--info">
+          <Typography component="h3">Create your Hetchly Account</Typography>
+          <Box className="info">
+            <Typography>
+              <Typography component="strong">Manage Your Orders</Typography>
+            </Typography>
+            <Typography>
+              Track orders, manage cancellations &amp; returns.
+            </Typography>
+          </Box>
 
-          <div className="info">
-            <p>
-              <strong>Shortlist your wishlist items you love</strong>
-            </p>
-            <p>Keep items you love on a watchlist.</p>
-          </div>
+          <Box className="info">
+            <Typography>
+              <Typography component="strong">
+                Shortlist your wishlist items you love
+              </Typography>
+            </Typography>
+            <Typography>Keep items you love on a watchlist.</Typography>
+          </Box>
 
-          <div className="info">
-            <p>
-              <strong>Awesome offers and updates for you</strong>
-            </p>
-            <p>Be first to know about great offers and save.</p>
-          </div>
+          <Box className="info">
+            <Typography>
+              <Typography component="strong">
+                Awesome offers and updates for you
+              </Typography>
+            </Typography>
+            <Typography>
+              Be first to know about great offers and save.
+            </Typography>
+          </Box>
 
           <img src={HetchlyAccount} alt="Hetchly_Account" />
-        </div>
-        <div className="user-page--form">
+        </Box>
+        <Box className="user-page--form">
           <ValidatorForm
             onSubmit={(e) => {
               e.preventDefault();
@@ -85,7 +94,7 @@ const MySignUp = () => {
               );
             }}
           >
-            <div className="form-group">
+            <Box className="form-group">
               <label>First Name*</label>
               <TextValidator
                 autoFocus
@@ -104,8 +113,8 @@ const MySignUp = () => {
                 validators={["required"]}
                 errorMessages={["this field is required"]}
               />
-            </div>
-            <div className="form-group">
+            </Box>
+            <Box className="form-group">
               <label>Family Name*</label>
               <TextValidator
                 autoComplete="lname"
@@ -121,8 +130,8 @@ const MySignUp = () => {
                 value={familyName}
                 type="text"
               />
-            </div>
-            <div className="form-group">
+            </Box>
+            <Box className="form-group">
               <label>Email*</label>
               <TextValidator
                 autoComplete="email"
@@ -141,8 +150,8 @@ const MySignUp = () => {
                 validators={["required", "isEmail"]}
                 errorMessages={["this field is required", "Email is not valid"]}
               />
-            </div>
-            <div className="form-group">
+            </Box>
+            <Box className="form-group">
               <label>Password*</label>
               <TextValidator
                 required
@@ -159,7 +168,7 @@ const MySignUp = () => {
                 }}
                 type="password"
               />
-            </div>
+            </Box>
             <Button
               variant="contained"
               color="primary"
@@ -169,7 +178,7 @@ const MySignUp = () => {
               Sign up
             </Button>
 
-            <div className="recieve-offers">
+            <Box className="recieve-offers">
               <FormControlLabel
                 control={
                   <Checkbox
@@ -183,9 +192,9 @@ const MySignUp = () => {
                 }
                 label="I want to receive exclusive offers and promotions from Hetchly."
               />
-            </div>
+            </Box>
 
-            <p>
+            <Typography>
               By clicking "SIGN UP", I agree to Hetchly{" "}
               <Link to="/" component={RouterLink}>
                 Terms of Use
@@ -194,11 +203,11 @@ const MySignUp = () => {
               <Link to="/" component={RouterLink}>
                 Privacy Policy
               </Link>
-            </p>
+            </Typography>
           </ValidatorForm>
-        </div>
-      </div>
-    </section>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 
