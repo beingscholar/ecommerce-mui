@@ -1,8 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
-import FooterTop from "../../layouts/FooterTop";
+import { Box } from "@material-ui/core";
+import Container from "@material-ui/core/Container";
+import Grid from "@material-ui/core/Grid";
+import React from "react";
+import CustomerMenu from "../CustomerMenu";
 
 const OrderList = () => {
-  return <div>Order Listing</div>;
+	return (
+		<Box className="primary-structure">
+			<Container maxWidth="lg">
+				<Grid container>
+					<CustomerMenu customerName={"Mayank"} />
+				</Grid>
+			</Container>
+		</Box>
+	);
 };
 export default OrderList;
