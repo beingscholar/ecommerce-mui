@@ -66,7 +66,7 @@ const OrderList = () => {
                     </Box>
 
                     <Box className="quantity">Qty: 1000</Box>
-                    <Box className="status delivered">Delivered</Box>
+                    <Box className="status cancelled">Cancelled</Box>
                     <Box className="delivery-date">
                       Delivered on 30 Jun 2020
                     </Box>

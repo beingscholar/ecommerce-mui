@@ -96,6 +96,9 @@
             &.delivered {
               background: rgba(57, 168, 101, 0.79);
             }
+            &.cancelled {
+              background: rgba(186, 103, 98, 0.79);
+            }
           }
           .info {
             padding: 15px 0;
