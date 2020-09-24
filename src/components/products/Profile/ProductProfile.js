@@ -73,6 +73,10 @@ const ProductProfile = () => {
   let productList = "";
   if (products) {
     productList = products.map(product => {
+      const imgIndex = product.baseImage && product.baseImage.split("-")[1];
+      const baseImageURL = imgIndex
+        ? product.imageUrls[imgIndex]
+        : product.imageUrl;
       return (
         <Card key={product.productId} className="product-card">
           <CardActionArea
@@ -80,7 +84,7 @@ const ProductProfile = () => {
             to={"/products/" + product.productId}
           >
             <CardMedia
-              image={product.imageUrl} /* change to product.imageUrl */
+              image={baseImageURL} /* change to product.imageUrl */
               title="Image title"
             />
           </CardActionArea>
@@ -349,7 +353,11 @@ const ProductProfile = () => {
             <Tab label="Question &amp; Answer" {...a11yProps(2)} />
           </Tabs>
           <TabPanel value={tabValue} index={0}>
-            <ProductDetails />
+            {product ? (
+              <ProductDetails product={product} />
+            ) : (
+              <CircularProgress />
+            )}
           </TabPanel>
           <TabPanel value={tabValue} index={1}>
             <RatingReview />

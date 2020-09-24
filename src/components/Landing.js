@@ -70,6 +70,10 @@ export default function Landing() {
 
   if (products) {
     var productList = products.map(product => {
+      const imgIndex = product.baseImage && product.baseImage.split("-")[1];
+      const baseImageURL = imgIndex
+        ? product.imageUrls[imgIndex]
+        : product.imageUrl;
       return (
         <Card key={product.productId} className="product-card">
           <CardActionArea
@@ -77,7 +81,7 @@ export default function Landing() {
             to={"/products/" + product.productId}
           >
             <CardMedia
-              image={product.imageUrl} /* change to product.imageUrl */
+              image={baseImageURL} /* change to product.imageUrl */
               title="Image title"
             />
           </CardActionArea>

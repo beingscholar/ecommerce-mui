@@ -14,12 +14,13 @@ import AppBar from '@material-ui/core/AppBar';
 import { Button } from '@material-ui/core';
 import Cart from './carts/Cart';
 import CheckEmail from './auth/CheckEmail';
-import Checkout from './Checkout';
+import Checkout from './checkout/Checkout';
 import CustomerBillings from './customers/CustomerBillings';
 import CustomerProfile from './customers/CustomerProfile';
 import CustomerEditForm from './customers/CustomerEditForm';
 import ChangePassword from './customers/ChangePassword';
 import PaymentMethod from './customers/PaymentMethod';
+import OrderConfirm from './OrderConfirm';
 
 import Footer from './layouts/Footer';
 import Header from './layouts/Header';
@@ -37,6 +38,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { trackPromise } from 'react-promise-tracker';
 import { useUser } from './utilities/user';
 import history from './utilities/history';
+
 
 // import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
@@ -209,6 +211,9 @@ function Main() {
         </Route>
         <Route path='/check-email'>
           <CheckEmail />
+        </Route>
+        <Route path='/order-confirm'>
+          <OrderConfirm />
         </Route>
         <PrivateRoute path='/checkout' component={Checkout} />
         <Route

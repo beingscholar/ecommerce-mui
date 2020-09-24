@@ -75,6 +75,12 @@ const ProductSummary = ({ product, userId }) => {
   const [productQuantity, setProductQuantity] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [toggleFavorite, setToggleFavorite] = useState(false);
+  const imgIndex = product.baseImage && product.baseImage.split("-")[1];
+  const baseImageURL = imgIndex
+    ? product.imageUrls[imgIndex]
+    : product.imageUrl;
+
+  const [productBaseImage, setProductBaseImage] = useState(baseImageURL);
 
   const [storageCapacity, setStorageCapacity] = React.useState("64");
   const [ratingValue, setRatingValue] = React.useState(2);
@@ -147,6 +153,10 @@ const ProductSummary = ({ product, userId }) => {
     ]
   };
 
+  const handleImageChange = (e, image) => {
+    setProductBaseImage(image);
+  };
+
   useEffect(() => {
     trackPromise(
       fetch(`${INVENTORY_URL}/${product.productId}`)
@@ -174,12 +184,14 @@ const ProductSummary = ({ product, userId }) => {
       productName,
       productDescription,
       supplier,
-      imageUrl,
       currency,
       price,
       category,
       createdDate
     } = product || "";
+
+    const sliderImages = product.imageUrls.length > 0 ? product.imageUrls : [];
+
     productData = (
       <Box
         component="div"
@@ -192,90 +204,22 @@ const ProductSummary = ({ product, userId }) => {
             <Box className="product-slides">
               <CardMedia
                 className={classes.cardMedia}
-                image={imageUrl}
+                image={productBaseImage}
                 title="Image title"
               />
               <Slider {...productSlider}>
-                <Card key={product.productId}>
-                  <CardActionArea>
-                    <CardMedia
-                      image={product.imageUrl} /* change to product.imageUrl */
-                      title="Image title"
-                    />
-                  </CardActionArea>
-                </Card>
-                <Card key={product.productId}>
-                  <CardActionArea>
-                    <CardMedia
-                      image={product.imageUrl} /* change to product.imageUrl */
-                      title="Image title"
-                    />
-                  </CardActionArea>
-                </Card>
-                <Card key={product.productId}>
-                  <CardActionArea>
-                    <CardMedia
-                      image={product.imageUrl} /* change to product.imageUrl */
-                      title="Image title"
-                    />
-                  </CardActionArea>
-                </Card>
-                <Card key={product.productId}>
-                  <CardActionArea>
-                    <CardMedia
-                      image={product.imageUrl} /* change to product.imageUrl */
-                      title="Image title"
-                    />
-                  </CardActionArea>
-                </Card>
-                <Card key={product.productId}>
-                  <CardActionArea>
-                    <CardMedia
-                      image={product.imageUrl} /* change to product.imageUrl */
-                      title="Image title"
-                    />
-                  </CardActionArea>
-                </Card>
-                <Card key={product.productId}>
-                  <CardActionArea>
-                    <CardMedia
-                      image={product.imageUrl} /* change to product.imageUrl */
-                      title="Image title"
-                    />
-                  </CardActionArea>
-                </Card>
-                <Card key={product.productId}>
-                  <CardActionArea>
-                    <CardMedia
-                      image={product.imageUrl} /* change to product.imageUrl */
-                      title="Image title"
-                    />
-                  </CardActionArea>
-                </Card>
-                <Card key={product.productId}>
-                  <CardActionArea>
-                    <CardMedia
-                      image={product.imageUrl} /* change to product.imageUrl */
-                      title="Image title"
-                    />
-                  </CardActionArea>
-                </Card>
-                <Card key={product.productId}>
-                  <CardActionArea>
-                    <CardMedia
-                      image={product.imageUrl} /* change to product.imageUrl */
-                      title="Image title"
-                    />
-                  </CardActionArea>
-                </Card>
-                <Card key={product.productId}>
-                  <CardActionArea>
-                    <CardMedia
-                      image={product.imageUrl} /* change to product.imageUrl */
-                      title="Image title"
-                    />
-                  </CardActionArea>
-                </Card>
+                {sliderImages &&
+                  sliderImages.map((sliderImage, index) => (
+                    <Card key={`image-${index}`}>
+                      <CardActionArea>
+                        <CardMedia
+                          onClick={e => handleImageChange(e, sliderImage)}
+                          image={sliderImage} /* change to product.imageUrl */
+                          title={`image-${index}`}
+                        />
+                      </CardActionArea>
+                    </Card>
+                  ))}
               </Slider>
             </Box>
           </Grid>
