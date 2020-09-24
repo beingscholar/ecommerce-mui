@@ -21,6 +21,7 @@ import CustomerEditForm from './customers/CustomerEditForm';
 import ChangePassword from './customers/ChangePassword';
 import PaymentMethod from './customers/PaymentMethod';
 import OrderConfirm from './OrderConfirm';
+import OrderList from './customers/orders/OrderList';
 
 import Footer from './layouts/Footer';
 import Header from './layouts/Header';
@@ -28,6 +29,7 @@ import Landing from './Landing';
 import Link from '@material-ui/core/Link';
 import MySignIn from './auth/MySignIn';
 import MySignUp from './auth/MySignUp';
+import UserSignUp from './auth/UserSignUp';
 import Aboutus from './Aboutus';
 import PrivateRoute from './utilities/PrivateRoute';
 import ProductProfile from './products/Profile/ProductProfile';
@@ -209,6 +211,9 @@ function Main() {
         <Route path='/signup'>
           <MySignUp />
         </Route>
+        <Route path='/user-signup'>
+          <UserSignUp />
+        </Route>
         <Route path='/check-email'>
           <CheckEmail />
         </Route>
@@ -224,6 +229,7 @@ function Main() {
         <PrivateRoute path='/edit-profile' component={CustomerEditForm} />
         <PrivateRoute path='/change-password' component={ChangePassword} />
         <PrivateRoute path='/payment-method' component={PaymentMethod} />
+        <PrivateRoute path='/orders-list' component={OrderList} />
         <PrivateRoute path='/billings' component={CustomerBillings} />
         <Route exact path='/'>
           <Landing />

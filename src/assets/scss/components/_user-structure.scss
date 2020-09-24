@@ -115,6 +115,115 @@
 
 body {
   .MuiCheckbox-colorPrimary.Mui-checked {
-    color: $primaryColor;
+    color: #3e6eb0;
+  }
+}
+
+.user-page {
+  padding: 67px 15px 125px;
+
+  & > p {
+    max-width: 732px;
+    margin: 0 auto;
+    text-align: right;
+    padding-right: 1px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: -0.015em;
+    margin-bottom: 8px;
+    color: #000000;
+    a {
+      color: #3e6eb0;
+      text-decoration: underline;
+    }
+  }
+  &--info {
+    @media screen and (min-width: 576px) {
+      width: 228px;
+    }
+    img {
+      display: block;
+      margin: 43px auto 0;
+    }
+    .info {
+      & + .info {
+        margin-top: 30px;
+      }
+    }
+    h3 {
+      font-weight: bold;
+      font-size: 16px;
+      line-height: 19px;
+      letter-spacing: -0.015em;
+      margin-bottom: 40px;
+      color: #000000;
+    }
+    p {
+      font-size: 14px;
+      line-height: 16px;
+      display: flex;
+      align-items: center;
+      letter-spacing: -0.015em;
+      color: #000000;
+      & + p {
+        margin-top: 10px;
+      }
+      strong {
+        font-weight: bold;
+      }
+    }
+  }
+  &--form {
+    margin-top: 40px;
+    @media screen and (min-width: 576px) {
+      width: 248px;
+      margin-top: 0;
+    }
+    p {
+      font-weight: 500;
+      text-align: center;
+      font-size: 14px;
+      line-height: 16px;
+      letter-spacing: -0.015em;
+      color: #000000;
+    }
+    .recieve-offers {
+      margin: 23px 0;
+
+      label {
+        margin-right: 0;
+        align-items: flex-start;
+        .MuiFormControlLabel-label {
+          font-weight: $font-regular;
+          letter-spacing: -0.015em;
+          padding-top: 10px;
+          // letter-spacing: normal;
+          // line-height: normal;
+          font-size: 12px;
+        }
+      }
+    }
+    button {
+      &.MuiButton-containedPrimary {
+        width: 100%;
+        display: block;
+        margin-top: 30px;
+      }
+    }
+  }
+  &--wrapper {
+    max-width: 732px;
+    margin: 0 auto;
+    background: #ffffff;
+    box-shadow: 0px 7px 20px rgba(0, 0, 0, 0.08);
+    border-radius: 14px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 30px;
+    @media screen and (min-width: 576px) {
+      padding: 44px 62px;
+    }
   }
 }

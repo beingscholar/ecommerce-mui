@@ -40,7 +40,7 @@ const CustomerMenu = props => {
           subheader={<ListSubheader component="div">My Orders</ListSubheader>}
         >
           <ListItem button>
-            <Link component={RouterLink} to="/">
+            <Link component={RouterLink} to="/orders-list">
               <ListItemText primary="List of orders" />
             </Link>
           </ListItem>

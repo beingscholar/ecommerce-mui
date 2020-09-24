@@ -6,7 +6,7 @@ import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import { Box } from "@material-ui/core";
 
-const Cart = () => {
+const Aboutus = () => {
   return (
     <>
       <Box className="sub-header">
@@ -79,4 +79,4 @@ const Cart = () => {
   );
 };
 
-export default Cart;
+export default Aboutus;
