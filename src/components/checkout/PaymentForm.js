@@ -1,24 +1,21 @@
 import React, { useState, useEffect } from "react";
-import {
-  CardElement,
-  useStripe,
-  useElements
-} from "@stripe/react-stripe-js";
+import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 
-import { PAYMENT_API_URL, ORDER_API_URL, CART_API_URL } from "./../../config/apiUrl";
+import {
+  PAYMENT_API_URL,
+  ORDER_API_URL,
+  CART_API_URL
+} from "./../../config/apiUrl";
 import { trackPromise } from "react-promise-tracker";
 import { useHistory } from "react-router-dom";
 
-const PaymentForm = ({
-  amount, currency, order
-}) => {
-
+const PaymentForm = ({ amount, currency, order }) => {
   const history = useHistory();
   const [succeeded, setSucceeded] = useState(false);
   const [error, setError] = useState(null);
-  const [processing, setProcessing] = useState('');
+  const [processing, setProcessing] = useState("");
   const [disabled, setDisabled] = useState(true);
-  const [clientSecret, setClientSecret] = useState('');
+  const [clientSecret, setClientSecret] = useState("");
   // const [amount, setAmount] = useState('');
   // const [currency, setCurrency] = useState('');
   const stripe = useStripe();
@@ -32,19 +29,18 @@ const PaymentForm = ({
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify(
-          {
-            "paymentGateway": "stripe",
-            "amount": amount,
-            "currency": currency,
-            "description": "sample"
+        body: JSON.stringify({
+          paymentGateway: "stripe",
+          amount: amount,
+          currency: currency,
+          description: "sample"
         })
       })
       .then(res => {
         return res.json();
       })
       .then(data => {
-        setClientSecret(data.payment['clientSecret']);
+        setClientSecret(data.payment["clientSecret"]);
       });
   }, []);
 
@@ -52,20 +48,19 @@ const PaymentForm = ({
     style: {
       base: {
         color: "#32325d",
-        fontFamily: 'Arial, sans-serif',
+        fontFamily: "Arial, sans-serif",
         fontSmoothing: "antialiased",
         fontSize: "16px",
-        "::placeholder": {
-        }
+        "::placeholder": {}
       },
       invalid: {
         color: "#fa755a",
         iconColor: "#fa755a"
-      }  
+      }
     }
   };
 
- const emptyCart = () => {
+  const emptyCart = () => {
     const that = this;
     const endPoint = CART_API_URL + "/" + this.state.user_id;
     trackPromise(
@@ -85,31 +80,33 @@ const PaymentForm = ({
     );
   };
 
-  const placeOrder = (orderPayload) => {
+  const placeOrder = orderPayload => {
     const endPoint = ORDER_API_URL;
 
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(orderPayload)
-      };
+    };
 
-    console.log(requestOptions)
+    // console.log(requestOptions);
 
     trackPromise(
       fetch(endPoint, requestOptions)
         .then(response => {
           return response.json();
         })
+        .then(data => {
+          localStorage.setItem("orderDetails", JSON.stringify(data.order));
+        })
         .catch(error => {
           console.log(error);
           alert(error);
         })
-      );
-  }
+    );
+  };
 
-
-  const handleChange = async (event) => {
+  const handleChange = async event => {
     // Listen for changes in the CardElement
     // and display any errors as the customer types their card details
     setDisabled(event.empty);
@@ -119,7 +116,7 @@ const PaymentForm = ({
   const handleSubmit = async ev => {
     ev.preventDefault();
     setProcessing(true);
-  
+
     //process the payment here
 
     const payload = await stripe.confirmCardPayment(clientSecret, {
@@ -137,27 +134,23 @@ const PaymentForm = ({
       setSucceeded(true);
 
       // if payment success, we place the order
-      console.log(order)
-      placeOrder(order)
-
-      alert("Success! your order has been placed.")
+      // console.log(order);
+      placeOrder(order);
+      alert("Success! your order has been placed.");
       history.push("/order-confirm");
     }
   };
 
   return (
     <form id="payment-form" onSubmit={handleSubmit}>
-      <CardElement id="card-element" options={cardStyle} onChange={handleChange} />
-      <button
-        disabled={processing || disabled || succeeded}
-        id="submit"
-      >
+      <CardElement
+        id="card-element"
+        options={cardStyle}
+        onChange={handleChange}
+      />
+      <button disabled={processing || disabled || succeeded} id="submit">
         <span id="button-text">
-          {processing ? (
-            <div className="spinner" id="spinner"></div>
-          ) : (
-            "Pay"
-          )}
+          {processing ? <div className="spinner" id="spinner"></div> : "Pay"}
         </span>
       </button>
       {/* Show any error that happens when processing the payment */}
@@ -169,15 +162,14 @@ const PaymentForm = ({
       {/* Show a success message upon completion */}
       <p className={succeeded ? "result-message" : "result-message hidden"}>
         Payment succeeded, see the result in your
-        <a
-          href={`https://dashboard.stripe.com/test/payments`}
-        >
+        <a href={`https://dashboard.stripe.com/test/payments`}>
           {" "}
           Stripe dashboard.
-        </a> Refresh the page to pay again.
+        </a>{" "}
+        Refresh the page to pay again.
       </p>
     </form>
   );
-}
+};
 
 export default PaymentForm;

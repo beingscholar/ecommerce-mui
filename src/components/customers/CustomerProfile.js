@@ -14,23 +14,6 @@ import { CUSTOMER_URL } from "../../config/apiUrl";
 import history from "../utilities/history";
 import CustomerMenu from "./CustomerMenu";
 
-function getModalStyle() {
-  return {
-    margin: "auto",
-  };
-}
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-    maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
-  },
-  nested: {
-    paddingLeft: theme.spacing(4),
-  },
-}));
-
 const CustomerProfile = () => {
   const [user_id, setUser_id] = useState("");
   const [customer, setCustomer] = useState("");
@@ -38,17 +21,17 @@ const CustomerProfile = () => {
 
   useEffect(() => {
     trackPromise(
-      Auth.currentAuthenticatedUser().then((user) => {
+      Auth.currentAuthenticatedUser().then(user => {
         setUser_id(user.attributes.sub);
         fetch(CUSTOMER_URL + "/" + user.attributes.sub)
-          .then((response) => {
+          .then(response => {
             return response.json();
           })
-          .then((data) => {
+          .then(data => {
             setCustomer(data.customer);
             setProfilePic(data.customer.profilePhotoUrl);
           })
-          .catch((error) => {
+          .catch(error => {
             alert(error);
           });
       })
@@ -63,7 +46,7 @@ const CustomerProfile = () => {
       phoneNumber,
       gender,
       birthDate,
-      profilePhotoUrl,
+      profilePhotoUrl
     } = customer;
 
     const {
@@ -72,7 +55,7 @@ const CustomerProfile = () => {
       city,
       state,
       country,
-      zipcode,
+      zipcode
     } = customer.address;
 
     var customerData = (
