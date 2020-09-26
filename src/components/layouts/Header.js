@@ -36,7 +36,9 @@ const Header = props => {
       <MediaQuery minWidth={768}>
         <div className="topbar">
           <Container maxWidth="lg">
-            <ul>
+            <span>Disclaimer: </span>This website is hosted for demo
+            purposes only. It is not an actual shop.
+            {/* <ul>
               <li>
                 <Link component={RouterLink} to="/">
                   Sell on Hetchly
@@ -52,13 +54,18 @@ const Header = props => {
                   Help Center
                 </Link>
               </li>
-            </ul>
+            </ul> */}
           </Container>
         </div>
       </MediaQuery>
 
       {/* Add ".in" class to show */}
       <MediaQuery maxWidth={768}>
+        <div className="topbar">
+          <Container maxWidth="lg">
+            <span>Disclaimer: </span>This website is hosted for demo purposes only. It is not an actual shop.
+          </Container>
+        </div>
         <div className={`mobile-menu ${mobileMenu && "in"}`}>
           <div className="mobile-menu--container">
             <img
@@ -146,7 +153,7 @@ const Header = props => {
                     </ul>
                   </Accordion>
                 </li>
-                <li>
+                {/* <li>
                   <Link component={RouterLink} to="/">
                     Sell on Hetchly
                   </Link>
@@ -160,7 +167,7 @@ const Header = props => {
                   <Link component={RouterLink} to="/">
                     Help Center
                   </Link>
-                </li>
+                </li> */}
               </ul>
             </div>
             <ul>

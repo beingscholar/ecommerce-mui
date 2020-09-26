@@ -7,30 +7,29 @@ import {
   Container,
   Grid,
   Link,
-  Typography,
+  Typography
 } from "@material-ui/core";
-import FormControl from "@material-ui/core/FormControl";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
 import DirectionsBikeOutlinedIcon from "@material-ui/icons/DirectionsBikeOutlined";
 //icons
 import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
 import MailOutlinedIcon from "@material-ui/icons/MailOutlined";
 import ReceiptOutlinedIcon from "@material-ui/icons/ReceiptOutlined";
 import StayCurrentPortraitOutlinedIcon from "@material-ui/icons/StayCurrentPortraitOutlined";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 import { Auth } from "aws-amplify";
 import React, { useEffect, useState } from "react";
-import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import { trackPromise } from "react-promise-tracker";
 import MediaQuery from "react-responsive";
 // import masterCard from "../assets/img/mastercard.svg";
-import { CART_API_URL, CUSTOMER_URL, PRODUCT_API_URL, STRIPE_API_KEY, ORDER_API_URL } from "./../../config/apiUrl";
-import { Link as RouterLink } from "react-router-dom";
-
+import {
+  CART_API_URL,
+  CUSTOMER_URL,
+  PRODUCT_API_URL,
+  STRIPE_API_KEY
+} from "./../../config/apiUrl";
 import PaymentForm from "./PaymentForm";
-import { loadStripe } from "@stripe/stripe-js";
-import { Elements } from "@stripe/react-stripe-js";
+
 const promise = loadStripe(STRIPE_API_KEY);
 
 const Checkout = () => {
@@ -40,35 +39,33 @@ const Checkout = () => {
   const [customer, setCustomer] = useState("");
   const [order, setOrder] = useState();
 
-
   const [cardNumberError, setCardNumberError] = React.useState("");
   const [expiryDateError, setExpiryDateError] = React.useState("");
   const shippingFee = 0;
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     event.preventDefault();
   };
 
   useEffect(() => {
     trackPromise(
-      Auth.currentAuthenticatedUser().then((user) => {
-        
-        setUser(user.attributes.sub)
+      Auth.currentAuthenticatedUser().then(user => {
+        setUser(user.attributes.sub);
 
         fetch(CUSTOMER_URL + "/" + user.attributes.sub)
-          .then((response) => {
+          .then(response => {
             return response.json();
           })
-          .then((data) => {
+          .then(data => {
             setCustomer(data.customer);
-            
+
             var customer = data.customer;
 
             console.log(customer);
 
             var orderPayload = {
               name: customer.firstName + " " + customer.lastName,
-              email : customer.email,
+              email: customer.email,
               address: customer.address.address_1,
               address2: customer.address.address_2,
               country: customer.address.country,
@@ -78,42 +75,41 @@ const Checkout = () => {
               paymentMethod: "card",
               cart_id: user.attributes.sub,
               user_id: user.attributes.sub
-            }
+            };
 
-            setOrder(orderPayload)
-
+            setOrder(orderPayload);
           })
-          .catch((error) => {
+          .catch(error => {
             alert(error);
           });
 
         fetch(CART_API_URL + "/" + user.attributes.sub)
-          .then((response) => {
+          .then(response => {
             return response.json();
           })
-          .then((data) => {
+          .then(data => {
             setCart(data.items);
             var cartArr = data.items;
-            console.log(cartArr)
+            console.log(cartArr);
             var promises = [];
             cartArr.forEach(async function (item) {
               console.log(item.product_id);
               var promise = await fetch(PRODUCT_API_URL + "/" + item.product_id)
-                .then((response) => {
+                .then(response => {
                   return response.json();
                 })
-                .then((data) => {
+                .then(data => {
                   data.products[0].quantity = item.quantity;
-                  setProducts((products) => [...products, data.products[0]]);
+                  setProducts(products => [...products, data.products[0]]);
                 })
-                .catch((error) => {
+                .catch(error => {
                   alert(error);
                 });
 
               promises.push(promise);
             });
           })
-          .catch((error) => {
+          .catch(error => {
             alert(error);
           });
       })
@@ -152,49 +148,55 @@ const Checkout = () => {
             </Box>
           </Box>
         </MediaQuery>
-        {products.map((product) => (
-          <Card key={product.productId} className="product-table--row">
-            <CardMedia
-              image={product.imageUrl} /* change to product.imageUrl */
-              title="Image title"
-            ></CardMedia>
-            <CardContent>
-              <Box className="product-info">
-                <Typography component="h3">{product.productName}</Typography>
-                <Typography>{product.productDescription}</Typography>
-              </Box>
+        {products.map(product => {
+          const imgIndex = product.baseImage && product.baseImage.split("-")[1];
+          const baseImageURL = imgIndex
+            ? product.imageUrls[imgIndex]
+            : product.imageUrl;
+          return (
+            <Card key={product.productId} className="product-table--row">
+              <CardMedia
+                image={baseImageURL} /* change to product.imageUrl */
+                title="Image title"
+              ></CardMedia>
+              <CardContent>
+                <Box className="product-info">
+                  <Typography component="h3">{product.productName}</Typography>
+                  <Typography>{product.productDescription}</Typography>
+                </Box>
 
-              <Box className="product-quantity">
-                <Typography>
-                  <Typography component="span">{product.quantity}</Typography>
-                </Typography>
-                <Link>Remove</Link>
-              </Box>
-              <Box className="product-price">
-                <Typography>
-                  {product.currency} {product.price}
-                </Typography>
-              </Box>
-            </CardContent>
-          </Card>
-        ))}
+                <Box className="product-quantity">
+                  <Typography>
+                    <Typography component="span">{product.quantity}</Typography>
+                  </Typography>
+                  <Link>Remove</Link>
+                </Box>
+                <Box className="product-price">
+                  <Typography>
+                    {product.currency} {product.price}
+                  </Typography>
+                </Box>
+              </CardContent>
+            </Card>
+          );
+        })}
       </Box>
     );
   }
   const [value, setValue] = React.useState("female");
 
-  const deliveryHandleChange = (event) => {
+  const deliveryHandleChange = event => {
     setValue(event.target.value);
   };
 
-  const numberWithCommas = (x) => {
+  const numberWithCommas = x => {
     return x
       .toFixed(2)
       .toString()
       .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
-  const quantity = (products) => {
+  const quantity = products => {
     let total = 0;
     products.forEach(function (product) {
       total = total + parseInt(product.quantity);
@@ -202,7 +204,7 @@ const Checkout = () => {
     return total;
   };
 
-  const subTotal = (products) => {
+  const subTotal = products => {
     let subTotal = 0;
     products.forEach(function (product, i) {
       subTotal = subTotal + parseInt(product.price) * product.quantity;
@@ -235,7 +237,9 @@ const Checkout = () => {
       <Box className="primary-structure">
         <Container maxWidth="lg">
           <Box className="checkout-page">
-            <Typography component="h4">Checkout ({cart.length}) items</Typography>
+            <Typography component="h4">
+              Checkout ({cart.length}) items
+            </Typography>
             <Grid container spacing={3}>
               <Grid item xs={12} md={8}>
                 <Box className="primary-structure--box">
@@ -356,10 +360,10 @@ const Checkout = () => {
                 </Box>
               </Grid>
               <Grid item xs={12} md={4}>
-                  <Elements stripe={promise}>
-                     <PaymentForm amount={1000} currency="usd" order={order} />                  
-                   </Elements>
-              </Grid> 
+                <Elements stripe={promise}>
+                  <PaymentForm amount={1000} currency="usd" order={order} />
+                </Elements>
+              </Grid>
             </Grid>
           </Box>
         </Container>

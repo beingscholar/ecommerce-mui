@@ -1,118 +1,45 @@
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-
-import { Box, Button } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
-import {
-  Route,
-  BrowserRouter as Router,
-  Link as RouterLink,
-  Switch
-} from 'react-router-dom';
-
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
-import Avatar from '@material-ui/core/Avatar';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Checkbox from '@material-ui/core/Checkbox';
-import CloseIcon from '@material-ui/icons/Close';
-import Container from '@material-ui/core/Container';
-import Divider from '@material-ui/core/Divider';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import Drawer from '@material-ui/core/Drawer';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import FilterListIcon from '@material-ui/icons/FilterList';
-import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormGroup from '@material-ui/core/FormGroup';
-import Grid from '@material-ui/core/Grid';
-import IconButton from '@material-ui/core/IconButton';
-import InboxIcon from '@material-ui/icons/Inbox';
-import InputBase from '@material-ui/core/InputBase';
-import Link from '@material-ui/core/Link';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import MediaQuery from 'react-responsive';
-import MenuItem from '@material-ui/core/MenuItem';
-import Paper from '@material-ui/core/Paper';
-import PropTypes from 'prop-types';
-import Rating from '@material-ui/lab/Rating';
-import SearchIcon from '@material-ui/icons/Search';
-import Select from '@material-ui/core/Select';
-import Slider from 'react-slick';
-import Tab from '@material-ui/core/Tab';
-import Tabs from '@material-ui/core/Tabs';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import { trackPromise } from 'react-promise-tracker';
-
-const url =
-  'http://myproject-alb-692769319.ap-southeast-1.elb.amazonaws.com/products';
-
-const useStyles = makeStyles(theme => ({
-  navLink: {
-    margin: theme.spacing(2),
-    fontSize: '1rem'
-  },
-  title: {
-    flexGrow: 1,
-    display: 'none',
-    [theme.breakpoints.up('sm')]: {
-      display: 'block'
-    }
-  },
-  authLinks: {
-    position: 'relative',
-
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(1),
-      width: 'auto'
-    }
-  },
-  heroContent: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(8, 0, 6)
-  },
-  heroButtons: {
-    marginTop: theme.spacing(4)
-  },
-  cardGrid: {
-    paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8)
-  },
-  card: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column'
-  },
-  cardMedia: {
-    paddingTop: '56.25%' // 16:9
-  },
-  cardContent: {
-    flexGrow: 1
-  },
-  footer: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(6)
-  }
-}));
+import { Box, Button } from "@material-ui/core";
+import Card from "@material-ui/core/Card";
+import CardActionArea from "@material-ui/core/CardActionArea";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
+import Checkbox from "@material-ui/core/Checkbox";
+import Container from "@material-ui/core/Container";
+import Drawer from "@material-ui/core/Drawer";
+import FormControl from "@material-ui/core/FormControl";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormGroup from "@material-ui/core/FormGroup";
+import Grid from "@material-ui/core/Grid";
+import IconButton from "@material-ui/core/IconButton";
+import InputBase from "@material-ui/core/InputBase";
+import MenuItem from "@material-ui/core/MenuItem";
+import Paper from "@material-ui/core/Paper";
+import Select from "@material-ui/core/Select";
+import Tab from "@material-ui/core/Tab";
+import Tabs from "@material-ui/core/Tabs";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
+import CloseIcon from "@material-ui/icons/Close";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import FilterListIcon from "@material-ui/icons/FilterList";
+import SearchIcon from "@material-ui/icons/Search";
+import Rating from "@material-ui/lab/Rating";
+import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
+import { trackPromise } from "react-promise-tracker";
+import MediaQuery from "react-responsive";
+import { Link as RouterLink } from "react-router-dom";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
+import { PRODUCT_API_URL } from "../../config/apiUrl";
 
 export default function Landing() {
-  const classes = useStyles();
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
     trackPromise(
-      fetch(url)
+      fetch(PRODUCT_API_URL)
         .then(response => {
           return response.json();
         })
@@ -140,7 +67,7 @@ export default function Landing() {
 
     return (
       <div
-        role='tabpanel'
+        role="tabpanel"
         hidden={value !== index}
         id={`vertical-tabpanel-${index}`}
         aria-labelledby={`vertical-tab-${index}`}
@@ -164,14 +91,14 @@ export default function Landing() {
   function a11yProps(index) {
     return {
       id: `vertical-tab-${index}`,
-      'aria-controls': `vertical-tabpanel-${index}`
+      "aria-controls": `vertical-tabpanel-${index}`
     };
   }
 
   const toggleDrawer = (anchor, open) => event => {
     if (
-      event.type === 'keydown' &&
-      (event.key === 'Tab' || event.key === 'Shift')
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
     ) {
       return;
     }
@@ -179,13 +106,13 @@ export default function Landing() {
     setState({ ...state, [anchor]: open });
   };
   const list = anchor => (
-    <div role='presentation' className='mobile-filters'>
-      <Typography component='h3'>
+    <div role="presentation" className="mobile-filters">
+      <Typography component="h3">
         Filters
         <IconButton
-          color='primary'
-          onClick={toggleDrawer('bottom', false)}
-          onKeyDown={toggleDrawer('bottom', false)}
+          color="primary"
+          onClick={toggleDrawer("bottom", false)}
+          onKeyDown={toggleDrawer("bottom", false)}
         >
           <CloseIcon />
         </IconButton>
@@ -193,42 +120,42 @@ export default function Landing() {
       <Tabs
         value={value}
         onChange={handleChange}
-        aria-label='simple tabs example'
+        aria-label="simple tabs example"
       >
-        <Tab label='Brand' {...a11yProps(0)} />
-        <Tab label='Price' {...a11yProps(1)} />
-        <Tab label='Rating' {...a11yProps(2)} />
+        <Tab label="Brand" {...a11yProps(0)} />
+        <Tab label="Price" {...a11yProps(1)} />
+        <Tab label="Rating" {...a11yProps(2)} />
       </Tabs>
-      <TabPanel value={value} className='tab-content' index={0}>
+      <TabPanel value={value} className="tab-content" index={0}>
         <FormGroup>
           <FormControlLabel
-            control={<Checkbox name='checkedA' color='primary' />}
-            label='Samsung'
+            control={<Checkbox name="checkedA" color="primary" />}
+            label="Samsung"
           />
           <FormControlLabel
-            control={<Checkbox name='checkedA' color='primary' />}
-            label='Oppo'
+            control={<Checkbox name="checkedA" color="primary" />}
+            label="Oppo"
           />
           <FormControlLabel
-            control={<Checkbox name='checkedA' color='primary' />}
-            label='Vivo'
+            control={<Checkbox name="checkedA" color="primary" />}
+            label="Vivo"
           />
         </FormGroup>
       </TabPanel>
-      <TabPanel value={value} className='tab-content' index={1}>
-        <Box className='price-filter'>
-          <TextField id='outlined-basic' placeholder='Min' variant='outlined' />
-          <Typography component='span'>-</Typography>
-          <TextField id='outlined-basic' placeholder='Max' variant='outlined' />
+      <TabPanel value={value} className="tab-content" index={1}>
+        <Box className="price-filter">
+          <TextField id="outlined-basic" placeholder="Min" variant="outlined" />
+          <Typography component="span">-</Typography>
+          <TextField id="outlined-basic" placeholder="Max" variant="outlined" />
         </Box>
       </TabPanel>
-      <TabPanel value={value} className='tab-content' index={2}>
-        <FormGroup className='product-rating'>
+      <TabPanel value={value} className="tab-content" index={2}>
+        <FormGroup className="product-rating">
           <FormControlLabel
-            control={<Checkbox name='checkedA' color='primary' />}
+            control={<Checkbox name="checkedA" color="primary" />}
             label={
               <Rating
-                name='half-rating-read'
+                name="half-rating-read"
                 readOnly
                 defaultValue={1}
                 precision={1}
@@ -236,10 +163,10 @@ export default function Landing() {
             }
           />
           <FormControlLabel
-            control={<Checkbox name='checkedA' color='primary' />}
+            control={<Checkbox name="checkedA" color="primary" />}
             label={
               <Rating
-                name='half-rating-read'
+                name="half-rating-read"
                 readOnly
                 defaultValue={2}
                 precision={1}
@@ -247,10 +174,10 @@ export default function Landing() {
             }
           />
           <FormControlLabel
-            control={<Checkbox name='checkedA' color='primary' />}
+            control={<Checkbox name="checkedA" color="primary" />}
             label={
               <Rating
-                name='half-rating-read'
+                name="half-rating-read"
                 readOnly
                 defaultValue={3}
                 precision={1}
@@ -258,10 +185,10 @@ export default function Landing() {
             }
           />
           <FormControlLabel
-            control={<Checkbox name='checkedA' color='primary' />}
+            control={<Checkbox name="checkedA" color="primary" />}
             label={
               <Rating
-                name='half-rating-read'
+                name="half-rating-read"
                 readOnly
                 defaultValue={4}
                 precision={1}
@@ -269,10 +196,10 @@ export default function Landing() {
             }
           />
           <FormControlLabel
-            control={<Checkbox name='checkedA' color='primary' />}
+            control={<Checkbox name="checkedA" color="primary" />}
             label={
               <Rating
-                name='half-rating-read'
+                name="half-rating-read"
                 readOnly
                 defaultValue={5}
                 precision={1}
@@ -281,15 +208,15 @@ export default function Landing() {
           />
         </FormGroup>
       </TabPanel>
-      <Box component='div' className='mobile-filters--footer'>
+      <Box component="div" className="mobile-filters--footer">
         <Button
-          variant='contained'
-          color='primary'
-          onClick={toggleDrawer('bottom', false)}
-          onKeyDown={toggleDrawer('bottom', false)}
+          variant="contained"
+          color="primary"
+          onClick={toggleDrawer("bottom", false)}
+          onKeyDown={toggleDrawer("bottom", false)}
           fullWidth
           disableElevation
-          type='button'
+          type="button"
         >
           Apply
         </Button>
@@ -297,7 +224,7 @@ export default function Landing() {
     </div>
   );
 
-  const [sort, setSort] = React.useState('');
+  const [sort, setSort] = React.useState("");
 
   const SortBy = event => {
     setSort(event.target.value);
@@ -305,27 +232,31 @@ export default function Landing() {
 
   if (products) {
     var productList = products.map(product => {
+      const imgIndex = product.baseImage && product.baseImage.split("-")[1];
+      const baseImageURL = imgIndex
+        ? product.imageUrls[imgIndex]
+        : product.imageUrl;
       return (
         <Grid key={product.productId} item xs={12} sm={4} md={3} spacing={0}>
-          <Card className='product-card'>
+          <Card className="product-card">
             <CardActionArea
               component={RouterLink}
-              to={'/products/' + product.productId}
+              to={"/products/" + product.productId}
             >
-              <CardMedia image={product.imageUrl} title='Image title' />
+              <CardMedia image={baseImageURL} title="Image title" />
             </CardActionArea>
 
             <CardContent>
-              <Typography component='h4'>{product.productName}</Typography>
-              <Typography component='h5'>
+              <Typography component="h4">{product.productName}</Typography>
+              <Typography component="h5">
                 {product.currency} {product.price}
               </Typography>
-              <Typography className='description'>
+              <Typography className="description">
                 {product.productDescription}
               </Typography>
-              <Typography className='product-rating'>
+              <Typography className="product-rating">
                 <Rating
-                  name='half-rating-read'
+                  name="half-rating-read"
                   defaultValue={2.5}
                   precision={0.5}
                   readOnly
@@ -340,80 +271,80 @@ export default function Landing() {
   }
 
   return (
-    <Box component='div' className='main-content'>
+    <Box component="div" className="main-content">
       <MediaQuery maxWidth={1023}>
         <Button
-          variant='contained'
-          color='primary'
-          className='mobile-filter-icon'
-          onClick={toggleDrawer('bottom', true)}
+          variant="contained"
+          color="primary"
+          className="mobile-filter-icon"
+          onClick={toggleDrawer("bottom", true)}
         >
           <FilterListIcon />
         </Button>
         <Drawer
-          anchor={'bottom'}
-          open={state['bottom']}
-          onClose={toggleDrawer('bottom', false)}
+          anchor={"bottom"}
+          open={state["bottom"]}
+          onClose={toggleDrawer("bottom", false)}
         >
-          {list('bottom')}
+          {list("bottom")}
         </Drawer>
       </MediaQuery>
 
-      <Container maxWidth='lg'>
+      <Container maxWidth="lg">
         <Grid container spacing={0}>
           <MediaQuery minWidth={1024}>
             <Grid item xs={12} md={3} spacing={0}>
-              <Box component='div' className='product-filters'>
-                <Typography component='h3'>Filters</Typography>
-                <Box component='div' className='filter-box'>
+              <Box component="div" className="product-filters">
+                <Typography component="h3">Filters</Typography>
+                <Box component="div" className="filter-box">
                   <Typography>Brand</Typography>
                   <FormGroup>
                     <FormControlLabel
-                      control={<Checkbox name='checkedB' color='primary' />}
-                      label='Samsung'
+                      control={<Checkbox name="checkedB" color="primary" />}
+                      label="Samsung"
                     />
                     <FormControlLabel
-                      control={<Checkbox name='checkedB' color='primary' />}
-                      label='Oppo'
+                      control={<Checkbox name="checkedB" color="primary" />}
+                      label="Oppo"
                     />
                     <FormControlLabel
-                      control={<Checkbox name='checkedB' color='primary' />}
-                      label='Vivo'
+                      control={<Checkbox name="checkedB" color="primary" />}
+                      label="Vivo"
                     />
                   </FormGroup>
                   <Button
-                    variant='outlined'
-                    color='primary'
+                    variant="outlined"
+                    color="primary"
                     disableElevation
-                    type='button'
+                    type="button"
                   >
                     View More
                   </Button>
                 </Box>
-                <Box component='div' className='filter-box'>
+                <Box component="div" className="filter-box">
                   <Typography>Price</Typography>
-                  <Box className='price-filter'>
+                  <Box className="price-filter">
                     <TextField
-                      id='outlined-basic'
-                      placeholder='Min'
-                      variant='outlined'
+                      id="outlined-basic"
+                      placeholder="Min"
+                      variant="outlined"
                     />
-                    <Typography component='span'>-</Typography>
+                    <Typography component="span">-</Typography>
                     <TextField
-                      id='outlined-basic'
-                      placeholder='Max'
-                      variant='outlined'
+                      id="outlined-basic"
+                      placeholder="Max"
+                      variant="outlined"
                     />
                     <IconButton>
                       <ArrowForwardIcon />
                     </IconButton>
                   </Box>
                 </Box>
-                <Box component='div' className='filter-box'>
+                <Box component="div" className="filter-box">
                   <Typography>Rating</Typography>
-                  <Box component='div' className='product-rating'>
+                  <Box component="div" className="product-rating">
                     <Rating
-                      name='half-rating-read'
+                      name="half-rating-read"
                       defaultValue={3}
                       precision={1}
                     />
@@ -424,18 +355,19 @@ export default function Landing() {
           </MediaQuery>
 
           <Grid item xs={12} md={9} spacing={0}>
-            <Box component='div' className='all-products'>
-              <Box component='div' className='all-products--filter'>
+            <Box component="div" className="all-products">
+              <Box component="div" className="all-products--filter">
                 <Typography>
-                  Smart Phones
-                  <Typography component='small'>(127 items)</Typography>
+                  {/* Smart Phones */}
+                  All Products
+                  <Typography component="small">({products.length} items)</Typography>
                 </Typography>
-                <Paper component='form' elevation={0}>
+                <Paper component="form" elevation={0}>
                   <SearchIcon />
-                  <InputBase placeholder='search within category' />
+                  <InputBase placeholder="search within category" />
                 </Paper>
-                <Box component='div' className='card-sorting'>
-                  <Typography component='label'>Sort by:</Typography>
+                <Box component="div" className="card-sorting">
+                  <Typography component="label">Sort by:</Typography>
                   <FormControl>
                     <Select
                       value={sort}
@@ -443,7 +375,7 @@ export default function Landing() {
                       displayEmpty
                       IconComponent={() => <ExpandMoreIcon />}
                     >
-                      <MenuItem value=''>Popularity</MenuItem>
+                      <MenuItem value="">Popularity</MenuItem>
                       <MenuItem value={20}>Newest</MenuItem>
                     </Select>
                   </FormControl>
@@ -451,317 +383,15 @@ export default function Landing() {
               </Box>
               <Grid container spacing={0}>
                 {products && productList}
-                {/* 
-                <Grid item xs={12} sm={4} md={3} spacing={0}>
-                  <Card className='product-card'>
-                    <CardActionArea>
-                      <CardMedia title='Image title' />
-                    </CardActionArea>
-
-                    <CardContent>
-                      <Typography component='h4'>iphone SE 2020</Typography>
-                      <Typography component='h5'>Php 25,000</Typography>
-                      <Typography className='description'>
-                        Lorem Ipsum is simply dummy text.
-                      </Typography>
-                      <Typography className='product-rating'>
-                        <Rating
-                          name='half-rating-read'
-                          defaultValue={2.5}
-                          precision={0.5}
-                          readOnly
-                        />
-                        (55)
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-
-                <Grid item xs={12} sm={4} md={3} spacing={0}>
-                  <Card className='product-card'>
-                    <CardActionArea>
-                      <CardMedia title='Image title' />
-                    </CardActionArea>
-
-                    <CardContent>
-                      <Typography component='h4'>iphone SE 2020</Typography>
-                      <Typography component='h5'>Php 25,000</Typography>
-                      <Typography className='description'>
-                        Lorem Ipsum is simply dummy text.
-                      </Typography>
-                      <Typography className='product-rating'>
-                        <Rating
-                          name='half-rating-read'
-                          defaultValue={2.5}
-                          precision={0.5}
-                          readOnly
-                        />
-                        (55)
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-
-                <Grid item xs={12} sm={4} md={3} spacing={0}>
-                  <Card className='product-card'>
-                    <CardActionArea>
-                      <CardMedia title='Image title' />
-                    </CardActionArea>
-
-                    <CardContent>
-                      <Typography component='h4'>iphone SE 2020</Typography>
-                      <Typography component='h5'>Php 25,000</Typography>
-                      <Typography className='description'>
-                        Lorem Ipsum is simply dummy text.
-                      </Typography>
-                      <Typography className='product-rating'>
-                        <Rating
-                          name='half-rating-read'
-                          defaultValue={2.5}
-                          precision={0.5}
-                          readOnly
-                        />
-                        (55)
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-
-                <Grid item xs={12} sm={4} md={3} spacing={0}>
-                  <Card className='product-card'>
-                    <CardActionArea>
-                      <CardMedia title='Image title' />
-                    </CardActionArea>
-
-                    <CardContent>
-                      <Typography component='h4'>iphone SE 2020</Typography>
-                      <Typography component='h5'>Php 25,000</Typography>
-                      <Typography className='description'>
-                        Lorem Ipsum is simply dummy text.
-                      </Typography>
-                      <Typography className='product-rating'>
-                        <Rating
-                          name='half-rating-read'
-                          defaultValue={2.5}
-                          precision={0.5}
-                          readOnly
-                        />
-                        (55)
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-
-                <Grid item xs={12} sm={4} md={3} spacing={0}>
-                  <Card className='product-card'>
-                    <CardActionArea>
-                      <CardMedia title='Image title' />
-                    </CardActionArea>
-
-                    <CardContent>
-                      <Typography component='h4'>iphone SE 2020</Typography>
-                      <Typography component='h5'>Php 25,000</Typography>
-                      <Typography className='description'>
-                        Lorem Ipsum is simply dummy text.
-                      </Typography>
-                      <Typography className='product-rating'>
-                        <Rating
-                          name='half-rating-read'
-                          defaultValue={2.5}
-                          precision={0.5}
-                          readOnly
-                        />
-                        (55)
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-
-                <Grid item xs={12} sm={4} md={3} spacing={0}>
-                  <Card className='product-card'>
-                    <CardActionArea>
-                      <CardMedia title='Image title' />
-                    </CardActionArea>
-
-                    <CardContent>
-                      <Typography component='h4'>iphone SE 2020</Typography>
-                      <Typography component='h5'>Php 25,000</Typography>
-                      <Typography className='description'>
-                        Lorem Ipsum is simply dummy text.
-                      </Typography>
-                      <Typography className='product-rating'>
-                        <Rating
-                          name='half-rating-read'
-                          defaultValue={2.5}
-                          precision={0.5}
-                          readOnly
-                        />
-                        (55)
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-
-                <Grid item xs={12} sm={4} md={3} spacing={0}>
-                  <Card className='product-card'>
-                    <CardActionArea>
-                      <CardMedia title='Image title' />
-                    </CardActionArea>
-
-                    <CardContent>
-                      <Typography component='h4'>iphone SE 2020</Typography>
-                      <Typography component='h5'>Php 25,000</Typography>
-                      <Typography className='description'>
-                        Lorem Ipsum is simply dummy text.
-                      </Typography>
-                      <Typography className='product-rating'>
-                        <Rating
-                          name='half-rating-read'
-                          defaultValue={2.5}
-                          precision={0.5}
-                          readOnly
-                        />
-                        (55)
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-
-                <Grid item xs={12} sm={4} md={3} spacing={0}>
-                  <Card className='product-card'>
-                    <CardActionArea>
-                      <CardMedia title='Image title' />
-                    </CardActionArea>
-
-                    <CardContent>
-                      <Typography component='h4'>iphone SE 2020</Typography>
-                      <Typography component='h5'>Php 25,000</Typography>
-                      <Typography className='description'>
-                        Lorem Ipsum is simply dummy text.
-                      </Typography>
-                      <Typography className='product-rating'>
-                        <Rating
-                          name='half-rating-read'
-                          defaultValue={2.5}
-                          precision={0.5}
-                          readOnly
-                        />
-                        (55)
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-
-                <Grid item xs={12} sm={4} md={3} spacing={0}>
-                  <Card className='product-card'>
-                    <CardActionArea>
-                      <CardMedia title='Image title' />
-                    </CardActionArea>
-
-                    <CardContent>
-                      <Typography component='h4'>iphone SE 2020</Typography>
-                      <Typography component='h5'>Php 25,000</Typography>
-                      <Typography className='description'>
-                        Lorem Ipsum is simply dummy text.
-                      </Typography>
-                      <Typography className='product-rating'>
-                        <Rating
-                          name='half-rating-read'
-                          defaultValue={2.5}
-                          precision={0.5}
-                          readOnly
-                        />
-                        (55)
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-
-                <Grid item xs={12} sm={4} md={3} spacing={0}>
-                  <Card className='product-card'>
-                    <CardActionArea>
-                      <CardMedia title='Image title' />
-                    </CardActionArea>
-
-                    <CardContent>
-                      <Typography component='h4'>iphone SE 2020</Typography>
-                      <Typography component='h5'>Php 25,000</Typography>
-                      <Typography className='description'>
-                        Lorem Ipsum is simply dummy text.
-                      </Typography>
-                      <Typography className='product-rating'>
-                        <Rating
-                          name='half-rating-read'
-                          defaultValue={2.5}
-                          precision={0.5}
-                          readOnly
-                        />
-                        (55)
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-
-                <Grid item xs={12} sm={4} md={3} spacing={0}>
-                  <Card className='product-card'>
-                    <CardActionArea>
-                      <CardMedia title='Image title' />
-                    </CardActionArea>
-
-                    <CardContent>
-                      <Typography component='h4'>iphone SE 2020</Typography>
-                      <Typography component='h5'>Php 25,000</Typography>
-                      <Typography className='description'>
-                        Lorem Ipsum is simply dummy text.
-                      </Typography>
-                      <Typography className='product-rating'>
-                        <Rating
-                          name='half-rating-read'
-                          defaultValue={2.5}
-                          precision={0.5}
-                          readOnly
-                        />
-                        (55)
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-
-                <Grid item xs={12} sm={4} md={3} spacing={0}>
-                  <Card className='product-card'>
-                    <CardActionArea>
-                      <CardMedia title='Image title' />
-                    </CardActionArea>
-
-                    <CardContent>
-                      <Typography component='h4'>iphone SE 2020</Typography>
-                      <Typography component='h5'>Php 25,000</Typography>
-                      <Typography className='description'>
-                        Lorem Ipsum is simply dummy text.
-                      </Typography>
-                      <Typography className='product-rating'>
-                        <Rating
-                          name='half-rating-read'
-                          defaultValue={2.5}
-                          precision={0.5}
-                          readOnly
-                        />
-                        (55)
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-                 */}
               </Grid>
-
-              <Button
-                variant='outlined'
-                color='primary'
+              {/* <Button
+                variant="outlined"
+                color="primary"
                 disableElevation
-                type='button'
+                type="button"
               >
                 Load More
-              </Button>
+              </Button> */}
             </Box>
           </Grid>
         </Grid>

@@ -350,7 +350,7 @@ const ProductProfile = () => {
           >
             <Tab label="Item Details" {...a11yProps(0)} />
             <Tab label="Rating &amp; Reviews" {...a11yProps(1)} />
-            <Tab label="Question &amp; Answer" {...a11yProps(2)} />
+            {/* <Tab label="Question &amp; Answer" {...a11yProps(2)} /> */}
           </Tabs>
           <TabPanel value={tabValue} index={0}>
             {product ? (

@@ -251,6 +251,11 @@ class Cart extends Component {
 
     if (this.state.cart.length > 0) {
       cartData = this.state.products.map((product, index) => {
+        const imgIndex = product.baseImage && product.baseImage.split("-")[1];
+        const baseImageURL = imgIndex
+          ? product.imageUrls[imgIndex]
+          : product.imageUrl;
+
         return (
           <Box
             component="div"
@@ -268,7 +273,7 @@ class Cart extends Component {
                   checked={product.isChecked}
                   onChange={this.handleChange}
                 />
-                <CardMedia title="Image title" image={product.imageUrl} />
+                <CardMedia title="Image title" image={baseImageURL} />
               </Box>
               <CardContent>
                 <Box className="product-info-content">
