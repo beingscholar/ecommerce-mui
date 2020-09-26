@@ -1,98 +1,64 @@
-import React, { Fragment } from 'react';
-import { Divider } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Container,
-  Grid,
-  Link,
-  Typography,
-} from "@material-ui/core";
-import { Link as RouterLink } from "react-router-dom";
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
-
-const useStyles = makeStyles(theme => ({
-
-}));
+import { Box, Button, Link } from "@material-ui/core";
+import Container from "@material-ui/core/Container";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import React from "react";
+import { Link as RouterLink, useHistory } from "react-router-dom";
+import payment from "../assets/img/payment-confirmed.svg";
 
 const OrderConfirmComponent = () => {
-
+  const history = useHistory();
   return (
-    <div>
-      <Container maxWidth="md" spacing={1}>
-        <Card>
-          <CardContent>        
-          <Grid container 
-            direction="row" 
-            alignItems="center"
-          >
-          
-            <Grid item sm={5}>
-              <Box mx="2em">
-
-                <CheckCircleOutlineIcon></CheckCircleOutlineIcon>
-            
-                <Typography 
-                  variant="h6"
-                  align="center"
-                >Payment Confirmed
-                </Typography>
-
-                <span>Order Number: 1234567899</span>
-                
-                <p>We've sent a confirmation email to e****@gmail.com with the order details</p>
+    <Box className="primary-structure">
+      <Container maxWidth="lg">
+        <Box className="primary-structure--content">
+          <Grid container justify="center">
+            <Grid item sm={12} md={10} lg={8}>
+              <Box className="primary-structure--box payment-confirmation">
+                <Grid container alignItems="center">
+                  <Grid item sm={6}>
+                    <Box className="payment-info">
+                      <img src={payment} alt="Payment" />
+                      <Typography component="h3">Payment Confirmed</Typography>
+                      <Typography component="span">
+                        Order Number: 1234567889
+                      </Typography>
+                      <Typography>
+                        We’ve sent a confirmation email to{" "}
+                        <strong>******@gmail.com</strong> with order details
+                      </Typography>
+                    </Box>
+                  </Grid>
+                  <Grid item sm={6}>
+                    <Box className="delivery-info">
+                      <Typography>
+                        &nbsp;
+                        {/* <strong>Delivery dates: July 4 - 5</strong> */}
+                      </Typography>
+                      <Typography>
+                        For more details, track your delivery status under{" "}
+                        <strong>My Account &gt; My Order</strong>
+                      </Typography>
+                      <Button
+                        variant="contained"
+                        disableElevation
+                        color="primary"
+                        onClick={() => history.push("/orders-list")}
+                      >
+                        View Order
+                      </Button>
+                    </Box>
+                  </Grid>
+                </Grid>
+                <Box className="continue-shopping">
+                  <Link component={RouterLink} to="/">Continue Shopping &gt;</Link>
+                </Box>
               </Box>
-            </Grid>
-            
-            <Grid item sm={1}>
-              <Divider orientation="vertical"></Divider>
-            </Grid>
-            
-            <Grid item 
-              sm={5}>
-              <Box mx="2em">
-                <Typography variant="h6">Delivery Dates: : <span>July 4 -5</span></Typography>
-                <p>For more details, track your delivery status under My Account > My Order</p>
-                <Button
-                  className="m-t-20"
-                  variant="contained"
-                  color="primary"
-                  disableElevation
-                  fullWidth
-                  type="submit"
-                  component={RouterLink} 
-                  to="/checkout"
-                >
-                  View Order
-                </Button>
-              </Box>
-            </Grid>
-
-            <Grid item 
-              sm={12}
-            >
-
-            <Box my="2.5em">
-              <Typography 
-                variant="h6"
-                align="center"
-                ><Link
-                  component={RouterLink} 
-                  to="/"
-                >Continue Shopping
-                </Link>
-              </Typography>  
-            </Box>         
-            
             </Grid>
           </Grid>
-          </CardContent>
-        </Card>
+        </Box>
       </Container>
-    </div>
+    </Box>
   );
 };
 

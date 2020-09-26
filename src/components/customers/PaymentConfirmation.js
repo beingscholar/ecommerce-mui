@@ -1,4 +1,4 @@
-import { Box, Button, ButtonGroup, CardMedia } from "@material-ui/core";
+import { Box, Button, ButtonGroup, CardMedia, Link } from "@material-ui/core";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
@@ -13,6 +13,7 @@ import userDefaultImg from "../../assets/img/user-default-image.png";
 import { CUSTOMER_URL } from "../../config/apiUrl";
 import history from "../utilities/history";
 import CustomerMenu from "./CustomerMenu";
+import payment from "../../assets/img/payment-confirmed.svg";
 
 function getModalStyle() {
   return {
@@ -118,99 +119,50 @@ const CustomerProfile = () => {
   return (
     <Box className="primary-structure">
       <Container maxWidth="lg">
-        <Grid container>
-          <CustomerMenu customerName={firstName} />
-
-          <Grid item xs={12} sm={9} md={10}>
-            <Box className="primary-structure--content">
-              <Box className="content-header">
-                <Typography component="h3">My Profile</Typography>
-              </Box>
-              <Box className="primary-structure--box">
-                <Grid container>
-                  <Grid item xs={12} sm={4} lg={2}>
-                    <Box className="profile-image-box">
-                      <img
-                        src={profilePic}
-                        className="user-image"
-                        alt="user"
-                        title="user"
-                      />
-                      {/* <CardMedia
-                        className="user-image"
-                        alt="user"
-                        title="user"
-                        image={customer ? customer.profilePhotoUrl : user}
-                      /> */}
-                      <Typography className="m-l-0 justify-content-start">
-                        {/* <img src={security} alt="security" /> */}
-                        <CardMedia
-                          alt="security"
-                          title="security"
-                          image={security}
-                        />
-                        Verified Account
+        <Box className="primary-structure--content">
+          <Grid container justify="center">
+            <Grid item sm={12} md={10} lg={8}>
+              <Box className="primary-structure--box payment-confirmation">
+                <Grid container alignItems="center">
+                  <Grid item sm={6}>
+                    <Box className="payment-info">
+                      <img src={payment} alt="Payment" />
+                      <Typography component="h3">Payment Confirmed</Typography>
+                      <Typography component="span">
+                        Order Number: 1234567889
+                      </Typography>
+                      <Typography>
+                        We’ve sent a confirmation email to{" "}
+                        <strong>******@mail.com</strong> with order details
                       </Typography>
                     </Box>
                   </Grid>
-                  {customerData}
-                  <Grid item xs={12} lg={5}>
-                    <ButtonGroup>
+                  <Grid item sm={6}>
+                    <Box className="delivery-info">
+                      <Typography>
+                        <strong>Delivery dates: July 4 - 5</strong>
+                      </Typography>
+                      <Typography>
+                        For more details, track your delivery status under{" "}
+                        <strong>My Account > My Order</strong>
+                      </Typography>
                       <Button
                         variant="contained"
-                        color="primary"
                         disableElevation
-                        fullWidth
-                        onClick={() => history.push("/edit-profile")}
-                      >
-                        Edit Profile
-                      </Button>
-                      <Button
-                        variant="outlined"
                         color="primary"
-                        disableElevation
-                        fullWidth
-                        onClick={() => history.push("/change-password")}
                       >
-                        Change Password
+                        View Order
                       </Button>
-                    </ButtonGroup>
+                    </Box>
                   </Grid>
                 </Grid>
+                <Box className="continue-shopping">
+                  <Link to="/">Continue Shopping ></Link>
+                </Box>
               </Box>
-
-              <Box className="primary-structure--box payment-method">
-                <Grid container>
-                  <Grid item xs={12} sm={6}>
-                    <Typography>Payment Methods</Typography>
-                    <ul>
-                      <li>Credit Card/Debit Card: </li>
-                      <li>
-                        xxxx - xxxx - xxxx - 5125
-                        <img src={masterCard} width="20" alt="Card" />
-                        {/* <img src={visa} width="30" alt="Card" />
-                        <img src={paypal} width="15" alt="Card" /> */}
-                      </li>
-                    </ul>
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <ButtonGroup>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        disableElevation
-                        fullWidth
-                        onClick={() => history.push("/payment-method")}
-                      >
-                        Manage Payment Methods
-                      </Button>
-                    </ButtonGroup>
-                  </Grid>
-                </Grid>
-              </Box>
-            </Box>
+            </Grid>
           </Grid>
-        </Grid>
+        </Box>
       </Container>
     </Box>
   );
