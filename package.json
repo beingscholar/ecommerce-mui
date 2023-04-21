@@ -20,7 +20,7 @@
     "react-promise-tracker": "^2.1.0",
     "react-responsive": "^8.1.0",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.4.1",
+    "react-scripts": "5.0.1",
     "react-slick": "^0.27.1",
     "slick-carousel": "^1.8.1"
   },
